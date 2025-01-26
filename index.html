@@ -1,101 +1,121 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Timothy Kamau Munyiri - ICT Officer</title>
     <style>
         * {
             box-sizing: border-box;
-        }
-        body {
-            font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
+            font-family: Arial, sans-serif;
         }
-        p, pre, ul, a {
-            font-size: 18px;
+        body {
+            background-color: #f4f4f4;
+            padding: 20px;
         }
         .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .header {
+            text-align: center;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #f4a742;
+        }
+        .header h1 {
+            color: #333;
+            font-size: 32px;
+        }
+        .header p {
+            color: #666;
+            font-size: 18px;
+        }
+        .content {
             display: flex;
+            justify-content: space-between;
         }
-        .left-section {
+        .left-column {
             width: 65%;
-            padding: 20px;
         }
-        .right-section {
-            width: 35%;
-            background-color: orange;
+        .right-column {
+            width: 30%;
+            background: #f4a742;
+            color: #fff;
             padding: 20px;
-            font-size: 15px;
+            border-radius: 10px;
         }
-        img {
-            width: 25px;
+        h2 {
+            color: #333;
+            margin-top: 20px;
+        }
+        h3 {
+            color: #f4a742;
+            margin-top: 10px;
+        }
+        ul {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+        ul li {
+            margin-bottom: 5px;
+        }
+        .contact-info img {
+            width: 20px;
+            margin-right: 10px;
             vertical-align: middle;
         }
         .certificates img {
             width: 100%;
-            max-width: 300px;
-            margin-bottom: 10px;
+            margin-top: 10px;
+            border-radius: 5px;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="left-section">
-            <h1>Timothy Kamau Munyiri – ICT Officer</h1>
-            <h2>Professional Profile</h2>
-            <p>Innovative and detail-oriented ICT Officer with over 5 years of experience in software development, IT infrastructure management, and cloud technologies...</p>
-            <h2>Work Experience</h2>
-            <h3>DMS Superuser Intern</h3>
-            <h4>Wamuti Distributors Ltd, Nanyuki – August 2022 – November 2022</h4>
-            <ul>
-                <li>Data Entry and Analysis using Distributor management systems for decision-making.</li>
-                <li>Installing and configuring computer hardware, software, systems, networks, printers, and scanners.</li>
-                <li>Providing real-time technical support for hardware and software issues.</li>
-            </ul>
-            <h3>Software Engineer Intern</h3>
-            <h4>ALX – June 2022 – November 2023 / Online</h4>
-            <p>Passionate about problem-solving and software development...</p>
-            <ul>
-                <li>Developed RESTful APIs using Flask and JavaScript.</li>
-                <li>Enhanced system reliability and automated data validation processes.</li>
-            </ul>
-            <h2>Career Summary</h2>
-            <h4>The Nyeri National Polytechnic – March 2024 – July 2024</h4>
-            <p>Specializing in scalable cloud-based solutions...</p>
-            <ul>
-                <li>Developed and maintained scalable web applications.</li>
-                <li>Integrated RESTful API for seamless third-party services.</li>
-            </ul>
+        <div class="header">
+            <h1>Timothy Kamau Munyiri</h1>
+            <p>ICT Officer | Full Stack Software Developer</p>
         </div>
-        <div class="right-section">
-            <h2>Contact</h2>
-            <p><img src="phone.png" alt="Phone"> +254 768394866</p>
-            <p><img src="phone.png" alt="Phone"> +254 790722419</p>
-            <p><img src="mail.png" alt="Email"> <a href="mailto:timo.munyiri@gmail.com">timo.munyiri@gmail.com</a></p>
-            <p><img src="linkedin.png" alt="LinkedIn"> <a href="https://www.linkedin.com/in/timothy-kamau-992876245">LinkedIn</a></p>
-            <p><img src="github.png" alt="GitHub"> <a href="https://github.com/Timokama">GitHub</a></p>
-            <h2>Core Skills</h2>
-            <ul>
-                <li>Full Stack Development</li>
-                <li>Cloud Computing (AWS, Zeet)</li>
-                <li>Network Configuration</li>
-                <li>RESTful API Design & Development</li>
-            </ul>
-            <h2>Education</h2>
-            <ul>
-                <li>Diploma in ICT, The Nyeri National Polytechnic</li>
-                <li>ALX SE Back End Certificate</li>
-            </ul>
-            <h2>Certificates</h2>
-            <div class="certificates">
-                <img src="certificate1.png" alt="Certificate 1">
-                <img src="certificate2.png" alt="Certificate 2">
+        <div class="content">
+            <div class="left-column">
+                <h2>Professional Profile</h2>
+                <p>Innovative and detail-oriented ICT Officer with over 5 years of experience in software development...</p>
+                
+                <h2>Work Experience</h2>
+                <h3>DMS Superuser Intern, Wamuti Distributors Ltd</h3>
+                <ul>
+                    <li>Data Entry and Data Analysis using DMS.</li>
+                    <li>Installed and configured computer systems.</li>
+                    <li>Provided real-time technical support.</li>
+                </ul>
+
+                <h3>Software Engineer Intern, ALX</h3>
+                <ul>
+                    <li>Developed RESTful APIs using Flask.</li>
+                    <li>Conducted code reviews and automated validation processes.</li>
+                </ul>
             </div>
-            <h2>Referees</h2>
-            <ul>
-                <li>Patrick Wanjau - Software Engineer, Consultant - 0725313338</li>
-                <li>Mwangi Agnes - HOD, The Nyeri National Polytechnic - 0773686436</li>
-            </ul>
+            <div class="right-column">
+                <h2>Contact Information</h2>
+                <div class="contact-info">
+                    <img src="phone.png" alt="Phone"> +254 768394866<br>
+                    <img src="mail.png" alt="Mail"> <a href="mailto:timo.munyiri@gmail.com">timo.munyiri@gmail.com</a><br>
+                    <img src="linkedin.png" alt="LinkedIn"> <a href="https://www.linkedin.com/in/timothy-kamau-992876245" target="_blank">LinkedIn Profile</a><br>
+                    <img src="github.png" alt="GitHub"> <a href="https://github.com/Timokama" target="_blank">GitHub Portfolio</a>
+                </div>
+                
+                <h2>Certificates</h2>
+                <div class="certificates">
+                    <img src="certificate1.png" alt="Certificate 1">
+                    <img src="certificate2.png" alt="Certificate 2">
+                </div>
+            </div>
         </div>
     </div>
 </body>
