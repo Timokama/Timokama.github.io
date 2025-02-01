@@ -23,9 +23,9 @@
       margin: 0 auto;
       background-color: #ffffff;
       padding: 25px;
+      border: 2px solid #ddd;
       border-radius: 12px;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      border: 2px solid #ddd;
     }
 
     h1 {
@@ -40,7 +40,6 @@
       font-size: 1.8em;
       color: #264653;
       margin-top: 20px;
-      margin-bottom: 10px;
       border-bottom: 2px solid #ddd;
       padding-bottom: 5px;
     }
@@ -49,8 +48,6 @@
       font-size: 1.4em;
       color: #2a9d8f;
       margin-top: 10px;
-      border-bottom: 1px solid #ddd;
-      padding-bottom: 5px;
     }
 
     .contact-info {
@@ -59,15 +56,13 @@
       border-radius: 8px;
       font-size: 1.1em;
       margin-bottom: 20px;
-      border: 1px solid #ddd;
+      border: 1px solid #ccc;
     }
 
     .section {
       margin-bottom: 25px;
-      padding: 10px;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      background-color: #f9f9f9;
+      padding-bottom: 15px;
+      border-bottom: 1px solid #ddd;
     }
 
     ul {
@@ -106,7 +101,6 @@
       border-radius: 6px;
       overflow: hidden;
       position: relative;
-      border: 1px solid #ccc;
     }
 
     .language-fill {
@@ -117,27 +111,26 @@
     }
 
     .advanced {
-      width: 90%;
+      width: 80%;
       background-color: #4caf50;
     }
 
     .proficient {
-      width: 70%;
+      width: 90%;
       background-color: #2196f3;
     }
 
     .referees {
-      border-top: 2px solid #ddd;
+      border-top: 1px solid #ddd;
       padding-top: 15px;
-      margin-top: 20px;
+      margin-top: 15px;
     }
 
-    .referee {
-      border: 1px solid #ddd;
-      padding: 10px;
-      border-radius: 8px;
-      background-color: #f9f9f9;
-      margin-bottom: 10px;
+    hr {
+      border: 0;
+      height: 1px;
+      background: #ddd;
+      margin: 20px 0;
     }
   </style>
 </head>
@@ -214,12 +207,6 @@
             <div class="language-fill proficient"></div>
           </div>
         </div>
-        <div class="language-level">
-          <p>Afrikaans: Proficient (C2)</p>
-          <div class="language-bar">
-            <div class="language-fill proficient"></div>
-          </div>
-        </div>
       </div>
     </section>
 
@@ -235,12 +222,15 @@
       </div>
     </section>
 
+    <hr>
+
     <section class="section referees">
       <h2>Referees</h2>
       <div class="referee">
         <p><strong>Patrick Wanjau</strong></p>
         <p>Software Engineer | pat.wanjau@gmail.com | +254 725313338</p>
       </div>
+      <hr>
       <div class="referee">
         <p><strong>Mwangi Agnes</strong></p>
         <p>Head of Department, Computer Science and Networking | hodcsn@thenyeripoly.ac.ke | +254 773686436</p>
