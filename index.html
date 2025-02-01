@@ -3,43 +3,75 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Timothy Kamau Munyiri - CV</title>
+  <title>Timothy Kamau CV</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      line-height: 1.6;
+      background-color: #f9f9f9;
       margin: 0;
       padding: 0;
-      background-color: #f4f4f9;
       color: #333;
     }
+
     .container {
-      max-width: 900px;
+      width: 80%;
       margin: 20px auto;
-      background: white;
+      background-color: #fff;
       padding: 20px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
       border: 1px solid #ddd;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     }
+
     h1, h2, h3 {
-      color: #0056b3;
+      color: #0073aa;
+      border-bottom: 2px solid #ddd;
+      padding-bottom: 5px;
     }
-    .contact-info, .referees {
-      padding: 10px 0;
-    }
+
     .section {
       margin-bottom: 20px;
-      border: 1px solid #ddd;
-      padding: 15px;
-      border-radius: 8px;
-      background-color: #f9f9f9;
     }
+
+    .personal-info {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .personal-info div {
+      width: 32%;
+    }
+
+    .skills, .languages, .certifications {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+
+    .skills div, .languages div, .certifications div {
+      width: 45%;
+      margin-bottom: 10px;
+    }
+
     ul {
-      list-style: none;
-      padding: 0;
+      list-style: disc;
+      padding-left: 20px;
     }
-    ul li {
-      padding: 5px 0;
+
+    .contact-info {
+      background-color: #f1f1f1;
+      padding: 10px;
+      border-radius: 5px;
+    }
+
+    .referees {
+      border-top: 1px solid #ddd;
+      padding-top: 10px;
+    }
+
+    .referee {
+      margin-bottom: 10px;
     }
   </style>
 </head>
@@ -47,60 +79,50 @@
   <div class="container">
     <header>
       <h1>Timothy Kamau Munyiri</h1>
-      <div class="contact-info">
-        <p>10100, Nyeri, Kenya</p>
-        <p>Phone: +254 790722419</p>
-        <p>Email: <a href="mailto:timo.munyiri@gmail.com">timo.munyiri@gmail.com</a></p>
-      </div>
+      <p class="contact-info">10100, Nyeri, Kenya | +254 790722419 | timo.munyiri@gmail.com</p>
     </header>
 
-    <section class="summary section">
+    <section class="section">
       <h2>Summary</h2>
-      <p>Innovative and detail-oriented ICT Officer with over 5 years of experience in software development, IT infrastructure management, and cloud technologies. Expertise in optimizing network systems, implementing cloud-based solutions, and enhancing system performance. Adept at troubleshooting, configuring hardware and software systems, and improving operational efficiency. Strong leadership skills with a proven track record in team collaboration and system integration. Passionate about driving technology improvements and continuous learning.</p>
-      <ul>
-        <li>RESTful API design and development</li>
-        <li>Data Structures and Algorithms</li>
-        <li>Problem-solving and debugging</li>
-        <li>Version Control (Git)</li>
-        <li>Python (Flask, Django)</li>
-        <li>Java</li>
-        <li>JavaScript (jQuery, Node.js, TypeScript)</li>
-        <li>SQL (MySQL, NoSQL, PostgreSQL)</li>
-        <li>HTML/CSS</li>
-        <li>Requirement gathering</li>
-      </ul>
+      <p>Innovative and detail-oriented ICT Officer with over 5 years of experience in software development, IT infrastructure management, and cloud technologies. Expertise in optimizing network systems, implementing cloud-based solutions, and enhancing system performance. Adept at troubleshooting, configuring hardware and software systems, and improving operational efficiency.</p>
     </section>
 
-    <section class="skills section">
+    <section class="section">
       <h2>Skills</h2>
-      <ul>
-        <li>Project Management</li>
-        <li>SQL database management</li>
-        <li>Full-Stack Development</li>
-        <li>Network Configuration and Troubleshooting</li>
-        <li>Hardware/software systems installation</li>
-        <li>Data Management, Security</li>
-        <li>Agile Methodology</li>
-        <li>Test-Driven Development (TDD)</li>
-        <li>Code review proficiency</li>
-        <li>Mobile application development</li>
-        <li>CSS familiarity</li>
-      </ul>
+      <div class="skills">
+        <div>
+          <ul>
+            <li>RESTful API design and development</li>
+            <li>Data Structures and Algorithms</li>
+            <li>Problem-solving and debugging</li>
+            <li>Version Control (Git)</li>
+            <li>Python (Flask, Django)</li>
+          </ul>
+        </div>
+        <div>
+          <ul>
+            <li>Java, JavaScript (jQuery, Node.js, TypeScript)</li>
+            <li>SQL (MySQL, NoSQL, PostgreSQL)</li>
+            <li>HTML/CSS</li>
+            <li>Network Configuration and Troubleshooting</li>
+            <li>Data Management, Security</li>
+          </ul>
+        </div>
+      </div>
     </section>
 
-    <section class="experience section">
+    <section class="section">
       <h2>Experience</h2>
       <h3>DMS Superuser Intern, Wamuti Distributors Ltd</h3>
       <ul>
-        <li>Data Entry and Data Analysis using Distributor management systems for decision-making.</li>
+        <li>Data Entry and Data Analysis using Distributor management systems.</li>
         <li>Installing and configuring computer hardware, software, systems, networks, printers, and scanners.</li>
-        <li>Monitoring and maintaining computer systems and networks.</li>
-        <li>Responding in a timely manner to service issues and requests.</li>
-        <li>Provided real-time technical support for hardware, software, and networking issues, ensuring minimal downtime.</li>
+        <li>Responding to service issues and requests in a timely manner.</li>
+        <li>Providing real-time technical support for hardware, software, and networking issues.</li>
       </ul>
     </section>
 
-    <section class="education section">
+    <section class="section">
       <h2>Education</h2>
       <h3>Diploma of Higher Education: Information Communication Technology</h3>
       <p>The Nyeri National Polytechnic | Nyeri | 2025</p>
@@ -108,43 +130,41 @@
         <li>Outstanding Performance in ICT, Academic Achievement Award</li>
         <li>Diploma graduate</li>
         <li>Coursework in Full Stack Development, Cloud Computing, and Network Security</li>
-        <li>Dissertation in software development, cloud computing, and network security</li>
-        <li>Member of ICT Professionals Union, Software Developers Association</li>
       </ul>
     </section>
 
-    <section class="certifications section">
-      <h2>Certifications</h2>
-      <ul>
-        <li>Level 6 Diploma Certified ICT Professional</li>
-        <li>Alx Software Engineer Certified Back-end Professional</li>
-      </ul>
-    </section>
-
-    <section class="languages section">
+    <section class="section">
       <h2>Languages</h2>
-      <ul>
-        <li>English: Advanced (C1)</li>
-        <li>Swahili: Proficient (C2)</li>
-        <li>Afrikaans: Proficient (C2)</li>
-      </ul>
+      <div class="languages">
+        <div>
+          <p>English: Advanced (C1)</p>
+          <p>Swahili: Proficient (C2)</p>
+        </div>
+      </div>
     </section>
 
-    <section class="hobbies section">
-      <h2>Hobbies and Interests</h2>
-      <ul>
-        <li>Drawing</li>
-        <li>Coding</li>
-        <li>Reading novels</li>
-      </ul>
+    <section class="section">
+      <h2>Certifications</h2>
+      <div class="certifications">
+        <div>
+          <p>Level 6 Diploma Certified ICT Professional</p>
+        </div>
+        <div>
+          <p>Alx Software Engineer Certified Back-End Professional</p>
+        </div>
+      </div>
     </section>
 
-    <section class="referees section">
+    <section class="section referees">
       <h2>Referees</h2>
-      <ul>
-        <li>Patrick Wanjau, Software Engineer | pat.wanjau@gmail.com | +254 725313338</li>
-        <li>Mwangi Agnes, Head of Department, Computer Science and Networking | hodcsn@thenyeripoly.ac.ke | +254 773686436</li>
-      </ul>
+      <div class="referee">
+        <p><strong>Patrick Wanjau</strong></p>
+        <p>Software Engineer | pat.wanjau@gmail.com | +254 725313338</p>
+      </div>
+      <div class="referee">
+        <p><strong>Mwangi Agnes</strong></p>
+        <p>Head of Department, Computer Science and Networking | hodcsn@thenyeripoly.ac.ke | +254 773686436</p>
+      </div>
     </section>
   </div>
 </body>
