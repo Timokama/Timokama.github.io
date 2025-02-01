@@ -5,103 +5,119 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Timothy Kamau CV</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f9f9f9;
+    * {
       margin: 0;
       padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Roboto', sans-serif;
+      background-color: #f3f4f6;
       color: #333;
+      padding: 20px;
     }
 
     .container {
-      width: 80%;
-      margin: 20px auto;
-      background-color: #fff;
-      padding: 20px;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      max-width: 900px;
+      margin: 0 auto;
+      background-color: #ffffff;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
 
-    h1, h2, h3 {
-      color: #0073aa;
-      border-bottom: 2px solid #ddd;
-      padding-bottom: 5px;
+    h1 {
+      font-size: 2.5em;
+      color: #2a9d8f;
+      border-bottom: 3px solid #ddd;
+      padding-bottom: 10px;
+      margin-bottom: 15px;
     }
 
-    .section {
-      margin-bottom: 20px;
-    }
-
-    .personal-info {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .personal-info div {
-      width: 32%;
-    }
-
-    .skills, .languages, .certifications {
-      display: flex;
-      justify-content: space-between;
-      flex-wrap: wrap;
-    }
-
-    .skills div, .languages div, .certifications div {
-      width: 45%;
+    h2 {
+      font-size: 1.8em;
+      color: #264653;
+      margin-top: 20px;
       margin-bottom: 10px;
     }
 
-    ul {
-      list-style: disc;
-      padding-left: 20px;
+    h3 {
+      font-size: 1.4em;
+      color: #2a9d8f;
+      margin-top: 10px;
     }
 
     .contact-info {
-      background-color: #f1f1f1;
-      padding: 10px;
-      border-radius: 5px;
+      background-color: #e9f5f5;
+      padding: 10px 15px;
+      border-radius: 8px;
+      font-size: 1.1em;
+      margin-bottom: 20px;
     }
 
-    .referees {
-      border-top: 1px solid #ddd;
-      padding-top: 10px;
+    .section {
+      margin-bottom: 25px;
     }
 
-    .referee {
-      margin-bottom: 10px;
+    ul {
+      list-style: square;
+      padding-left: 20px;
+      margin-top: 10px;
+    }
+
+    .skills, .certifications {
+      display: flex;
+      justify-content: space-between;
+      gap: 15px;
+    }
+
+    .skill-list, .certification-item {
+      width: 45%;
+    }
+
+    .language-bar-container {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
     }
 
     .language-level {
       display: flex;
+      justify-content: space-between;
       align-items: center;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
     }
 
     .language-bar {
-      width: 100%;
+      width: 70%;
+      height: 12px;
       background-color: #ddd;
-      border-radius: 5px;
-      height: 10px;
-      margin-left: 10px;
+      border-radius: 6px;
+      overflow: hidden;
       position: relative;
     }
 
     .language-fill {
       height: 100%;
-      border-radius: 5px;
+      position: absolute;
+      top: 0;
+      left: 0;
     }
 
-    .language-fill.advanced {
-      width: 80%;
+    .advanced {
+      width: 90%;
       background-color: #4caf50;
     }
 
-    .language-fill.proficient {
-      width: 98%;
+    .proficient {
+      width: 70%;
       background-color: #2196f3;
+    }
+
+    .referees {
+      border-top: 1px solid #ddd;
+      padding-top: 15px;
     }
   </style>
 </head>
@@ -120,7 +136,7 @@
     <section class="section">
       <h2>Skills</h2>
       <div class="skills">
-        <div>
+        <div class="skill-list">
           <ul>
             <li>RESTful API design and development</li>
             <li>Data Structures and Algorithms</li>
@@ -129,7 +145,7 @@
             <li>Python (Flask, Django)</li>
           </ul>
         </div>
-        <div>
+        <div class="skill-list">
           <ul>
             <li>Java, JavaScript (jQuery, Node.js, TypeScript)</li>
             <li>SQL (MySQL, NoSQL, PostgreSQL)</li>
@@ -165,7 +181,7 @@
 
     <section class="section">
       <h2>Languages</h2>
-      <div class="languages">
+      <div class="language-bar-container">
         <div class="language-level">
           <p>English: Advanced (C1)</p>
           <div class="language-bar">
@@ -178,16 +194,22 @@
             <div class="language-fill proficient"></div>
           </div>
         </div>
+        <div class="language-level">
+          <p>Afrikaans: Proficient (C2)</p>
+          <div class="language-bar">
+            <div class="language-fill proficient"></div>
+          </div>
+        </div>
       </div>
     </section>
 
     <section class="section">
       <h2>Certifications</h2>
       <div class="certifications">
-        <div>
+        <div class="certification-item">
           <p>Level 6 Diploma Certified ICT Professional</p>
         </div>
-        <div>
+        <div class="certification-item">
           <p>Alx Software Engineer Certified Back-End Professional</p>
         </div>
       </div>
