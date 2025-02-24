@@ -11,10 +11,36 @@
             padding: 0;
             background-color: #f8f9fa;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
-            min-height: 100vh;
         }
+
+        /* Navigation Bar */
+        .navbar {
+            width: 100%;
+            background: #2980b9;
+            padding: 15px 0;
+            text-align: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+        }
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            margin: 0 20px;
+            font-size: 18px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .navbar a:hover {
+            color: #ecf0f1;
+        }
+
         .container {
             max-width: 900px;
             background: #ffffff;
@@ -22,95 +48,154 @@
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
             border-radius: 10px;
             border: 2px solid #2980b9;
+            margin-top: 80px;
         }
-        .nav {
+
+        .header {
             display: flex;
-            justify-content: space-around;
-            background: #2980b9;
-            padding: 10px;
-            border-radius: 5px;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 3px solid #2980b9;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
         }
-        .nav a {
-            color: white;
+
+        .header h1 {
+            color: #2c3e50;
+            margin: 0;
+        }
+
+        .contact-info {
+            text-align: right;
+            color: #555;
+        }
+
+        .contact-info a {
+            color: #2980b9;
             text-decoration: none;
-            padding: 10px 20px;
-            font-weight: bold;
-            cursor: pointer;
         }
-        .nav a:hover {
-            background: #1f6691;
-            border-radius: 5px;
-        }
+
         .section {
-            display: none;
-            margin-top: 20px;
-        }
-        .active {
+            margin-bottom: 20px;
             display: block;
+        }
+
+        .section h2 {
+            border-bottom: 3px solid #2980b9;
+            padding-bottom: 5px;
+            color: #2c3e50;
+        }
+
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        td, th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #ecf0f1;
+        }
+
+        tr:nth-child(odd) {
+            background-color: #dddddd;
         }
     </style>
 </head>
 <body>
+
+    <!-- Navigation Bar -->
+    <div class="navbar">
+        <a href="#summary">Summary</a>
+        <a href="#skills">Skills</a>
+        <a href="#experience">Experience</a>
+        <a href="#education">Education</a>
+        <a href="#certifications">Certifications</a>
+        <a href="#hobbies">Hobbies</a>
+        <a href="#referee">Referees</a>
+    </div>
+
     <div class="container">
-        <div class="nav">
-            <a onclick="showSection('summary')">Summary</a>
-            <a onclick="showSection('skills')">Skills</a>
-            <a onclick="showSection('experience')">Experience</a>
-            <a onclick="showSection('education')">Education</a>
-            <a onclick="showSection('certifications')">Certifications</a>
-            <a onclick="showSection('hobbies')">Hobbies</a>
+        <div class="header">
+            <h1>Timothy Kamau</h1>
+            <div class="contact-info">
+                <p>10100, Nyeri, Kenya</p>
+                <p>+254 790722419</p>
+                <p><a href="mailto:timo.munyiri@gmail.com">timo.munyiri@gmail.com</a></p>
+            </div>
         </div>
 
-        <div id="summary" class="section active">
+        <div class="section" id="summary">
             <h2>Summary</h2>
-            <p>Innovative and detail-oriented ICT practitioner...</p>
+            <p>Innovative and detail-oriented ICT practitioner with over 3 years of experience in software development, cloud technologies, sales, and customer relationship management. Skilled in IT support, software solutions, and sales strategy execution. Passionate about driving technology improvements and continuous learning.</p>
         </div>
 
-        <div id="skills" class="section">
+        <div class="section" id="skills">
             <h2>Skills</h2>
+            <table>
+                <tr><td> IT Support & Troubleshooting </td><td> Network & System Administration </td></tr>
+                <tr><td> Sales Strategy & Planning </td><td> Client Relationship Management </td></tr>
+                <tr><td> Full-Stack Development </td><td> Project Management </td></tr>
+                <tr><td> Python (Flask, Django) </td><td> JavaScript (Node.js, TypeScript) </td></tr>
+                <tr><td> RESTful API Development </td><td> Agile Methodology </td></tr>
+            </table>
+        </div>
+
+        <div class="section experience" id="experience">
+            <h2>Experience</h2>
+            <h3>DMS Superuser Intern, Wamuti Distributors Ltd | 2025</h3>
             <ul>
-                <li>IT Support & Troubleshooting</li>
-                <li>Full Stack Development</li>
-                <li>RESTful API design</li>
-                <li>Project Management</li>
+                <li>Data Entry and Data Analysis using Distributor Management Systems.</li>
+                <li>Installed and configured computer hardware, software, networks, and printers.</li>
+                <li>Provided real-time technical support for hardware, software, and networking issues.</li>
+            </ul>
+
+            <h3>Software Engineer Learning Platform, ALX | 2022 - 2023</h3>
+            <ul>
+                <li>Developed RESTful APIs in Python (Flask), integrating with dynamic front-end user interfaces.</li>
+                <li>Conducted code reviews and pair programming sessions.</li>
+                <li>Implemented user authentication features using Flask and Node.js.</li>
             </ul>
         </div>
 
-        <div id="experience" class="section">
-            <h2>Experience</h2>
-            <h3>Software Engineer Learning Platform, ALX</h3>
-            <p>Developed RESTful APIs in Python...</p>
-        </div>
-
-        <div id="education" class="section">
+        <div class="section" id="education">
             <h2>Education</h2>
-            <p>Diploma in Information Communication Technology...</p>
+            <p>Diploma in Information Communication Technology, The Nyeri National Polytechnic | 2025</p>
+            <ul>
+                <li>Outstanding Performance in ICT, Academic Achievement Award.</li>
+                <li>Coursework in Full Stack Development, Cloud Computing, and Network Security.</li>
+            </ul>
         </div>
 
-        <div id="certifications" class="section">
+        <div class="section" id="certifications">
             <h2>Certifications</h2>
             <ul>
                 <li>Software Engineer Back End Certified - ALX</li>
             </ul>
         </div>
 
-        <div id="hobbies" class="section">
-            <h2>Hobbies</h2>
+        <div class="section" id="hobbies">
+            <h2>Hobbies and Interests</h2>
             <ul>
                 <li>Drawing</li>
                 <li>Coding</li>
                 <li>Reading novels</li>
             </ul>
         </div>
+
+        <div class="section" id="referee">
+            <h2>Referees</h2>
+            <ul>
+                <li>Patrick Wanjau - Software Engineer | pat.wanjau@gmail.com | +254 725313338</li>
+                <li>Mwangi Agnes - Head of Department, Computer Science | hodcsn@thenyeripoly.ac.ke | +254 773686436</li>
+            </ul>
+        </div>
     </div>
 
-    <script>
-        function showSection(sectionId) {
-            let sections = document.querySelectorAll('.section');
-            sections.forEach(section => section.classList.remove('active'));
-
-            document.getElementById(sectionId).classList.add('active');
-        }
-    </script>
 </body>
 </html>
