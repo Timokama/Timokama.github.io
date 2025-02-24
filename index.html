@@ -23,201 +23,94 @@
             border-radius: 10px;
             border: 2px solid #2980b9;
         }
-        .header {
+        .nav {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 3px solid #2980b9;
-            padding-bottom: 10px;
-            margin-bottom: 20px;
-        }
-        .header h1 {
-            color: #2c3e50;
-            margin: 0;
-        }
-        .contact-info {
-            text-align: right;
-            color: #555;
-        }
-        .contact-info a {
-            color: #2980b9;
-            text-decoration: none;
-        }
-        .section {
-            margin-bottom: 20px;
-            display: block;
-        }
-        .section h2 {
-            border-bottom: 3px solid #2980b9;
-            padding-bottom: 5px;
-            color: #2c3e50;
-        }
-        ul {
-            list-style: dot;
-        }
-        ul li {
-            margin-bottom: 8px;
-            background: #ecf0f1;
+            justify-content: space-around;
+            background: #2980b9;
+            padding: 10px;
             border-radius: 5px;
         }
-        .experience h3 {
-            color: #2980b9;
+        .nav a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            font-weight: bold;
+            cursor: pointer;
         }
-        .experience {
-            margin-top:20px;
+        .nav a:hover {
+            background: #1f6691;
+            border-radius: 5px;
         }
-        table {
-          font-family: arial, sans-serif;
-          border-collapse: collapse;
-          width: 100%;
+        .section {
+            display: none;
+            margin-top: 20px;
         }
-        
-        td, th {
-          border: 1px solid #dddddd;
-          text-align: left;
-          padding: 8px;
-        }
-        
-        tr:nth-child(even) {
-          background-color: #ecf0f1;
-        }
-        tr:nth-child(odd) {
-          background-color: #dddddd;
+        .active {
+            display: block;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="header">
-            <h1>Timothy Kamau</h1>
-            <div class="contact-info">
-                <p>10100, Nyeri, Kenya</p>
-                <p>+254 790722419</p>
-                <p><a href="mailto:timo.munyiri@gmail.com">timo.munyiri@gmail.com</a></p>
-            </div>
+        <div class="nav">
+            <a onclick="showSection('summary')">Summary</a>
+            <a onclick="showSection('skills')">Skills</a>
+            <a onclick="showSection('experience')">Experience</a>
+            <a onclick="showSection('education')">Education</a>
+            <a onclick="showSection('certifications')">Certifications</a>
+            <a onclick="showSection('hobbies')">Hobbies</a>
         </div>
-        
-        <div class="section">
+
+        <div id="summary" class="section active">
             <h2>Summary</h2>
-            <p>Innovative and detail-oriented ICT practitioner with over 3 years of experience in software development, cloud technologies, sales, and customer relationship management. Skilled in IT support, software solutions, and sales strategy execution. Passionate about driving technology improvements and continuous learning. Adept at market analysis, negotiation, and delivering outstanding customer service.</p>
+            <p>Innovative and detail-oriented ICT practitioner...</p>
         </div>
-        <div class="section">
+
+        <div id="skills" class="section">
             <h2>Skills</h2>
-            <table>
-            <tr>
-                <td> IT Support & Troubleshooting </td>
-                <td> Network & System Administration </td>
-            </tr>
-            <tr>
-                <td> Sales Strategy & Planning</td>
-                <td> Client Relationship Management</td>
-            </tr>
-            <tr>
-                <td> Negotiation & Persuasion</td>
-                <td> Project Management</td>
-            </tr>
-            <tr>
-                <td> Team Leadership & Training</td>
-                <td> Market Research & Analysis</td>
-            </tr>
-            <tr>
-                <td> Full-Stack Development</td>
-                <td> Hardware/software systems installation</td>
-            </tr>
-            <tr>
-                <td> Data Management, Security</td>
-                <td> RESTful API design and development</td>
-            </tr>
-            <tr>
-                <td> Agile Methodology </td>
-                <td> Data Structures and Algorithms</td>
-            </tr>
-            <tr>
-                <td> Problem-solving and debugging</td>
-                <td> Version Control (Git)</td>
-            </tr>
-            <tr>
-                <td> Python (Flask, Django)</td>
-                <td> Java</td>
-            </tr>
-            <tr>
-                <td> JavaScript (jQuery, Node.js, TypeScript)</td>
-                <td> SQL (MySQL, PostgreSQL)</td>
-            </tr>
-            <tr>
-                <td> HTML/CSS</td>
-                <td> Requirement gathering</td>
-            </tr>
-            <tr>
-                <td> Code review proficiency</td>
-                <td> </td>
-            </tr>
-            </table>
+            <ul>
+                <li>IT Support & Troubleshooting</li>
+                <li>Full Stack Development</li>
+                <li>RESTful API design</li>
+                <li>Project Management</li>
+            </ul>
         </div>
-        <div class="section experience">
+
+        <div id="experience" class="section">
             <h2>Experience</h2>
-            <h3>DMS Superuser Intern, Wamuti Distributors Ltd | 2025</h3>
-            <ul>
-                <li> Data Entry and Data Analysis using Distributor management systems for use in decision-making.
-                <li> Installing and configuring computer hardware, software, systems, networks, printers, and scanners monitoring and maintaining computer systems and networks
-                <li> Responding in a timely manner to service issues and requests
-                <li> Provided real-time technical support for hardware, software, and networking issues, ensuring minimal downtime.
-            </ul>
+            <h3>Software Engineer Learning Platform, ALX</h3>
+            <p>Developed RESTful APIs in Python...</p>
         </div>
-        <div class="section">
-            <h2>Software Engineer Learning Platform, ALX</h2>
-            <h3>June 2022 – November 2023 / Online</h3>
-            <p> I was inspired to pursue a career in software development by my love of problem-
-                solving and my desire to create things. I have always been fascinated by how
-                computers work and how they can be used to solve complex problems. I am also
-                excited by the potential to use software to make a positive impact on the world.
-            </p>
-            <li>Developed RESTful APIs in Python (Flask), integrating with dynamic front-end user interfaces in JavaScript.            
-            <li> Conducted code reviews and pair programming sessions, promoting best practices in software development.
-            <li> Spearhead the development of user authentication feature using Flask, NodeJs, and Typescript which improves security and it’s integrated into all my web applications.
-            </ul>
-        </div>
-        <div class="section">
+
+        <div id="education" class="section">
             <h2>Education</h2>
-            <p>Diploma in Information Communication Technology, The Nyeri National Polytechnic | 2025</p>
-            <ul>
-            <li> Outstanding Performance in ICT, Academic Achievement Award
-            <li> Diploma graduate
-            <li> Coursework in Full Stack Development, Cloud Computing, and Network Security
-            <li> Dissertation in software development, cloud computing, and network security
-            <li> Member of ICT Professionals Union, Software Developers Association, Union
-            </ul>
+            <p>Diploma in Information Communication Technology...</p>
         </div>
-        
-        <div class="section">
+
+        <div id="certifications" class="section">
             <h2>Certifications</h2>
             <ul>
                 <li>Software Engineer Back End Certified - ALX</li>
             </ul>
         </div>
-        <div class="section">
-            <h2>Hobbies and interests</h2>
+
+        <div id="hobbies" class="section">
+            <h2>Hobbies</h2>
             <ul>
-                <li> Drawing
-                <li> Coding
-                <li> Reading novels
-            </ul>
-        </div>
-        <div class="section">
-            <h2>Referee</h2>
-            <ul style="float:left; width:50%; border:1px">
-                <li> Patrick Wanjau
-                <li> Software Engineer
-                <li> pat.wanjau@gmail.com
-                <li> Consultant +254 725313338
-            </ul>
-            <ul style="float:right; width:50%; border:1px">
-                <li> Mwangi Agnes
-                <li> Head of Department, computer Science and Networking.
-                <li> hodcsn@thenyeripoly.ac.ke
-                <li>  +254 773686436
+                <li>Drawing</li>
+                <li>Coding</li>
+                <li>Reading novels</li>
             </ul>
         </div>
     </div>
+
+    <script>
+        function showSection(sectionId) {
+            let sections = document.querySelectorAll('.section');
+            sections.forEach(section => section.classList.remove('active'));
+
+            document.getElementById(sectionId).classList.add('active');
+        }
+    </script>
 </body>
 </html>
