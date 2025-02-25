@@ -7,9 +7,10 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <!-- Navigation Bar -->
-        <div class="navbar">
+    <!-- Navigation Bar -->
+    <div class="navbar">
+        <div class="menu-icon" onclick="toggleMenu()">☰</div>
+        <div class="nav-links">
             <a href="#summary">Summary</a>
             <a href="#skills">Skills</a>
             <a href="#experience">Experience</a>
@@ -18,6 +19,8 @@
             <a href="#hobbies">Hobbies</a>
             <a href="#referee">Referees</a>
         </div>
+    </div>
+    <div class="container">
         <div class="header">
             <h1>Timothy Kamau</h1>
             <div class="contact-info">
@@ -150,6 +153,15 @@
             </ul>
         </div>
     </div>
-
+<script>
+        function toggleMenu() {
+            var menu = document.querySelector(".nav-links");
+            if (menu.style.display === "flex") {
+                menu.style.display = "none";
+            } else {
+                menu.style.display = "flex";
+            }
+        }
+    </script>
 </body>
 </html>
