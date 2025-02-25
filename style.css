@@ -45,7 +45,7 @@ body {
     color: white;
     cursor: pointer;
     padding: 10px;
-    text-align: right;
+    text-align: center;
 }
 
 /* Responsive Design */
@@ -70,6 +70,7 @@ body {
 
     .menu-icon {
         display: block;
+        text-align: right;
     }
 }
 
