@@ -162,6 +162,9 @@ nav ul li a {
 }
 .nav-links a {
     text-decoration: none;
+    font-size: 18px;
+    font-weight: bold;
+    transition: 0.3s;
     color: black; /* Default color */
     padding: 10px 15px;
     display: inline-block;
