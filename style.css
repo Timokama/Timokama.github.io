@@ -26,16 +26,21 @@ body {
     gap: 20px;
 }
 
-/* .nav-links a {
+ .nav-links a {
     color: white;
     text-decoration: none;
     font-size: 18px;
     font-weight: bold;
     transition: 0.3s;
 }
- */
 .nav-links a:hover {
     color: #ecf0f1;
+}
+.nav-links a:hover, 
+.nav-links a.active {
+    background-color: #007bff; /* Highlight color */
+    color: #ecf0f1;
+    border-radius: 5px;
 }
 
 /* Mobile Menu Button */
@@ -159,20 +164,4 @@ nav ul li a {
     color: white;
     text-decoration: none;
     font-weight: bold;
-}
-.nav-links a {
-    text-decoration: none;
-    font-size: 18px;
-    font-weight: bold;
-    transition: 0.3s;
-    color: black; /* Default color */
-    padding: 10px 15px;
-    display: inline-block;
-}
-
-.nav-links a:hover, 
-.nav-links a.active {
-    background-color: #007bff; /* Highlight color */
-    color: white;
-    border-radius: 5px;
 }
