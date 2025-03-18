@@ -24,9 +24,10 @@ body {
     display: flex;
     justify-content: center;
     gap: 20px;
+    padding: 15px 0;
 }
 
- .nav-links a {
+.nav-links a {
     color: white;
     text-decoration: none;
     font-size: 18px;
