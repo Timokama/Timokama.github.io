@@ -160,3 +160,16 @@ nav ul li a {
     text-decoration: none;
     font-weight: bold;
 }
+/* .nav-links a {
+    text-decoration: none;
+    color: black; /* Default color */
+    padding: 10px 15px;
+    display: inline-block;
+} */
+
+.nav-links a:hover, 
+.nav-links a.active {
+    background-color: #007bff; /* Highlight color */
+    color: white;
+    border-radius: 5px;
+}
