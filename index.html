@@ -207,8 +207,31 @@
     </div>
   </section>
 
-  <footer><p>&copy; 2025 Timothy Kamau | Built with ❤️ in HTML/CSS & JavaScript </p></footer>
+  <footer>
+    <p>&copy; 2025 Timothy Kamau | Built with ❤️ in HTML/CSS & JavaScript </p>
+  <div id="visitor-counter">
+    👀 Views: <span id="count">0</span>
+  </div>
+  </footer>
+  
+  <script>
+    // create a unique namespace & key for your site
+    fetch('https://api.countapi.xyz/hit/timokama.github.io/portfolio')
+      .then(res => res.json())
+      .then(res => {
+        document.getElementById('count').innerText = res.value;
+      });
+  </script>
 
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-2HCJMG18XK"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+  
+    gtag('config', 'G-2HCJMG18XK');
+  </script>
   <script>
     const menu   = document.getElementById('mobileMenu');
     const button = document.getElementById('hamburger');
@@ -243,6 +266,7 @@
   </script>
 </body>
 </html>
+
 
 
 
