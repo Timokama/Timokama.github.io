@@ -44,7 +44,7 @@ I enjoy building clean, scalable solutions and helping businesses go digital.
 ## 📬 Contact
 - **Email:** [timo.munyiri@gmail.com](mailto:timo.munyiri@gmail.com)  
 - **GitHub:** [github.com/Timokama](https://github.com/Timokama)  
-- **LinkedIn:** [linkedin.com/in/timothy-munyiri]((https://www.linkedin.com/in/timothy-munyiri-b154a937b/))
+- **LinkedIn:** [linkedin.com/in/timothy-munyiri-b154a937b/](https://www.linkedin.com/in/timothy-munyiri-b154a937b/)
 
 ---
 
