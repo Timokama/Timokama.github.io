@@ -23,7 +23,7 @@ This portfolio highlights my skills, projects, and professional journey in **Ful
 ---
 
 ## 📸 Preview
-![Portfolio Screenshot](./assets/preview.png)  
+![Portfolio Screenshot](./preview.png)  
 *(Add a screenshot of your portfolio inside an `assets/` folder and update this path.)*
 
 ---
