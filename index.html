@@ -9,8 +9,24 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
   <style>
+    /* Projects */
+    #projects { display:grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap:20px; }
+    .project { background:#fff; padding:20px; border-radius:10px; box-shadow:0 4px 6px rgba(0,0,0,0.1);}
+    .project h3 { color:#0d6efd; margin-bottom:10px;}
+    .project i { font-size:1.5rem; color:#0d6efd; margin-right:10px; }
+    .project p { font-size:0.95rem; margin-bottom:10px;}
+    .project a { color:#0d6efd; text-decoration:none; font-weight:bold; }
+    .project img { width:100%; border-radius:10px; margin-bottom:10px; }
+
     * { margin:0; padding:0; box-sizing:border-box; font-family: "Segoe UI", sans-serif; }
     body { background:#f5f6fa; color:#2f3640; line-height:1.6; scroll-behavior:smooth; }
+
+     /* Experience */
+    #experience { display:flex; flex-direction:column; gap:20px; }
+    .job { background:#fff; padding:20px; border-radius:10px; box-shadow:0 4px 6px rgba(0,0,0,0.1);}
+    .job h3 { color:#0d6efd; margin-bottom:5px;}
+    .job span { font-size:0.9rem; color:#555; }
+    .job i { color:#0d6efd; margin-right:8px; }
 
     /* Navbar */
     nav {
@@ -150,55 +166,46 @@
 
   <!-- Skills -->
   <section id="skills">
-    <h2>Skills</h2>
+    <h2>Skills <i class="fas fa-tools"></i></h2>
     <div class="grid">
+      <div class="card"><i class="fas fa-code"></i><h3>Frontend</h3><p>HTML, CSS, JavaScript, React</p></div>
+      <div class="card"><i class="fas fa-server"></i><h3>Backend</h3><p>Node.js, Express, Python</p></div>
       <div class="card"><i class="fa-brands fa-python"></i><h3>Python & Flask</h3></div>
       <div class="card"><i class="fa-brands fa-java"></i><h3>Java</h3></div>
       <div class="card"><i class="fa-brands fa-js"></i><h3>JavaScript & NodeJS</h3></div>
       <div class="card"><i class="fa-solid fa-database"></i><h3>PostgreSQL & MySQL</h3></div>
-      <div class="card"><i class="fa-solid fa-network-wired"></i><h3>Networking & ICT</h3></div>
+      <div class="card"><i class="fas fa-network-wired"></i><h3>ICT Support</h3><p>Networking, System Admin, Troubleshooting</p></div>
       <div class="card"><i class="fa-brands fa-git-alt"></i><h3>Git & GitHub</h3></div>
       <div class="card"><i class="fa-solid fa-palette"></i><h3>UI / UX Design</h3></div>
       <div class="card"><i class="fa-solid fa-chart-line"></i><h3>Sales & Customer Relations</h3></div>
     </div>
   </section>
-
   <!-- Projects -->
-  <section id="projects">
-    <h2>Projects</h2>
-    <div class="grid">
-      <div class="card">
-        <h3>Freelance Web Apps</h3>
-        <p>Developed responsive websites for SMEs using HTML, CSS, JS, Flask.</p>
-      </div>
-      <div class="card">
-        <h3>ALX Learning Platform</h3>
-        <p>Built RESTful APIs, authentication, and integrated frontend with backend.</p>
-      </div>
-      <div class="card">
-        <h3>Portfolio Redesign</h3>
-        <p>Modernized personal portfolio with a focus on clean UI and smooth UX.</p>
-      </div>
+  <section id="projects" class="container">
+    <h2>Projects <i class="fas fa-project-diagram"></i></h2>
+    <div class="card project">
+      <h3><i class="fas fa-laptop-code"></i>Portfolio Redesign</h3>
+      <p>Modernized personal portfolio with a focus on clean UI and smooth UX.</p>
+      <a href="https://timokama.github.io/">View Project</a>
+    </div>
+    <div class="card project">
+      <h3><i class="fas fa-graduation-cap"></i>ALX Learning Platform</h3>
+      <p>Built RESTful APIs, authentication, and integrated frontend with backend.</p>
+      <a href="alx-learning.html">View Project</a>
+    </div>
+    <div class="card project">
+      <h3><i class="fas fa-briefcase"></i>Freelance Web Apps</h3>
+      <p>Developed custom web applications for clients including e-commerce and business websites.</p>
+      <a href="freelance.html">View Project</a>
     </div>
   </section>
 
   <!-- Experience -->
-  <section id="experience">
-    <h2>Experience</h2>
-    <div class="grid">
-      <div class="card">
-        <h3>DMS Superuser Intern</h3>
-        <p>Maintained systems, provided ICT support, and improved workflows at Wamuti Distributors (8/2022).</p>
-      </div>
-      <div class="card">
-        <h3>Assistant Salesman</h3>
-        <p>Handled sales and distribution for Veew Distributor (EABL, 2025).</p>
-      </div>
-      <div class="card">
-        <h3>Freelance Web Developer</h3>
-        <p>Designed and deployed responsive websites for SMEs, ensuring client satisfaction and modern UI/UX (2023–Present).</p>
-      </div>
-    </div>
+  <section id="experience" class="container">
+    <h2>Experience <i class="fas fa-briefcase"></i></h2>
+    <div class="card job"><h3><i class="fas fa-laptop-code"></i>Freelance Web Developer</h3><span>2023 – Present</span><p>Designed and deployed responsive websites for SMEs, ensuring client satisfaction and modern UI/UX (2023–Present).</p></div>
+    <div class="card job"><h3><i class="fas fa-user-tie"></i>DMS Superuser Intern</h3><span>Aug 2022</span><p>Maintained systems, provided ICT support, and improved workflows at Wamuti Distributors (8/2022).</p></div>
+    <div class="card job"><h3><i class="fas fa-users"></i>Assistant Salesman</h3><span>2025</span><p>Handled sales and distribution for Veew Distributor (EABL, 2025).</p></div>
   </section>
 
   <!-- Contact -->
@@ -273,23 +280,3 @@ var disqus_config = function () {
   </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
