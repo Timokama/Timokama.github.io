@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body{
+            background-image: linear-gradient(105deg,  rgb(177, 177, 240), rgb(221, 211, 167));
+        }
+        .heading{
+            text-align: center;
+            margin: 20px auto 20px;
+            color: rgb(5, 17, 70);
+            /* background-color:  rgb(221, 211, 167); */
+            width: fit-content;
+        }
+        .main-container{
+            /* border: 2px solid rgb(198, 230, 55); */
+            width: 100%;
+            height: 100%;
+            max-width: 400px;
+            min-height: 30vh;
+            /* text-align: center; */
+            background-color: rgb(234, 236, 200);
+            border-radius: 20px;
+            margin: 12px auto ;
+            font-weight: 400;
+            box-shadow: 1px 1px 1px 1px;
+        }
+        .todo-container{
+            text-align: center;
+            /* display: flex; */
+            /* margin-top: 2rem; */
+            /* border: 1px solid rgb(10, 7, 7); */
+
+        }
+
+        h1 { text-align:center; color:#0d6efd; margin-bottom:20px; }
+        h1 i { margin-left:10px; }
+        .todo-container h2{
+            position: relative;
+            padding: 20px 0px 10px  2px;
+            color: rgb(5, 17, 70);
+            font-weight: bold;
+            font-size: 1.5rem;
+            border-bottom: 2px solid silver;
+        }
+        .todo-container h2 img{
+        /* display: flex; */
+        }
+        .todo-container img{
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            padding: 8px;
+            mix-blend-mode: darken;
+            top: 7px;
+            /* margin-top: 0px; */
+
+        }
+
+        .input-field{
+            display: flex;
+            justify-content: space-between;
+            background-color: rgb(255, 254, 254);
+            width: 90%;
+            margin-top: 10px;
+            height: 40px;
+            margin-left: 10px;
+            /* margin-right: 10px; */
+            padding: 3px;
+            /* padding-top: 40px; */
+            border-radius: 40px;
+            box-shadow: 1px 1px 1px 0px;
+
+        }
+        .input-field input{
+            flex: 1;
+            border: none;
+            outline: none;
+            color: rgb(0, 0, 0);
+            border-radius: 40px;
+            /* text-align: center; */
+            margin-left: 25px;
+            padding-left: 6px;
+            background: transparent;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 20px;
+
+        }
+        .input-field button{
+            /* border: none; */
+            outline: none;
+            width: 100px;
+        height: 40px;
+        margin: -3px;
+        padding-left: 5px;
+        font-weight: 400;
+        font-size: 17px;
+        border: 2px solid rgb(5, 17, 70);
+        background-color: rgb(5, 17, 70);
+        color: rgb(255, 255, 255);
+        border-radius: 20px;
+        user-select: none;
+        cursor: pointer;
+        }
+        #list-content{
+            position: relative;
+            display: block;
+            /* border: 2px solid red; */
+        }
+        ul li{
+            text-transform: capitalize;
+            display: block;
+            position: relative;
+            left: 13px;
+            list-style: none;
+            border-bottom: 1px dashed rgb(5, 17, 70);
+            border-top: 1px dashed rgb(5, 17, 70);
+            /* border: 2px solid olive; */
+            width: 95%;
+            min-width: 50%;
+            border-radius: 20px;
+            /* font-size: 17px; */
+            padding: 12px 8px 12px 80px;
+            font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            
+            font-size: 20px;
+            cursor: pointer;
+            user-select: none;
+            color: rgb(63, 56, 56);
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+        ul li::before{
+            content: " ";
+            width: 20px;
+            height: 20px; 
+            /* border: 2px solid rgb(173, 162, 162); */
+            border-radius: 50%;
+            background-image: url(unchecked.png);
+            background-size: cover;
+            background-position: center;
+            position: absolute;
+            left: 40px;
+            top: 13px;
+
+
+        }
+
+        ul li.checked{
+            color: rgba(5, 17, 70, 0.5);
+            text-decoration: line-through;
+
+        }
+
+        ul li.checked::before{
+            background-image: url(checked2.jpg);
+        }
+
+
+        ul li span{
+            position: relative;
+            right: 0px;
+            top: 0px;
+            width: 30px;
+            height: 30px;
+            font-size:20px;
+            float: right;
+            line-height: 30px;
+            text-align: center;
+            border-radius: 50%;
+            background-color: rgb(206, 205, 205);
+        }
+        
+        ul li span:hover{
+            background-color: rgb(105, 100, 100);
+            border-radius: 50%;  
+        }
+    </style>
+    <title>TO-DO</title>
+</head>
+<body>
+    <h1>Task Management App <i class="fas fa-tasks"></i></h1>
+    <div class="main-container">
+        <div class="todo-container">
+            <h2>To-Do List <img src="Todo-list.png"></h2>
+            <div class="input-field">
+               <input type="text" id="input-List" placeholder="inuput your text here">
+               <button onclick="addList()"><i class="fas fa-plus"></i></button>
+           </div>
+        </div>
+        <div>
+            <ul id="list-content">
+<!--            
+                <li class="checked">JavaScript</li>
+                <li>item 2</li>
+                <li>item 3</li> -->
+            </ul>
+        </div>
+        </div>
+    <script>
+        const inputList = document.getElementById("input-List");
+        const listContent = document.getElementById("list-content");
+
+
+        function addList() {
+            if (inputList.value === ""  || inputList.value === "  " || inputList.value === " "  ) {
+                alert("You need to write a Task");
+        
+            }
+            else {
+                let li = document.createElement("li");
+                li.innerHTML = inputList.value;
+                listContent.appendChild(li);
+
+                let span = document.createElement("span");
+                span.innerHTML = '<i class="fas fa-trash"></i>';
+                li.appendChild(span);
+
+                // Attach click event to delete the li
+                span.addEventListener("click", function() {
+                    li.remove();
+                    dataSave(); // Update storage if needed
+                });
+            }
+
+            inputList.value = "";
+            dataSave();
+
+        };
+        listContent.addEventListener("click", function (e){
+            if(e.target.tagName === "LI") {
+                e.target.classList.toggle("checked");
+                dataSave();
+            } 
+            else if(e.target.tagName === "SPAN"){
+            e.target.parentElement.remove();
+            dataSave()
+            }
+        }, false);
+        function dataSave(){
+            localStorage.setItem("data", listContent.innerHTML)
+        }
+        function showTaskList(){
+            listContent.innerHTML = localStorage.getItem("data")
+        }
+        showTaskList();
+
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simple E-commerce Store</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; font-family: 'Segoe UI', sans-serif; }
+    body { background: #f5f5f5; color:#333; }
+    .container { max-width: 1100px; margin:auto; padding:20px; }
+
+    h1 { text-align:center; color:#0d6efd; margin:40px 0; }
+    
+    /* Product Grid */
+    .products { display:grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap:20px; }
+
+    .product-card {
+      background:#fff; padding:20px; border-radius:10px; text-align:center;
+      box-shadow:0 4px 10px rgba(0,0,0,0.1); transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .product-card:hover { transform: translateY(-5px); box-shadow:0 8px 20px rgba(0,0,0,0.2); }
+
+    .product-card img { width:100%; border-radius:10px; margin-bottom:15px; }
+    .product-card h3 { color:#0d6efd; margin-bottom:10px; }
+    .product-card p { margin-bottom:10px; font-size:0.95rem; }
+    .product-card button { padding:10px 15px; background:#0d6efd; border:none; color:#fff; border-radius:5px; cursor:pointer; transition:0.3s; }
+    .product-card button:hover { background:#084298; }
+
+    /* Cart */
+    .cart { margin-top:50px; background:#fff; padding:20px; border-radius:10px; box-shadow:0 4px 10px rgba(0,0,0,0.1); }
+    .cart h2 { color:#0d6efd; margin-bottom:20px; }
+    .cart-items { list-style:none; padding-left:0; margin-bottom:15px; }
+    .cart-items li { display:flex; justify-content: space-between; padding:5px 0; border-bottom:1px solid #ccc; }
+    .cart-items li:last-child { border-bottom:none; }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>Simple E-commerce Store <i class="fas fa-store"></i></h1>
+
+    <!-- Product Grid -->
+    <div class="products" id="products">
+      <div class="product-card">
+        <img src="headphones.png" alt="Product 1">
+        <h3>Wireless Headphones</h3>
+        <p>$50</p>
+        <button onclick="addToCart('Wireless Headphones', 50)">Add to Cart <i class="fas fa-cart-plus"></i></button>
+      </div>
+      <div class="product-card">
+        <img src="smartwatch.png" alt="Product 2">
+        <h3>Smartwatch</h3>
+        <p>$80</p>
+        <button onclick="addToCart('Smartwatch', 80)">Add to Cart <i class="fas fa-cart-plus"></i></button>
+      </div>
+      <div class="product-card">
+        <img src="bluetooth speaker.png" alt="Product 3">
+        <h3>Bluetooth Speaker</h3>
+        <p>$35</p>
+        <button onclick="addToCart('Bluetooth Speaker', 35)">Add to Cart <i class="fas fa-cart-plus"></i></button>
+      </div>
+    </div>
+
+    <!-- Shopping Cart -->
+    <div class="cart">
+      <h2>Shopping Cart <i class="fas fa-shopping-cart"></i></h2>
+      <ul class="cart-items" id="cart-items">
+        <li>No items yet.</li>
+      </ul>
+      <p>Total: $<span id="cart-total">0</span></p>
+    </div>
+  </div>
+
+  <script>
+    const cartItems = document.getElementById('cart-items');
+    const cartTotal = document.getElementById('cart-total');
+    let cart = [];
+
+    function addToCart(name, price) {
+      cart.push({ name, price });
+      updateCart();
+    }
+
+    function updateCart() {
+      if(cart.length === 0){
+        cartItems.innerHTML = '<li>No items yet.</li>';
+        cartTotal.innerText = '0';
+        return;
+      }
+      cartItems.innerHTML = '';
+      let total = 0;
+      cart.forEach(item => {
+        const li = document.createElement('li');
+        li.innerHTML = `${item.name} - $${item.price}`;
+        cartItems.appendChild(li);
+        total += item.price;
+      });
+      cartTotal.innerText = total;
+    }
+  </script>
+
+</body>
+</html>
