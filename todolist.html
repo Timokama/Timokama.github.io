@@ -235,16 +235,21 @@
             dataSave();
 
         };
-        listContent.addEventListener("click", function (e){
-            if(e.target.tagName === "LI") {
-                e.target.classList.toggle("checked");
+        listContent.addEventListener("click", function(e){
+            const li = e.target.closest("li"); // find closest li
+            if(!li) return; // click outside of li
+        
+            if(e.target.closest("span")) {
+                // Delete button clicked
+                li.remove();
                 dataSave();
-            } 
-            else if(e.target.tagName === "SPAN"){
-            e.target.parentElement.remove();
-            dataSave()
+            } else {
+                // Toggle checked
+                li.classList.toggle("checked");
+                dataSave();
             }
-        }, false);
+        });
+
         function dataSave(){
             localStorage.setItem("data", listContent.innerHTML)
         }
@@ -256,4 +261,5 @@
 
     </script>
 </body>
+
 </html>
