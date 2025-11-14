@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Blog Platform</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
@@ -21,23 +21,49 @@
     .blog-card {
       background:#fff; padding:20px; border-radius:10px; box-shadow:0 4px 10px rgba(0,0,0,0.1);
       transition: transform 0.3s, box-shadow 0.3s;
+      display:flex; flex-direction:column;
     }
     .blog-card:hover { transform: translateY(-5px); box-shadow:0 8px 20px rgba(0,0,0,0.2); }
 
-    .blog-card img { width:100%; border-radius:10px; margin-bottom:15px; }
+    .blog-card img { width:100%; border-radius:10px; margin-bottom:15px; object-fit:cover; height:200px; }
     .blog-card h3 { color:#0d6efd; margin-bottom:10px; }
     .blog-card p { font-size:0.95rem; margin-bottom:10px; }
-    .blog-card a { text-decoration:none; color:#fff; background:#0d6efd; padding:8px 15px; border-radius:5px; transition:0.3s; }
-    .blog-card a:hover { background:#084298; }
+    .blog-card a.read-more-btn {
+      text-decoration:none; color:#fff; background:#0d6efd; padding:8px 15px; border-radius:5px; transition:0.3s; display:inline-flex; align-items:center; gap:8px; margin-top:auto;
+    }
+    .blog-card a.read-more-btn:hover { background:#084298; }
 
     .blog-meta { font-size:0.85rem; color:#555; margin-bottom:10px; }
     .blog-meta i { margin-right:5px; }
 
-    /* Comments Section Placeholder */
-    .comments { margin-top:40px; background:#fff; padding:20px; border-radius:10px; box-shadow:0 4px 10px rgba(0,0,0,0.1); }
-    .comments h2 { color:#0d6efd; margin-bottom:20px; }
-    .comment { border-bottom:1px solid #ccc; padding:10px 0; }
-    .comment:last-child { border-bottom:none; }
+    /* Hidden full content container */
+    .full-content { display:none; }
+
+    /* Modal */
+    .modal {
+      position:fixed; inset:0; display:none; align-items:center; justify-content:center; z-index:1000;
+    }
+    .modal.open { display:flex; }
+    .modal-overlay {
+      position:absolute; inset:0; background:rgba(0,0,0,0.5);
+    }
+    .modal-dialog {
+      position:relative; background:#fff; width:min(900px,94%); max-height:90vh; overflow:auto; border-radius:12px; padding:20px; box-shadow:0 10px 40px rgba(0,0,0,0.3);
+    }
+    .modal-header { display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:10px; }
+    .modal-header h2 { margin:0; color:#0d6efd; font-size:1.25rem; }
+    .modal-body img { width:100%; border-radius:8px; margin:10px 0; max-height:320px; object-fit:cover; }
+    .modal-body .meta { color:#666; font-size:0.9rem; margin-bottom:12px; }
+    .modal-close {
+      background:transparent; border:none; font-size:1.1rem; cursor:pointer; color:#333; padding:6px 8px; border-radius:6px;
+    }
+    .modal-close:focus { outline:2px solid #0d6efd; }
+
+    /* Small screens: stack modal content */
+    @media (max-width:480px){
+      .modal-dialog { padding:12px; }
+      .modal-body img { max-height:180px; }
+    }
   </style>
 </head>
 <body>
@@ -47,52 +73,215 @@
     <p class="description">A modern blog demo showcasing posts, excerpts, featured images, and comments placeholder.</p>
 
     <div class="blog-grid">
-      <div class="blog-card">
+      <!-- Card 1 -->
+      <article class="blog-card" data-id="post-1" aria-labelledby="title-post-1">
         <img src="https://images.unsplash.com/photo-1587620962725-abab7fe55159?w=800" alt="Getting Started with JavaScript">
-        <h3>Getting Started with JavaScript</h3>
-        <p class="blog-meta"><i class="fas fa-calendar-alt"></i>Nov 10, 2025 <i class="fas fa-user"></i>By Admin</p>
-        <p>Learn the basics of JavaScript and how to create interactive web applications quickly.</p>
-        <a href="#">Read More <i class="fas fa-arrow-right"></i></a>
-      </div>
+        <h3 id="title-post-1">Getting Started with JavaScript</h3>
+        <p class="blog-meta"><i class="fas fa-calendar-alt"></i>Nov 10, 2025 <i class="fas fa-user" style="margin-left:10px"></i>By Admin</p>
+        <p class="excerpt">Learn the basics of JavaScript and how to create interactive web applications quickly.</p>
 
-      <div class="blog-card">
+        <!-- Hidden full content — in a real app this might be fetched from server -->
+        <div class="full-content" data-title="Getting Started with JavaScript" data-image="https://images.unsplash.com/photo-1587620962725-abab7fe55159?w=800" data-date="Nov 10, 2025" data-author="Admin">
+          <p>JavaScript is the language of the web. In this beginner-friendly guide you will learn variables, functions, DOM manipulation, and events so you can make web pages interactive. We'll walk through simple examples, best practices, and small projects to get you building quickly.</p>
+          <p><strong>Topics covered:</strong></p>
+          <ul>
+            <li>Basics: variables, types, operators</li>
+            <li>Functions & scope</li>
+            <li>DOM selection and manipulation</li>
+            <li>Events and listeners</li>
+            <li>Small project: interactive to-do list</li>
+          </ul>
+          <p>By the end you'll have the confidence to write simple interactive apps and continue learning frameworks or vanilla patterns.</p>
+        </div>
+
+        <a href="#" class="read-more-btn" data-post="post-1" aria-expanded="false">Read More <i class="fas fa-arrow-right"></i></a>
+      </article>
+
+      <!-- Card 2 -->
+      <article class="blog-card" data-id="post-2" aria-labelledby="title-post-2">
         <img src="https://images.unsplash.com/photo-1593642532973-d31b6557fa68?w=800" alt="Full-Stack Developer">
-        <h3>Full-Stack Development Tips</h3>
-        <p class="blog-meta"><i class="fas fa-calendar-alt"></i>Nov 5, 2025 <i class="fas fa-user"></i>By Admin</p>
-        <p>Essential tips for becoming a successful full-stack developer managing frontend and backend tasks.</p>
-        <a href="#">Read More <i class="fas fa-arrow-right"></i></a>
-      </div>
+        <h3 id="title-post-2">Full-Stack Development Tips</h3>
+        <p class="blog-meta"><i class="fas fa-calendar-alt"></i>Nov 5, 2025 <i class="fas fa-user" style="margin-left:10px"></i>By Admin</p>
+        <p class="excerpt">Essential tips for becoming a successful full-stack developer managing frontend and backend tasks.</p>
 
-      <div class="blog-card">
+        <div class="full-content" data-title="Full-Stack Development Tips" data-image="https://images.unsplash.com/photo-1593642532973-d31b6557fa68?w=800" data-date="Nov 5, 2025" data-author="Admin">
+          <p>Full-stack development requires balancing breadth and depth. Focus on these key areas: strong fundamentals in JavaScript, one backend language, database fundamentals, deployment & CI/CD, and writing maintainable code. Build projects that tie frontend to backend and practice deploying them publicly.</p>
+          <p><strong>Quick tips:</strong></p>
+          <ol>
+            <li>Choose a consistent stack and build multiple projects.</li>
+            <li>Automate deployments early (GitHub Actions, CI).</li>
+            <li>Learn SQL + one NoSQL system.</li>
+            <li>Practice debugging and testing.</li>
+          </ol>
+        </div>
+
+        <a href="#" class="read-more-btn" data-post="post-2" aria-expanded="false">Read More <i class="fas fa-arrow-right"></i></a>
+      </article>
+
+      <!-- Card 3 -->
+      <article class="blog-card" data-id="post-3" aria-labelledby="title-post-3">
         <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=800" alt="UI/UX Design">
-        <h3>UI/UX Design Principles</h3>
-        <p class="blog-meta"><i class="fas fa-calendar-alt"></i>Oct 25, 2025 <i class="fas fa-user"></i>By Admin</p>
-        <p>Key principles of UI/UX design to create intuitive and user-friendly web interfaces.</p>
-        <a href="#">Read More <i class="fas fa-arrow-right"></i></a>
-      </div>
+        <h3 id="title-post-3">UI/UX Design Principles</h3>
+        <p class="blog-meta"><i class="fas fa-calendar-alt"></i>Oct 25, 2025 <i class="fas fa-user" style="margin-left:10px"></i>By Admin</p>
+        <p class="excerpt">Key principles of UI/UX design to create intuitive and user-friendly web interfaces.</p>
 
-      <div class="blog-card">
+        <div class="full-content" data-title="UI/UX Design Principles" data-image="https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=800" data-date="Oct 25, 2025" data-author="Admin">
+          <p>Good UI/UX is rooted in clarity, consistency, and feedback. Start with user flows, wireframes, and iterate quickly with prototypes. Study affordances, visual hierarchy, and accessibility. Use contrast and spacing deliberately to guide attention.</p>
+          <p><strong>Checklist:</strong></p>
+          <ul>
+            <li>Readable typography</li>
+            <li>Clear call-to-actions</li>
+            <li>Accessible color contrast</li>
+            <li>Responsive layouts</li>
+          </ul>
+        </div>
+
+        <a href="#" class="read-more-btn" data-post="post-3" aria-expanded="false">Read More <i class="fas fa-arrow-right"></i></a>
+      </article>
+
+      <!-- Card 4 -->
+      <article class="blog-card" data-id="post-4" aria-labelledby="title-post-4">
         <img src="/1_K1w_6BuihTuUKpLcX7LLOg.png" alt="Deploying apps on github">
-        <h3>Deploying Apps on GitHub Pages</h3>
-        <p class="blog-meta"><i class="fas fa-calendar-alt"></i>Oct 15, 2025 <i class="fas fa-user"></i>By Admin</p>
-        <p>Step-by-step guide to host static websites and portfolios using GitHub Pages for free.</p>
-        <a href="#">Read More <i class="fas fa-arrow-right"></i></a>
-      </div>
+        <h3 id="title-post-4">Deploying Apps on GitHub Pages</h3>
+        <p class="blog-meta"><i class="fas fa-calendar-alt"></i>Oct 15, 2025 <i class="fas fa-user" style="margin-left:10px"></i>By Admin</p>
+        <p class="excerpt">Step-by-step guide to host static websites and portfolios using GitHub Pages for free.</p>
+
+        <div class="full-content" data-title="Deploying Apps on GitHub Pages" data-image="/1_K1w_6BuihTuUKpLcX7LLOg.png" data-date="Oct 15, 2025" data-author="Admin">
+          <p>GitHub Pages offers a simple hosting option for static sites. Use gh-pages branch or the repository's Pages settings; for SPA frameworks configure a 404 fallback or use client-side routing with proper base paths. Automate builds with GitHub Actions for continuous deployment.</p>
+          <p><strong>Steps:</strong></p>
+          <ol>
+            <li>Create repo and push static files</li>
+            <li>Enable Pages in repo settings</li>
+            <li>Optionally add custom domain and HTTPS</li>
+          </ol>
+        </div>
+
+        <a href="#" class="read-more-btn" data-post="post-4" aria-expanded="false">Read More <i class="fas fa-arrow-right"></i></a>
+      </article>
     </div>
 
     <!-- Comments Section -->
-    <div class="comments">
+    <div class="comments" style="margin-top:40px">
       <h2>Comments <i class="fas fa-comments"></i></h2>
-      <div class="comment"><strong>John Doe:</strong> Great blog post! Very helpful.</div>
-      <div class="comment"><strong>Jane Smith:</strong> I learned a lot about UI/UX design from this post.</div>
+      <div class="comment"><strong>John:</strong> Great blog post! Very helpful.</div>
+      <div class="comment"><strong>Jane:</strong> I learned a lot about UI/UX design from this post.</div>
       <div class="comment"><strong>Alex:</strong> Looking forward to more articles like this!</div>
     </div>
-
   </div>
+
+  <!-- Modal (hidden by default) -->
+  <div id="post-modal" class="modal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="modal-title">
+    <div class="modal-overlay" data-close="true"></div>
+    <div class="modal-dialog" role="document">
+      <div class="modal-header">
+        <h2 id="modal-title">Post title</h2>
+        <button class="modal-close" aria-label="Close post" data-close="true"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="modal-body">
+        <img id="modal-image" src="" alt="">
+        <div class="meta" id="modal-meta"></div>
+        <div id="modal-content"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function(){
+      const modal = document.getElementById('post-modal');
+      const modalTitle = document.getElementById('modal-title');
+      const modalImage = document.getElementById('modal-image');
+      const modalMeta = document.getElementById('modal-meta');
+      const modalContent = document.getElementById('modal-content');
+      const focusableSelectors = 'a[href], button, textarea, input, select, [tabindex]:not([tabindex="-1"])';
+      let lastFocusedElement = null;
+
+      // Open modal with content from the card's .full-content or data attributes
+      function openModalFromCard(card) {
+        const contentEl = card.querySelector('.full-content');
+        const title = contentEl?.getAttribute('data-title') || card.querySelector('h3').textContent;
+        const image = contentEl?.getAttribute('data-image') || card.querySelector('img')?.src || '';
+        const date = contentEl?.getAttribute('data-date') || card.querySelector('.blog-meta')?.textContent || '';
+        const author = contentEl?.getAttribute('data-author') || '';
+        const innerHTML = contentEl ? contentEl.innerHTML : card.querySelector('.excerpt')?.innerHTML || '';
+
+        modalTitle.textContent = title;
+        modalImage.src = image;
+        modalImage.alt = title;
+        modalMeta.textContent = (date + (author ? ' • By ' + author : '')) .trim();
+        modalContent.innerHTML = innerHTML;
+
+        // show modal
+        modal.classList.add('open');
+        modal.setAttribute('aria-hidden', 'false');
+
+        // accessibility: trap focus
+        lastFocusedElement = document.activeElement;
+        const focusables = modal.querySelectorAll(focusableSelectors);
+        if (focusables.length) focusables[0].focus();
+        document.body.style.overflow = 'hidden'; // prevent background scroll
+      }
+
+      function closeModal() {
+        modal.classList.remove('open');
+        modal.setAttribute('aria-hidden', 'true');
+        modalTitle.textContent = '';
+        modalImage.src = '';
+        modalImage.alt = '';
+        modalMeta.textContent = '';
+        modalContent.innerHTML = '';
+        document.body.style.overflow = '';
+        if (lastFocusedElement) lastFocusedElement.focus();
+      }
+
+      // click handlers for read-more buttons
+      document.querySelectorAll('.read-more-btn').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          const article = btn.closest('.blog-card');
+          if (!article) return;
+          openModalFromCard(article);
+        });
+      });
+
+      // close on overlay or close button
+      modal.addEventListener('click', function(e){
+        if (e.target.matches('[data-close]') || e.target.closest('[data-close]')) {
+          closeModal();
+        }
+      });
+
+      // close on ESC
+      document.addEventListener('keydown', function(e){
+        if (e.key === 'Escape' && modal.classList.contains('open')) {
+          closeModal();
+        }
+      });
+
+      // trap focus inside modal while it's open
+      document.addEventListener('focus', function(event){
+        if (!modal.classList.contains('open')) return;
+        if (!modal.contains(event.target)) {
+          event.stopPropagation();
+          // move focus back to modal
+          const focusables = modal.querySelectorAll(focusableSelectors);
+          if (focusables.length) focusables[0].focus();
+        }
+      }, true);
+
+      // progressive enhancement: allow Enter on cards to open modal
+      document.querySelectorAll('.blog-card').forEach(card => {
+        card.setAttribute('tabindex', '0'); // make focusable
+        card.addEventListener('keydown', function(e){
+          if (e.key === 'Enter' || e.key === ' ') {
+            const btn = card.querySelector('.read-more-btn');
+            if (btn) { btn.click(); e.preventDefault(); }
+          }
+        });
+      });
+
+      // Optional: if you later want to fetch content from server, replace openModalFromCard to fetch by ID.
+    })();
+  </script>
 
 </body>
 </html>
-
-
-
-
