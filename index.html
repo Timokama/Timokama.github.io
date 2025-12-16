@@ -110,6 +110,43 @@
       .nav-links { display:none; }    /* hide desktop links */
       .hamburger { display:block; }   /* show hamburger */
     }
+    .badges {
+      margin-top: 15px;
+    }
+    
+    .badge.remote {
+      background: #e7f1ff;
+      color: #0d6efd;
+      padding: 8px 14px;
+      border-radius: 20px;
+      font-weight: 600;
+      display: inline-block;
+    }
+    .cv-section {
+      text-align: center;
+      margin: 60px auto;
+    }
+    
+    .cv-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    
+    .btn {
+      padding: 12px 22px;
+      border-radius: 6px;
+      text-decoration: none;
+      color: #fff;
+      font-weight: 600;
+    }
+    
+    .btn.primary { background: #0d6efd; }
+    .btn.secondary { background: #198754; }
+    
+    .btn i { margin-right: 8px; }
+    
   </style>
 </head>
 <body>
@@ -152,6 +189,12 @@
   <section id="home" class="hero">
     <div class="hero-text">
       <h1>Hello 👋, I'm <span>Timothy Kamau</span></h1>
+      <div class="badges">
+        <span class="badge remote">
+          🌍 Remote-Ready | Open to Global Opportunities
+        </span>
+      </div>
+
       <p>Full-Stack Developer • ICT Specialist • UI/UX Enthusiast</p><br>
       <p class="hero-subtitle">
         <span style="color:#0d6efd;">Open to New Opportunities</span>
@@ -164,10 +207,10 @@
   <section id="about">
     <h2>About Me</h2>
     <p>
-      Passionate software developer with experience in backend (Python, Flask), frontend (HTML, CSS, JS), 
-      databases (PostgreSQL, MySQL), and IT support. Skilled in problem solving, 
-      teamwork, and delivering clean solutions.  
-      I also bring strong <b>sales and customer engagement skills</b>, having worked in distribution and client-facing roles that strengthened my communication and business acumen.
+    Full Stack Software Developer with 4+ years of experience building scalable web applications, RESTful APIs, and database-driven systems. Proficient in JavaScript, Python (Flask), MySQL, Git, and modern frontend technologies. Strong problem-solving skills with experience in remote collaboration, system integration, and deployment. Actively seeking remote or on-site software development opportunities.
+    </p>
+    <p>
+    ICT Support Specialist with strong experience in system administration, hardware and software troubleshooting, user support, networking basics, and business application support. Proven ability to maintain IT infrastructure, resolve technical issues efficiently, and support users in fast-paced environments. Open to ICT Support, IT Officer, and Technical Support roles.
     </p>
   </section>
 
@@ -227,6 +270,21 @@
     </p>
   </section>
 
+  <section class="container cv-section">
+    <h2>Curriculum Vitae <i class="fas fa-file-download"></i></h2>
+    <p>
+      Download my ATS-optimized CV tailored for Software Development and ICT Support roles.
+    </p>
+  
+    <div class="cv-buttons">
+      <a href="📄 Timothy Kamau.pdf" download class="btn primary">
+        <i class="fas fa-code"></i> Software Developer CV
+      </a>
+      <!-- <a href="assets/Timothy_Kamau_ICT_Support_CV.pdf" download class="btn secondary">
+        <i class="fas fa-desktop"></i> ICT Support CV
+      </a> -->
+    </div>
+  </section>
 
   <!-- Contact -->
   <section id="contact">
@@ -276,6 +334,7 @@
   </script>
 </body>
 </html>
+
 
 
 
