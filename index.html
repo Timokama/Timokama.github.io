@@ -3,35 +3,25 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Timothy Kamau | Portfolio</title>
-   <!-- Favicon -->
+  <meta name="description" content="Timothy Kamau - Full Stack Developer in Nairobi. React, Node.js, Python. Available for freelance web and SaaS projects.">
+  <title>Timothy Kamau | Full Stack Developer</title>
   <link rel="icon" type="image/png" href="icons8-github-24.png">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
   <style>
-    /* Projects */
-    #projects { display:flex; flex-direction:column; gap:20px; }
-    .project { background:#fff; padding:20px; border-radius:10px; box-shadow:0 4px 6px rgba(0,0,0,0.1);}
-    .project h3 { color:#0d6efd; margin-bottom:10px;}
-    .project i { font-size:1.5rem; color:#0d6efd; margin-right:10px; }
-    .project p { font-size:0.95rem; margin-bottom:10px;}
-    .project a { color:#0d6efd; text-decoration:none; font-weight:bold; }
-    .project img { width:100%; border-radius:10px; margin-bottom:10px; }
-
+    :root {
+      --primary: #0d6efd;
+      --dark: #2f3640;
+      --light: #f5f6fa;
+      --accent: #00a8ff;
+    }
     * { margin:0; padding:0; box-sizing:border-box; font-family: "Segoe UI", sans-serif; }
-    body { background:#f5f6fa; color:#2f3640; line-height:1.6; scroll-behavior:smooth; }
-
-     /* Experience */
-    #experience { display:flex; flex-direction:column; gap:20px; }
-    .job { background:#fff; padding:20px; border-radius:10px; box-shadow:0 4px 6px rgba(0,0,0,0.1);}
-    .job h3 { color:#0d6efd; margin-bottom:5px;}
-    .job span { font-size:0.9rem; color:#555; }
-    .job i { color:#0d6efd; margin-right:8px; }
-
+    body { background:var(--light); color:var(--dark); line-height:1.6; scroll-behavior:smooth; }
+    
     /* Navbar */
     nav {
-      position:fixed; inset:0 0 auto 0; /* top:0; left:0; right:0 */
-      background:#2f3640; color:#fff;
+      position:fixed; top:0; left:0; right:0;
+      background:var(--dark); color:#fff;
       display:flex; align-items:center; justify-content:space-between;
       padding:14px 10%; z-index:1000;
       box-shadow:0 2px 8px rgba(0,0,0,.2);
@@ -39,287 +29,222 @@
     nav h2 { color:#fff; font-weight:700; }
     .nav-links { display:flex; gap:20px; }
     .nav-links a { color:#fff; text-decoration:none; font-weight:500; transition:.2s; }
-    .nav-links a:hover { color:#00a8ff; }
-
-    /* Hamburger button */
-    .hamburger {
-      display:none; background:transparent; border:0; color:#fff;
-      font-size:1.6rem; cursor:pointer; line-height:1; padding:6px; border-radius:8px;
-    }
-    .hamburger:focus { outline:2px solid #00a8ff; outline-offset:2px; }
-
-    /* Mobile menu container */
+    .nav-links a:hover { color:var(--accent); }
+    .hamburger { display:none; background:transparent; border:0; color:#fff; font-size:1.6rem; cursor:pointer; }
     .mobile-menu {
-      position:fixed; left:0; right:0; top:58px; /* sits below nav */
-      background:#2f3640; z-index:999; /* above content, below nav */
+      position:fixed; left:0; right:0; top:58px;
+      background:var(--dark); z-index:999;
       display:flex; flex-direction:column; text-align:center;
-
-      /* hidden state */
-      max-height:0; overflow:hidden;
-      border-top:1px solid rgba(255,255,255,.08);
-      transition:max-height .3s ease;
+      max-height:0; overflow:hidden; transition:max-height .3s ease;
     }
-    .mobile-menu a {
-      color:#fff; text-decoration:none; font-weight:500;
-      padding:14px 0; border-top:1px solid rgba(255,255,255,.08);
-    }
-    .mobile-menu a:hover { background:#00a8ff; }
-
-    /* visible state */
     .mobile-menu.open { max-height:320px; }
+    .mobile-menu a { color:#fff; text-decoration:none; padding:14px 0; border-top:1px solid rgba(255,255,255,.08); }
+    .mobile-menu a:hover { background:var(--accent); }
+    .spacer { height:58px; }
 
-      /* Hero */
-    .hero {height:100vh; background:linear-gradient(135deg,#00a8ff,#9c88ff); display:flex; justify-content:center; align-items:center; text-align:center; color:#fff; padding:20px;}
-    .hero h1 {font-size:3rem; margin-bottom:15px;}
-    .hero span {color:#ffd32a;}
-    .hero p {margin-bottom:20px;}
-    .btn {background:#fff; color:#2f3640; padding:12px 25px; border-radius:30px; font-weight:600; text-decoration:none; transition:0.3s;}
-    .btn:hover {background:#00a8ff; color:#fff;}
+    /* Hero */
+    .hero {
+      min-height:90vh; 
+      background:linear-gradient(135deg,#00a8ff,#9c88ff); 
+      display:flex; justify-content:center; align-items:center; 
+      text-align:center; color:#fff; padding:40px 20px;
+    }
+    .hero h1 {font-size:2.8rem; margin-bottom:15px;}
+    .hero .subtitle {font-size:1.2rem; margin-bottom:10px; opacity:0.95;}
+    .hero .tagline {font-size:1rem; margin-bottom:25px; opacity:0.85;}
+    .badge {display:inline-block; background:#ffd32a; color:#000; padding:6px 14px; border-radius:20px; font-weight:600; margin-bottom:20px;}
     
     .btn {
-      position:relative; z-index:1;
-      padding:10px 20px; border:none; border-radius:30px; background:#fff; color:#2f3640; font-weight:700; cursor:pointer; transition:.25s;
+      background:#fff; color:var(--dark); padding:12px 28px; 
+      border-radius:30px; font-weight:600; text-decoration:none; 
+      transition:0.3s; border:none; cursor:pointer; display:inline-block;
     }
-    .btn:hover { background:#00a8ff; color:#fff; }
+    .btn:hover {background:var(--accent); color:#fff; transform:translateY(-2px);}
+    .btn.primary {background:var(--primary); color:#fff;}
+    .btn.primary:hover {background:#0b5ed7;}
 
-    section { padding:80px 10%; text-align:center; }
-    section h2 { font-size:2rem; margin-bottom:30px; color:#273c75; }
-
-    .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:20px; }
+    section { padding:80px 10%; }
+    section h2 { font-size:2rem; margin-bottom:30px; color:#273c75; text-align:center; }
+    
+    /* Grid & Cards */
+    .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:20px; }
     .card {
-      background:#fff; padding:20px; border-radius:15px;
+      background:#fff; padding:25px; border-radius:15px;
       box-shadow:0 4px 10px rgba(0,0,0,.1); transition:.25s;
     }
     .card:hover { transform:translateY(-5px); box-shadow:0 6px 15px rgba(0,0,0,.2); }
-    .card i { font-size:2rem; color:#00a8ff; margin-bottom:12px; display:block; }
-
-    .contact-info { display:flex; justify-content:center; flex-wrap:wrap; gap:12px; margin-top:18px; }
+    .card i { font-size:2rem; color:var(--accent); margin-bottom:12px; display:block; }
+    
+    /* Projects */
+    .project img { width:100%; border-radius:10px; margin-bottom:15px; }
+    .project h3 { color:var(--primary); margin-bottom:10px;}
+    .project p { font-size:0.95rem; margin-bottom:15px;}
+    .project-links a { color:var(--primary); text-decoration:none; font-weight:bold; margin-right:15px; }
+    
+    /* Contact */
+    .contact-info { display:flex; justify-content:center; flex-wrap:wrap; gap:12px; margin-top:20px; }
     .contact-info a {
-      display:flex; align-items:center; gap:10px; text-decoration:none; color:#2f3640;
+      display:flex; align-items:center; gap:10px; text-decoration:none; color:var(--dark);
       background:#fff; padding:12px 18px; border-radius:30px; box-shadow:0 4px 8px rgba(0,0,0,.1); transition:.2s;
     }
-    .contact-info a:hover { background:#00a8ff; color:#fff; }
+    .contact-info a:hover { background:var(--accent); color:#fff; }
+    
+    footer { background:var(--dark); color:#fff; text-align:center; padding:25px 10%; margin-top:40px; }
+    
+    .available-badge {
+      background:#28a745; color:#fff; padding:8px 16px; 
+      border-radius:20px; display:inline-block; margin-bottom:20px;
+      font-weight:600;
+    }
 
-    footer { background:#2f3640; color:#fff; text-align:center; padding:20px 10%; margin-top:40px; }
-
-    /* Keep content from sliding under fixed nav on large screens */
-    .spacer { height:58px; }
-
-    /* Responsive rules */
     @media (max-width:768px) {
-      .nav-links { display:none; }    /* hide desktop links */
-      .hamburger { display:block; }   /* show hamburger */
+      .nav-links { display:none; }
+      .hamburger { display:block; }
+      .hero h1 {font-size:2rem;}
+      section { padding:60px 5%; }
     }
-    .cv-section {
-      text-align: center;
-      margin: 60px auto;
-    }
-    
-    .cv-buttons {
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-      flex-wrap: wrap;
-    }
-    
-    .btn.primary { background: #0d6efd; }
-    .btn.secondary { background: #198754; }
-    
-    .btn i { margin-right: 8px; }
-    
   </style>
 </head>
 <body>
 
-  <!-- Navbar -->
   <nav>
     <h2>Timokama</h2>
-    <div class="nav-links" role="navigation" aria-label="Primary">
+    <div class="nav-links">
       <a href="#home">Home</a>
-      <a href="#about">About</a>
       <a href="#skills">Skills</a>
       <a href="#projects">Projects</a>
-      <a href="#experience">Experience</a>
       <a href="#contact">Contact</a>
     </div>
-    <button id="hamburger" class="hamburger" aria-label="Menu" aria-controls="mobileMenu" aria-expanded="false">
+    <button id="hamburger" class="hamburger" aria-label="Menu">
       <i class="fa-solid fa-bars"></i>
     </button>
   </nav>
 
-  <!-- Push content below fixed nav -->
-  <div class="spacer" aria-hidden="true"></div>
+  <div class="spacer"></div>
 
-  <!-- Mobile Menu -->
   <div id="mobileMenu" class="mobile-menu">
     <a href="#home">Home</a>
-    <a href="#about">About</a>
     <a href="#skills">Skills</a>
     <a href="#projects">Projects</a>
-    <a href="#experience">Experience</a>
     <a href="#contact">Contact</a>
-    <a href="#contact" class="btn-primary">
-    <i class="fas fa-envelope"></i> Hire Me
-  </a>
-
   </div>
 
   <!-- Hero -->
   <section id="home" class="hero">
-    <div class="hero-text">
-      <h1>Hello 👋, I'm <span>Timothy Kamau</span></h1>
-
-      <p>Full-Stack Developer • ICT Specialist • UI/UX Enthusiast</p>
-      <p class="hero-subtitle">
-        <span style="color:#0d6efd;">Open to New Opportunities</span>
-      </p>
-      <button class="btn" onclick="document.getElementById('contact').scrollIntoView()">Get in Touch</button>
+    <div>
+      <div class="available-badge"><i class="fa-solid fa-circle" style="font-size:8px;"></i> Available for Freelance</div>
+      <h1>I Build Fast Web Apps That Get Results</h1>
+      <p class="subtitle">React • Node.js • PostgreSQL • Python Developer</p>
+      <p class="tagline">Helping small businesses in Kenya get online and grow sales</p>
+      <a class="btn primary" href="#contact">Hire Me</a>
+      <a class="btn" href="#projects" style="margin-left:10px;">View Work</a>
     </div>
-  </section>
-
-  <!-- About -->
-  <section id="about">
-    <h2>About Me</h2>
-    <p>
-    I am a passionate and disciplined instructor currently working at Ultimate Driving School & Computer College, where I train students in both professional driving and computer skills. I specialize in preparing learners for NTSA driving tests through structured theory and practical lessons, while also equipping students with essential digital skills such as MS Office, internet usage, and basic IT concepts. With a background in software development, I bring a structured, analytical, and systems-oriented approach to teaching. I believe in practical learning, patience, and building confidence in every student — whether behind the wheel or behind a computer. My goal is not just to teach skills, but to empower individuals with knowledge that improves their independence, employability, and safety in today’s digital and mobile world. </p>
-    <p>
-    ICT Support Specialist with strong experience in system administration, hardware and software troubleshooting, user support, networking basics, and business application support. Proven ability to maintain IT infrastructure, resolve technical issues efficiently, and support users in fast-paced environments. Open to ICT Support, IT Officer, and Technical Support roles.
-    </p>
   </section>
 
   <!-- Skills -->
   <section id="skills">
-    <h2>Skills <i class="fas fa-tools"></i></h2>
+    <h2>What I Do</h2>
     <div class="grid">
-      <div class="card"><i class="fas fa-code"></i><h3>Frontend</h3><p>HTML, CSS, JavaScript, React</p></div>
-      <div class="card"><i class="fas fa-server"></i>
-        <h3>Backend Development</h3>
-        <p>Python (Flask), Node.js, Express, REST APIs & JWT, Authentication, MySQL & PostgreSQL, Git & GitHub</p>
-      </div>
-      <div class="card"><i class="fa-brands fa-python"></i><h3>Python & Flask</h3></div>
-      <div class="card"><i class="fa-brands fa-java"></i><h3>Java</h3></div>
-      <div class="card"><i class="fa-brands fa-js"></i><h3>JavaScript & NodeJS</h3></div>
-      <div class="card"><i class="fa-solid fa-database"></i><h3>PostgreSQL & MySQL</h3></div>
       <div class="card">
-        <i class="fas fa-network-wired"></i> <h3>ICT Support</h3>
-        <p>Hardware & Software Troubleshooting, User Support & Training, System Installation & Maintenance, Basic Networking, ERP & POS Systems Support</p>
+        <i class="fas fa-code"></i>
+        <h3>Frontend Development</h3>
+        <p>React, Next.js, Tailwind CSS. Fast, responsive sites that work on mobile.</p>
       </div>
-      <div class="card"><i class="fa-brands fa-git-alt"></i><h3>Git & GitHub</h3></div>
-      <div class="card"><i class="fa-solid fa-palette"></i><h3>UI / UX Design</h3></div>
-      <div class="card"><i class="fa-solid fa-chart-line"></i><h3>Sales & Customer Relations</h3></div>
+      <div class="card">
+        <i class="fas fa-server"></i>
+        <h3>Backend & APIs</h3>
+        <p>Node.js, Python Flask, REST APIs, JWT Auth, PostgreSQL, MySQL.</p>
+      </div>
+      <div class="card">
+        <i class="fas fa-shopping-cart"></i>
+        <h3>E-commerce & SaaS</h3>
+        <p>M-Pesa integration, payment systems, dashboards, admin panels.</p>
+      </div>
+      <div class="card">
+        <i class="fas fa-tools"></i>
+        <h3>ICT Support</h3>
+        <p>System setup, troubleshooting, networking, user training.</p>
+      </div>
     </div>
   </section>
+
   <!-- Projects -->
   <section id="projects">
-    <h2>Projects <i class="fas fa-project-diagram"></i></h2></br>
-    <div class="card project">
-      <h3><i class="fas fa-laptop-code"></i>Portfolio Redesign</h3>
-      <p>Modernized personal portfolio with a focus on clean UI and smooth UX.</p>
-      <a href="#projects">View Project</a>
-    </div>
-    <div class="card project">
-      <h3><i class="fas fa-graduation-cap"></i>ALX Learning Platform</h3>
-      <p>Built RESTful APIs, authentication, and integrated frontend with backend.</p>
-      <a href="https://timokama.github.io/alx-learning.html">View Project</a>
-    </div>
-    <div class="card project">
-      <h3><i class="fas fa-briefcase"></i>Freelance Web Apps</h3>
-      <p>Developed custom web applications for clients including e-commerce and business websites.</p>
-      <a href="https://Timokama.github.io/freelance.html">View Project</a>
+    <h2>Recent Projects</h2>
+    <div class="grid">
+      <div class="card project">
+        <img src="https://via.placeholder.com/600x400.png?text=Project+Screenshot" alt="Project 1">
+        <h3>E-commerce Store for Local Retailer</h3>
+        <p>Built a full React + Node.js store with M-Pesa checkout. Mobile-first design, admin dashboard, order tracking.</p>
+        <div class="project-links">
+          <a href="#" target="_blank"><i class="fa-solid fa-link"></i> Live Demo</a>
+          <a href="#" target="_blank"><i class="fa-brands fa-github"></i> Code</a>
+        </div>
+      </div>
+      
+      <div class="card project">
+        <img src="https://via.placeholder.com/600x400.png?text=Project+Screenshot" alt="Project 2">
+        <h3>School Management System</h3>
+        <p>Web app for fee tracking, student records, and report generation. Used by 2 schools in Nairobi.</p>
+        <div class="project-links">
+          <a href="#" target="_blank"><i class="fa-solid fa-link"></i> Live Demo</a>
+          <a href="#" target="_blank"><i class="fa-brands fa-github"></i> Code</a>
+        </div>
+      </div>
+
+      <div class="card project">
+        <img src="https://via.placeholder.com/600x400.png?text=Project+Screenshot" alt="Project 3">
+        <h3>Restaurant QR Menu</h3>
+        <p>Digital menu system with QR codes. No app needed. Updates in real-time.</p>
+        <div class="project-links">
+          <a href="#" target="_blank"><i class="fa-solid fa-link"></i> Live Demo</a>
+          <a href="#" target="_blank"><i class="fa-brands fa-github"></i> Code</a>
+        </div>
+      </div>
     </div>
   </section>
 
-  <!-- Experience -->
-  <section id="experience" class="container">
-    <h2>Experience <i class="fas fa-briefcase"></i></h2>
-    <div class="card job"><h3><i class="fas fa-laptop-code"></i>Freelance Web Developer</h3><span>2023 – Present</span><p>Designed and deployed responsive websites for SMEs, ensuring client satisfaction and modern UI/UX (2023–Present).</p></div>
-    <div class="card job"><h3><i class="fas fa-user-tie"></i>DMS Superuser Intern</h3><span>Aug 2022</span><p>Maintained systems, provided ICT support, and improved workflows at Wamuti Distributors (8/2022).</p></div>
-    <div class="card job"><h3><i class="fas fa-users"></i>Assistant Salesman</h3><span>2025</span><p>Handled sales and distribution for Veew Distributor (EABL, 2025).</p></div>
-    <h2>Current Experience</h2>
-
-    <div class="job">
-      <h3>Driving & Computer Instructor</h3>
-      <p><strong>Ultimate Driving School & Computer College</strong> — Nairobi, Kenya</p>
-      <p><em>January 2025 – Present</em></p>
-      <ul>
-        <li>Deliver comprehensive driving instruction to students preparing for NTSA licensing tests, covering both theory and practical sessions.</li>
-        <li>Train learners in essential computer skills, including Microsoft Office, basic IT concepts, and digital literacy.</li>
-        <li>Guide students through real-world driving scenarios, emphasizing road safety regulations and best practices.</li>
-        <li>Provide personalized coaching and mentorship to support student success in driving proficiency and computer competency.</li>
-        <li>Develop and implement structured lesson plans that integrate theoretical knowledge with hands-on practice in driving and computer labs.</li>
-      </ul>
-    </div>
-  </section>
-  <section class="container cv-section">
-    <h2>Curriculum Vitae <i class="fas fa-file-download"></i></h2>
-    <p>
-      Download my ATS-optimized CV tailored for Software Development and ICT Support roles.
-    </p>
-  
-    <div class="cv-buttons">
-      <a href="📄 Timothy Kamau.pdf" download class="btn primary">
-        <i class="fas fa-code"></i> Software Developer CV
-      </a>
-      <!-- <a href="assets/Timothy_Kamau_ICT_Support_CV.pdf" download class="btn secondary">
-        <i class="fas fa-desktop"></i> ICT Support CV
-      </a> -->
+  <!-- About -->
+  <section id="about" style="background:#fff;">
+    <h2>About Me</h2>
+    <div style="max-width:800px; margin:0 auto; text-align:center;">
+      <p>I'm a full-stack developer based in Nairobi with 2+ years building web apps for SMEs. I focus on clean code, fast load times, and solutions that actually help businesses grow.</p>
+      <p style="margin-top:15px;">Currently also working as an ICT instructor, so I know how to explain technical stuff in plain English.</p>
+      <div style="margin-top:25px;">
+        <a href="timothy-kamau-cv.pdf" download class="btn primary">
+          <i class="fas fa-download"></i> Download CV
+        </a>
+      </div>
     </div>
   </section>
 
   <!-- Contact -->
   <section id="contact">
-    <h2>Contact Me</h2>
-    <p>Let's build something together! Reach me at:</p>
+    <h2>Let's Work Together</h2>
+    <p style="text-align:center; margin-bottom:20px;">Got a project in mind? Let's talk.</p>
     <div class="contact-info">
-      <a href="mailto:timo.munyiri@gmail.com"><i class="fa-solid fa-envelope"></i> Email</a>
-      <a href="https://github.com/Timokama"><i class="fab fa-github"></i> GitHub</a>
-      <a href="https://www.linkedin.com/in/timothy-munyiri-b154a937b"><i class="fab fa-linkedin"></i> LinkedIn</a>
+      <a href="mailto:timo.munyiri@gmail.com"><i class="fa-solid fa-envelope"></i> Email Me</a>
       <a href="https://wa.me/254768394866" target="_blank"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+      <a href="https://github.com/Timokama" target="_blank"><i class="fab fa-github"></i> GitHub</a>
+      <a href="https://www.linkedin.com/in/timothy-munyiri-b154a937b" target="_blank"><i class="fab fa-linkedin"></i> LinkedIn</a>
     </div>
   </section>
+
   <footer>
-    <p>&copy; 2025 Timothy Kamau | Built with ❤️ in HTML/CSS & JS </p>
+    <p>&copy; 2026 Timothy Kamau | Built with HTML, CSS & JS</p>
   </footer>
+
   <script>
-    const menu   = document.getElementById('mobileMenu');
+    const menu = document.getElementById('mobileMenu');
     const button = document.getElementById('hamburger');
-
-    function closeMenu() {
-      menu.classList.remove('open');
-      button.setAttribute('aria-expanded', 'false');
-    }
-
-    function toggleMenu() {
-      const isOpen = menu.classList.toggle('open');
-      button.setAttribute('aria-expanded', String(isOpen));
-    }
-
-    // open/close via button
-    button.addEventListener('click', toggleMenu);
-
-    // close on nav link click (event delegation)
+    
+    button.addEventListener('click', () => {
+      menu.classList.toggle('open');
+    });
+    
     menu.addEventListener('click', (e) => {
-      if (e.target.tagName === 'A') closeMenu();
-    });
-
-    // close if window resized to desktop
-    window.addEventListener('resize', () => {
-      if (window.innerWidth > 768) closeMenu();
-    });
-
-    // optional: close on Escape
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') closeMenu();
+      if (e.target.tagName === 'A') menu.classList.remove('open');
     });
   </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
