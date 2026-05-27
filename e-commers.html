@@ -19,7 +19,7 @@
     
     * { margin:0; padding:0; box-sizing:border-box; font-family: 'Inter', 'Segoe UI', system-ui, sans-serif; }
     body { background: var(--light); color: var(--dark); }
-
+    
     header {
       background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
       color: #fff; box-shadow: 0 4px 20px rgba(79, 70, 229, 0.3);
@@ -31,7 +31,7 @@
     }
     .logo { font-size: 1.8rem; font-weight: 800; display: flex; align-items: center; gap: 8px; }
     .logo i { color: var(--accent); }
-
+    
     .search-box {
       flex: 1; max-width: 600px; position: relative;
     }
@@ -48,7 +48,7 @@
       position: absolute; right: 18px; top: 50%; transform: translateY(-50%);
       color: var(--gray);
     }
-
+    
     .header-icons {
       display: flex; gap: 12px; align-items: center;
     }
@@ -66,7 +66,7 @@
       width: 22px; height: 22px; font-size: 0.75rem; font-weight: 700;
       display: flex; align-items: center; justify-content: center;
     }
-
+    
     .container { max-width: 1300px; margin: auto; padding: 35px 20px; }
     
     .hero {
@@ -76,7 +76,7 @@
     }
     .hero h1 { font-size: 2.5rem; margin-bottom: 10px; }
     .hero p { font-size: 1.1rem; opacity: 0.9; }
-
+    
     .categories {
       display: flex; gap: 12px; overflow-x: auto; padding-bottom: 15px;
       margin-bottom: 30px;
@@ -91,12 +91,12 @@
       background: var(--primary); color: #fff; border-color: var(--primary);
       transform: translateY(-2px); box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
     }
-
+    
     .product-grid {
       display: grid; gap: 25px;
       grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
     }
-
+    
     .product-card {
       background: #fff; border-radius: 16px; overflow: hidden;
       box-shadow: 0 4px 12px rgba(0,0,0,0.08);
@@ -129,7 +129,7 @@
       display: flex; align-items: center; justify-content: center; gap: 8px;
     }
     .add-cart-btn:hover { background: var(--primary-dark); transform: scale(1.02); }
-
+    
     .floating-btns {
       position: fixed; bottom: 25px; right: 25px;
       display: flex; flex-direction: column; gap: 12px; z-index: 20;
@@ -143,7 +143,7 @@
     .floating-btn:hover { transform: scale(1.1); }
     .btn-feedback { background: #25D366; color: #fff; }
     .btn-cart { background: var(--primary); color: #fff; }
-
+    
     .modal {
       display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
       background: rgba(0,0,0,0.6); z-index: 30; padding: 20px; overflow-y: auto;
@@ -166,7 +166,7 @@
     .close-x {
       background: none; border: none; font-size: 1.8rem; cursor: pointer; color: var(--gray);
     }
-
+    
     .cart-item {
       display: flex; gap: 15px; padding: 15px 0; border-bottom: 1px solid #e2e8f0;
     }
@@ -180,14 +180,14 @@
       width: 32px; height: 32px; border: 2px solid #e2e8f0;
       background: #fff; border-radius: 8px; cursor: pointer; font-weight: 700;
     }
-
+    
     .checkout-btn {
       width: 100%; padding: 15px; background: var(--success); color: #fff;
       border: none; border-radius: 10px; font-weight: 700; font-size: 1rem;
       cursor: pointer; margin-top: 20px; transition: 0.3s;
     }
     .checkout-btn:hover { background: #059669; transform: translateY(-2px); }
-
+    
     .feedback-form textarea {
       width: 100%; padding: 14px; border: 2px solid #e2e8f0; border-radius: 10px;
       font-size: 1rem; resize: vertical; margin: 15px 0;
@@ -195,16 +195,36 @@
     .feedback-form textarea:focus {
       outline: none; border-color: var(--primary);
     }
-
+    
     .stars { display: flex; justify-content: center; gap: 10px; margin: 20px 0; }
     .stars i { font-size: 2.5rem; color: #ddd; cursor: pointer; transition: 0.2s; }
     .stars i.active { color: var(--accent); }
-
+    
+    .rate-comment {
+      width: 100%; 
+      padding: 14px; 
+      border: 2px solid #e2e8f0; 
+      border-radius: 10px;
+      font-size: 1rem; 
+      resize: vertical; 
+      margin: 15px 0;
+      font-family: inherit;
+      transition: 0.3s;
+    }
+    .rate-comment:focus {
+      outline: none; 
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
+    }
+    .rate-comment::placeholder {
+      color: #94a3b8;
+    }
+    
     footer {
       text-align: center; padding: 50px 20px; color: var(--gray); font-size: 0.9rem;
       background: #fff; margin-top: 60px;
     }
-
+    
     @media (max-width: 768px) {
       .search-box { display: none; }
       .product-grid { grid-template-columns: repeat(2, 1fr); gap: 15px; }
@@ -212,7 +232,7 @@
       .hero h1 { font-size: 1.8rem; }
       .header-inner { padding: 15px; }
     }
-
+    
     @media (max-width: 480px) {
       .product-grid { grid-template-columns: 1fr; }
     }
@@ -306,7 +326,7 @@
         <i class="fa-regular fa-star" data-val="4"></i>
         <i class="fa-regular fa-star" data-val="5"></i>
       </div>
-      <textarea id="rateComment" rows="3" placeholder="Leave a comment (optional)"></textarea>
+      <textarea id="rateComment" class="rate-comment" rows="3" placeholder="Leave a comment (optional)"></textarea>
       <button class="checkout-btn" style="background:#25D366;" onclick="sendRating()">
         <i class="fab fa-whatsapp"></i> Send Rating to WhatsApp
       </button>
@@ -322,16 +342,16 @@
     const products = [
       {id: 1, name: "Wireless Headphones", desc: "Active noise cancelling, 30hr battery, premium sound", price: 8999, oldPrice: 12999, category: "Electronics", image: "https://images.pexels.com/photos/3394650/pexels-photo-3394650.jpeg?auto=compress&cs=tinysrgb&w=500", badge: "HOT"},
       {id: 2, name: "Smart Watch Pro", desc: "Heart rate, GPS, waterproof up to 50m", price: 19999, oldPrice: 24999, category: "Electronics", image: "https://images.pexels.com/photos/437037/pexels-photo-437037.jpeg?auto=compress&cs=tinysrgb&w=500", badge: "BESTSELLER"},
-      {id: 3, name: "Bluetooth Speaker", desc: "Portable, 12hr playtime, deep bass", price: 4999, category: "Electronics", image: "https://picsum.photos/500/500?random=3", badge: ""},
+      {id: 3, name: "Bluetooth Speaker", desc: "Portable, 12hr playtime, deep bass", price: 4999, category: "Electronics", image: "https://images.pexels.com/photos/1279107/pexels-photo-1279107.jpeg?auto=compress&cs=tinysrgb&w=500", badge: ""},
       {id: 4, name: "Gaming Mouse", desc: "16000 DPI, RGB lighting, ultra fast", price: 5999, category: "Electronics", image: "https://images.pexels.com/photos/7915437/pexels-photo-7915437.jpeg?auto=compress&cs=tinysrgb&w=500", badge: ""},
       
       {id: 5, name: "Premium T-Shirt", desc: "100% organic cotton, slim fit, breathable", price: 1999, category: "Fashion", image: "https://images.pexels.com/photos/1040424/pexels-photo-1040424.jpeg?auto=compress&cs=tinysrgb&w=500", badge: ""},
       {id: 6, name: "Winter Jacket", desc: "Waterproof, windproof, thermal lining", price: 7999, oldPrice: 9999, category: "Fashion", image: "https://images.pexels.com/photos/1183266/pexels-photo-1183266.jpeg?auto=compress&cs=tinysrgb&w=500", badge: "SALE"},
-      {id: 7, name: "Running Shoes", desc: "Lightweight, breathable, anti-slip sole", price: 6999, category: "Fashion", image: "https://picsum.photos/500/500?random=7", badge: ""},
+      {id: 7, name: "Running Shoes", desc: "Lightweight, breathable, anti-slip sole", price: 6999, category: "Fashion", image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=500&q=80", badge: ""},
       {id: 8, name: "Travel Backpack", desc: "20L capacity, laptop compartment, waterproof", price: 3999, category: "Fashion", image: "https://images.pexels.com/photos/2905238/pexels-photo-2905238.jpeg?auto=compress&cs=tinysrgb&w=500", badge: ""},
       
       {id: 9, name: "Coffee Maker", desc: "12-cup programmable, auto shut-off", price: 4499, category: "Home", image: "https://images.pexels.com/photos/324028/pexels-photo-324028.jpeg?auto=compress&cs=tinysrgb&w=500", badge: ""},
-      {id: 10, name: "Air Fryer XL", desc: "5.5L capacity, digital control, oil-free", price: 8999, category: "Home", image: "https://picsum.photos/500/500?random=10", badge: "NEW"},
+      {id: 10, name: "Air Fryer XL", desc: "5.5L capacity, digital control, oil-free", price: 8999, category: "Home", image: "https://images.pexels.com/photos/1581384/pexels-photo-1581384.jpeg?auto=compress&cs=tinysrgb&w=500", badge: "NEW"},
       {id: 11, name: "Cordless Vacuum", desc: "Powerful suction, 40min runtime", price: 12999, oldPrice: 15999, category: "Home", image: "https://images.pexels.com/photos/4108715/pexels-photo-4108715.jpeg?auto=compress&cs=tinysrgb&w=500", badge: ""},
       {id: 12, name: "LED Desk Lamp", desc: "Adjustable brightness, eye-care mode", price: 2499, category: "Home", image: "https://images.pexels.com/photos/1123260/pexels-photo-1123260.jpeg?auto=compress&cs=tinysrgb&w=500", badge: ""}
     ];
@@ -386,7 +406,7 @@
             <div class="product-desc">${p.desc}</div>
             <div class="product-price">
               KSH ${p.price.toLocaleString()}
-              ${p.oldPrice ? `<small>KSH ${p.oldPrice.toLocaleString()}</small></small>` : ''}
+              ${p.oldPrice ? `<small>KSH ${p.oldPrice.toLocaleString()}</small>` : ''}
             </div>
             <button class="add-cart-btn" onclick="addToCart(${p.id})">
               <i class="fas fa-cart-plus"></i> Add to Cart
