@@ -11,79 +11,149 @@
       --dark: #1a1a1a;
       --light: #f8f9fa;
       --accent: #fcbf49;
+      --whatsapp: #25D366;
     }
     * { margin:0; padding:0; box-sizing:border-box; font-family: 'Segoe UI', sans-serif; }
     body { background: var(--light); color: var(--dark); }
 
     header {
       background: var(--primary); color: #fff; text-align: center;
-      padding: 25px 15px; position: sticky; top: 0; z-index: 10;
+      padding: 20px 15px; position: sticky; top: 0; z-index: 10;
     }
     header h1 { font-size: 1.8rem; margin-bottom: 5px; }
-    header p { opacity: 0.9; font-size: 0.95rem; }
 
-   .categories {
+.categories {
       display: flex; overflow-x: auto; gap: 10px; padding: 15px;
       background: #fff; border-bottom: 1px solid #eee;
       position: sticky; top: 85px; z-index: 9;
     }
-   .categories::-webkit-scrollbar { display: none; }
-   .category-btn {
+.categories::-webkit-scrollbar { display: none; }
+.category-btn {
       padding: 10px 18px; border: 2px solid var(--primary);
       border-radius: 25px; background: #fff; color: var(--primary);
       white-space: nowrap; cursor: pointer; font-weight: 600;
-      transition: 0.2s;
     }
-   .category-btn.active,.category-btn:hover {
+.category-btn.active,.category-btn:hover {
       background: var(--primary); color: #fff;
     }
 
-   .menu-section { padding: 20px; max-width: 900px; margin: auto; }
-   .menu-section h2 { color: var(--primary); margin-bottom: 15px; font-size: 1.4rem; }
-
-   .menu-grid { display: grid; gap: 15px; }
-   .menu-item {
+.menu-section { padding: 20px; max-width: 900px; margin: auto; padding-bottom: 100px; }
+.menu-grid { display: grid; gap: 15px; }
+.menu-item {
       background: #fff; padding: 15px; border-radius: 12px;
       box-shadow: 0 2px 8px rgba(0,0,0,0.08);
       display: flex; gap: 15px; align-items: center;
     }
-   .menu-item img {
+.menu-item img {
       width: 80px; height: 80px; object-fit: cover; border-radius: 10px;
+      background: #eee;
     }
-   .menu-item-info { flex: 1; }
-   .menu-item-info h3 { font-size: 1.1rem; margin-bottom: 5px; }
-   .menu-item-info p { font-size: 0.9rem; color: #666; margin-bottom: 8px; }
-   .price { color: var(--primary); font-weight: 700; font-size: 1.2rem; }
+.menu-item-info { flex: 1; }
+.price { color: var(--primary); font-weight: 700; font-size: 1.2rem; }
+.empty-msg { text-align:center; color:#777; padding:40px 0; }
 
-   .admin-toggle {
+.add-cart-btn {
+      background: var(--primary); color: #fff; border: none;
+      padding: 8px 15px; border-radius: 8px; cursor: pointer;
+      font-weight: 600; margin-top: 8px;
+    }
+
+.floating-btns {
       position: fixed; bottom: 20px; right: 20px;
+      display: flex; flex-direction: column; gap: 12px; z-index: 20;
+    }
+.floating-btn {
       background: var(--accent); color: #000; border: none;
-      padding: 12px 18px; border-radius: 50px; font-weight: 600;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2); cursor: pointer;
-      z-index: 20;
+      width: 55px; height: 55px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem; box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      cursor: pointer; position: relative;
+    }
+.floating-btn.settings { background: #444; color: #fff; }
+.cart-badge {
+      position: absolute; top: -5px; right: -5px;
+      background: var(--primary); color: #fff;
+      border-radius: 50%; width: 22px; height: 22px;
+      font-size: 0.8rem; display: flex; align-items: center; justify-content: center;
     }
 
-   .admin-panel {
+.modal {
       display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
       background: rgba(0,0,0,0.7); z-index: 30; padding: 20px; overflow-y: auto;
     }
-   .admin-panel.open { display: block; }
-   .admin-content {
-      background: #fff; max-width: 600px; margin: 40px auto;
-      padding: 25px; border-radius: 12px;
+.modal.open { display: flex; align-items: center; justify-content: center; }
+.modal-content {
+      background: #fff; max-width: 500px; width: 100%;
+      padding: 25px; border-radius: 12px; max-height: 90vh; overflow-y: auto;
     }
-   .admin-content input,.admin-content textarea,.admin-content select {
-      width: 100%; padding: 10px; margin-bottom: 12px;
-      border: 1px solid #ddd; border-radius: 8px;
+.modal-header {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 15px;
     }
-   .admin-content button {
-      padding: 12px 20px; border: none; border-radius: 8px;
-      cursor: pointer; font-weight: 600;
+.modal-header h2 { font-size: 1.3rem; }
+.close-x {
+      background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #666;
     }
-   .btn-save { background: var(--primary); color: #fff; }
-   .btn-close { background: #ccc; margin-left: 10px; }
+.modal-content label { font-weight: 600; font-size: 0.9rem; display:block; margin:12px 0 5px; }
+.modal-content input,.modal-content textarea,.modal-content select {
+      width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px;
+    }
+.modal-actions {
+      display: flex; gap: 10px; margin-top: 20px;
+    }
+.btn-save { flex:1; background: var(--primary); color: #fff; border:none; padding:12px; border-radius:8px; cursor:pointer; font-weight:600; }
+.btn-close { flex:1; background: #ccc; border:none; padding:12px; border-radius:8px; cursor:pointer; font-weight:600; }
+.btn-danger { background:#d62828; color:#fff; border:none; padding:12px; border-radius:8px; cursor:pointer; width:100%; margin-top:10px; font-weight:600; }
+.btn-whatsapp { background:var(--whatsapp); color:#fff; border:none; padding:12px; border-radius:8px; cursor:pointer; width:100%; font-weight:600; }
+
+.divider { height: 1px; background: #eee; margin: 20px 0; }
+.section-title { font-size: 1.1rem; font-weight: 600; margin-bottom: 10px; }
+
+ /* Settings Style */
+.settings-list { display: flex; flex-direction: column; gap: 12px; }
+.settings-item {
+      display: flex; align-items: center; gap: 15px;
+      padding: 15px; border: 1px solid #e0e0e0; border-radius: 10px;
+      cursor: pointer; transition: 0.2s; background: #fafafa;
+    }
+.settings-item:hover { background: #f0f0f0; border-color: var(--primary); }
+.settings-icon {
+      width: 40px; height: 40px; border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem; color: #fff;
+    }
+.settings-icon.rate { background: var(--accent); color: #000; }
+.settings-icon.feedback { background: var(--whatsapp); }
+.settings-icon.reset { background: var(--primary); }
+.settings-text h4 { margin: 0; font-size: 1rem; }
+.settings-text p { margin: 2px 0 0; font-size: 0.85rem; color: #666; }
+
+.cart-item {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 10px 0; border-bottom: 1px solid #eee;
+    }
+.cart-qty {
+      display: flex; align-items: center; gap: 10px;
+    }
+.qty-btn {
+      width: 28px; height: 28px; border: 1px solid #ddd;
+      background: #fff; border-radius: 5px; cursor: pointer;
+    }
+
+.stars { display: flex; justify-content: center; gap: 8px; margin: 15px 0; }
+.stars i { font-size: 2rem; color: #ddd; cursor: pointer; transition: 0.2s; }
+.stars i.active { color: var(--accent); }
+
+.image-options {
+      display: flex; gap: 10px; margin-top: 8px;
+    }
+.image-options input { flex: 1; }
+.or-divider {
+      text-align: center; color: #999; margin: 8px 0; font-size: 0.85rem;
+    }
 
     footer { text-align: center; padding: 30px; color: #777; font-size: 0.9rem; }
+.preview-img { width: 80px; height: 80px; object-fit: cover; border-radius: 8px; margin:10px 0; display:none; }
   </style>
 </head>
 <body>
@@ -94,49 +164,198 @@
   </header>
 
   <div class="categories" id="categories"></div>
-
   <div class="menu-section" id="menu"></div>
 
-  <button class="admin-toggle" onclick="toggleAdmin()">
-    <i class="fas fa-edit"></i> Edit Menu
-  </button>
+  <div class="floating-btns">
+    <button class="floating-btn" onclick="toggleCart()">
+      <i class="fas fa-shopping-cart"></i>
+      <span class="cart-badge" id="cartBadge" style="display:none;">0</span>
+    </button>
+    <button class="floating-btn" onclick="toggleAdmin()">
+      <i class="fas fa-edit"></i>
+    </button>
+    <button class="floating-btn settings" onclick="toggleSettings()">
+      <i class="fas fa-cog"></i>
+    </button>
+  </div>
 
-  <div class="admin-panel" id="adminPanel">
-    <div class="admin-content">
-      <h2>Add/Edit Item</h2>
-      <input type="text" id="itemName" placeholder="Item Name">
-      <textarea id="itemDesc" placeholder="Description"></textarea>
-      <input type="number" id="itemPrice" placeholder="Price in KSH">
-      <select id="itemCategory"></select>
-      <input type="text" id="itemImage" placeholder="Image URL">
-      <div>
-        <button class="btn-save" onclick="saveItem()">Save Item</button>
-        <button class="btn-close" onclick="toggleAdmin()">Close</button>
+  <!-- Add/Edit Item Modal -->
+  <div class="modal" id="adminPanel">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Add/Edit Item</h2>
+        <button class="close-x" onclick="toggleAdmin()">&times;</button>
       </div>
-      <hr style="margin: 20px 0;">
-      <button class="btn-save" onclick="exportMenu()">Export Menu JSON</button>
-      <button onclick="importMenu()">Import Menu JSON</button>
+      <label>Item Name</label>
+      <input type="text" id="itemName" placeholder="e.g. Nyama Choma">
+
+      <label>Description</label>
+      <textarea id="itemDesc" placeholder="Short description" rows="2"></textarea>
+
+      <label>Price in KSH</label>
+      <input type="number" id="itemPrice" placeholder="400" min="0">
+
+      <label>Category</label>
+      <select id="itemCategory"></select>
+
+      <label>Image</label>
+      <img id="imgPreview" class="preview-img">
+
+      <div class="image-options">
+        <input type="url" id="itemImageURL" placeholder="Paste image URL">
+      </div>
+      <div class="or-divider">OR</div>
+      <input type="file" id="itemImage" accept="image/*">
+
+      <div class="modal-actions">
+        <button class="btn-save" onclick="saveItem()">Save Item</button>
+        <button class="btn-close" onclick="toggleAdmin()">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Settings Modal -->
+  <div class="modal" id="settingsPanel">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Settings</h2>
+        <button class="close-x" onclick="toggleSettings()">&times;</button>
+      </div>
+
+      <div class="settings-list">
+        <div class="settings-item" onclick="openRateModal()">
+          <div class="settings-icon rate"><i class="fas fa-star"></i></div>
+          <div class="settings-text">
+            <h4>Rate Us</h4>
+            <p>Rate your experience with us</p>
+          </div>
+        </div>
+
+        <div class="settings-item" onclick="openFeedbackModal()">
+          <div class="settings-icon feedback"><i class="fab fa-whatsapp"></i></div>
+          <div class="settings-text">
+            <h4>Send Feedback</h4>
+            <p>Send feedback directly to WhatsApp</p>
+          </div>
+        </div>
+
+        <div class="settings-item" onclick="resetApp()">
+          <div class="settings-icon reset"><i class="fas fa-undo"></i></div>
+          <div class="settings-text">
+            <h4>Reset to Default</h4>
+            <p>Restore all sample items</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Rate Us Modal -->
+  <div class="modal" id="rateModal">
+    <div class="modal-content" style="text-align:center">
+      <div class="modal-header">
+        <h2>Rate Us</h2>
+        <button class="close-x" onclick="closeRateModal()">&times;</button>
+      </div>
+      <p>How was your experience?</p>
+      <div class="stars" id="rateStars">
+        <i class="fa-regular fa-star" data-val="1"></i>
+        <i class="fa-regular fa-star" data-val="2"></i>
+        <i class="fa-regular fa-star" data-val="3"></i>
+        <i class="fa-regular fa-star" data-val="4"></i>
+        <i class="fa-regular fa-star" data-val="5"></i>
+      </div>
+      <textarea id="rateComment" placeholder="Leave a comment (optional)" rows="3"></textarea>
+      <button class="btn-whatsapp" onclick="sendRating()">
+        <i class="fab fa-whatsapp"></i> Send to WhatsApp
+      </button>
+    </div>
+  </div>
+
+  <!-- Feedback Modal -->
+  <div class="modal" id="feedbackModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Send Feedback</h2>
+        <button class="close-x" onclick="closeFeedbackModal()">&times;</button>
+      </div>
+      <label>Your Feedback</label>
+      <textarea id="feedbackText" placeholder="Tell us what you think..." rows="4"></textarea>
+      <button class="btn-whatsapp" onclick="sendFeedback()">
+        <i class="fab fa-whatsapp"></i> Send to WhatsApp
+      </button>
+    </div>
+  </div>
+
+  <!-- Cart Modal -->
+  <div class="modal" id="cartPanel">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Your Order</h2>
+        <button class="close-x" onclick="toggleCart()">&times;</button>
+      </div>
+      <div id="cartItems"></div>
+      <div style="margin-top:15px; font-weight:700; font-size:1.2rem;">
+        Total: KSH <span id="cartTotal">0</span>
+      </div>
+      <button class="btn-whatsapp" onclick="sendOrderToWhatsApp()" style="margin-top:15px;">
+        <i class="fab fa-whatsapp"></i> Send Order to WhatsApp
+      </button>
     </div>
   </div>
 
   <footer>
-    <p>Powered by Timokama | Scan again anytime for updated menu</p>
+    <p>Powered by Timokama</p>
   </footer>
 
   <script>
-    // Default menu data
-    let menuData = JSON.parse(localStorage.getItem('menuData')) || {
+    const WHATSAPP_NUMBER = "254768394867";
+
+    const defaultData = {
       categories: ["Mains", "Drinks", "Snacks", "Desserts"],
       items: [
+        // Mains
         {id: 1, name: "Nyama Choma", desc: "Grilled beef with kachumbari", price: 400, category: "Mains", image: "https://images.unsplash.com/photo-1544025162-d76694265947?w=200"},
         {id: 2, name: "Ugali & Sukuma", desc: "Classic Kenyan combo", price: 150, category: "Mains", image: "https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=200"},
-        {id: 3, name: "Fresh Juice", desc: "Passion & Mango blend", price: 120, category: "Drinks", image: "https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=200"},
-        {id: 4, name: "Samosa", desc: "Crispy beef samosa, 2 pcs", price: 80, category: "Snacks", image: "https://images.unsplash.com/photo-1601050690597-df6638f3f4f3?w=200"}
+        {id: 3, name: "Chicken Stew", desc: "Served with rice", price: 250, category: "Mains", image: "https://images.unsplash.com/photo-1585032226651-759b368d7246?w=200"},
+
+        // Drinks
+        {id: 4, name: "Fresh Juice", desc: "Passion & Mango blend", price: 120, category: "Drinks", image: "https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=200"},
+        {id: 5, name: "Soda 500ml", desc: "Coca Cola, Fanta, Sprite", price: 60, category: "Drinks", image: "https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=200"},
+        {id: 6, name: "Milkshake", desc: "Strawberry milkshake", price: 180, category: "Drinks", image: "https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=200"},
+        // Snacks
+        {id: 7, name: "Samosa", desc: "Crispy beef samosa, 2 pcs", price: 80, category: "Snacks", image: "https://images.unsplash.com/photo-1601050690597-df6638f77f67?w=200"},
+        {id: 8, name: "Mandazi", desc: "Soft sweet fried dough, 3 pcs", price: 50, category: "Snacks", image: "https://images.unsplash.com/photo-1621303837174-89787a7d4729?w=200"},
+        {id: 9, name: "Bhajia", desc: "Potato bhajia with chutney", price: 70, category: "Snacks", image: "https://images.unsplash.com/photo-1596797038530-2c107229654b?w=200"},
+
+        // Desserts
+        {id: 10, name: "Chocolate Cake", desc: "Moist chocolate slice with cream", price: 200, category: "Desserts", image: "https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=200"},
+        {id: 11, name: "Fruit Salad", desc: "Fresh seasonal fruits with cream", price: 150, category: "Desserts", image: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=200"},
+        {id: 12, name: "Ice Cream Sundae", desc: "Vanilla ice cream with syrup & nuts", price: 180, category: "Desserts", image: "https://images.unsplash.com/photo-1505394033641-40c6ad1178d7?w=200"}
       ]
     };
 
-    let currentCategory = "Mains";
-    let editingId = null;
+    let menuData = JSON.parse(localStorage.getItem('menuData'));
+    if (!menuData ||!menuData.items || menuData.items.length === 0) {
+      menuData = defaultData;
+      localStorage.setItem('menuData', JSON.stringify(menuData));
+    }
+
+    let currentCategory = menuData.categories[0];
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    let rateRating = 0;
+
+    function saveCart() {
+      localStorage.setItem('cart', JSON.stringify(cart));
+      updateCartBadge();
+    }
+
+    function updateCartBadge() {
+      const badge = document.getElementById('cartBadge');
+      const totalQty = cart.reduce((sum, item) => sum + item.qty, 0);
+      badge.textContent = totalQty;
+      badge.style.display = totalQty > 0? 'flex' : 'none';
+    }
 
     function saveToStorage() {
       localStorage.setItem('menuData', JSON.stringify(menuData));
@@ -147,7 +366,6 @@
       const catSelect = document.getElementById('itemCategory');
       catDiv.innerHTML = '';
       catSelect.innerHTML = '';
-
       menuData.categories.forEach(cat => {
         catDiv.innerHTML += `<button class="category-btn ${cat === currentCategory? 'active' : ''}"
           onclick="setCategory('${cat}')">${cat}</button>`;
@@ -163,18 +381,19 @@
       const grid = menuDiv.querySelector('.menu-grid');
 
       if (filtered.length === 0) {
-        grid.innerHTML = '<p>No items in this category yet.</p>';
+        grid.innerHTML = '<div class="empty-msg">No items found in this category.<br>Click the edit button to add some.</div>';
         return;
       }
 
       filtered.forEach(item => {
         grid.innerHTML += `
           <div class="menu-item">
-            <img src="${item.image}" alt="${item.name}" loading="lazy">
+            <img src="${item.image}" onerror="this.src='https://via.placeholder.com/200?text=No+Image'">
             <div class="menu-item-info">
               <h3>${item.name}</h3>
               <p>${item.desc}</p>
               <div class="price">KSH ${item.price.toLocaleString()}</div>
+              <button class="add-cart-btn" onclick="addToCart(${item.id})">Add to Cart</button>
             </div>
           </div>
         `;
@@ -189,34 +408,157 @@
 
     function toggleAdmin() {
       document.getElementById('adminPanel').classList.toggle('open');
-      if (!editingId) clearForm();
+      if (document.getElementById('adminPanel').classList.contains('open')) clearForm();
     }
 
+    function toggleSettings() {
+      document.getElementById('settingsPanel').classList.toggle('open');
+    }
+
+    function toggleCart() {
+      renderCart();
+      document.getElementById('cartPanel').classList.toggle('open');
+    }
+
+    function openRateModal() {
+      document.getElementById('settingsPanel').classList.remove('open');
+      document.getElementById('rateModal').classList.add('open');
+    }
+
+    function closeRateModal() {
+      document.getElementById('rateModal').classList.remove('open');
+      rateRating = 0;
+      document.getElementById('rateComment').value = '';
+      updateStars('rateStars', 0);
+    }
+
+    function openFeedbackModal() {
+      document.getElementById('settingsPanel').classList.remove('open');
+      document.getElementById('feedbackModal').classList.add('open');
+    }
+
+    function closeFeedbackModal() {
+      document.getElementById('feedbackModal').classList.remove('open');
+      document.getElementById('feedbackText').value = '';
+    }
+
+    function addToCart(id) {
+      const item = menuData.items.find(i => i.id === id);
+      const existing = cart.find(i => i.id === id);
+      if (existing) {
+        existing.qty += 1;
+      } else {
+        cart.push({...item, qty: 1});
+      }
+      saveCart();
+    }
+
+    function renderCart() {
+      const cartDiv = document.getElementById('cartItems');
+      const totalEl = document.getElementById('cartTotal');
+      if (cart.length === 0) {
+        cartDiv.innerHTML = '<p style="text-align:center; color:#777;">Cart is empty</p>';
+        totalEl.textContent = '0';
+        return;
+      }
+      let total = 0;
+      cartDiv.innerHTML = '';
+      cart.forEach(item => {
+        total += item.price * item.qty;
+        cartDiv.innerHTML += `
+          <div class="cart-item">
+            <div>
+              <strong>${item.name}</strong><br>
+              <small>KSH ${item.price} x ${item.qty}</small>
+            </div>
+            <div class="cart-qty">
+              <button class="qty-btn" onclick="updateQty(${item.id}, -1)">-</button>
+              <span>${item.qty}</span>
+              <button class="qty-btn" onclick="updateQty(${item.id}, 1)">+</button>
+            </div>
+          </div>
+        `;
+      });
+      totalEl.textContent = total.toLocaleString();
+    }
+
+    function updateQty(id, change) {
+      const item = cart.find(i => i.id === id);
+      if (!item) return;
+      item.qty += change;
+      if (item.qty <= 0) cart = cart.filter(i => i.id!== id);
+      saveCart();
+      renderCart();
+    }
+
+    function sendOrderToWhatsApp() {
+      if (cart.length === 0) {
+        alert('Cart is empty');
+        return;
+      }
+      let message = 'New Order from Mama\'s Kitchen\n';
+      let total = 0;
+      cart.forEach(item => {
+        message += `${item.name} x${item.qty} - KSH ${item.price * item.qty}\n`;
+        total += item.price * item.qty;
+      });
+      message += `\nTotal: KSH ${total}`;
+      const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+      window.open(url, '_blank');
+      cart = [];
+      saveCart();
+      toggleCart();
+    }
+
+    document.getElementById('itemImage').addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(event) {
+        document.getElementById('imgPreview').src = event.target.result;
+        document.getElementById('imgPreview').style.display = 'block';
+        document.getElementById('imgPreview').dataset.base64 = event.target.result;
+      };
+      reader.readAsDataURL(file);
+    });
+
+    document.getElementById('itemImageURL').addEventListener('input', function(e) {
+      const url = e.target.value;
+      if (url) {
+        document.getElementById('imgPreview').src = url;
+        document.getElementById('imgPreview').style.display = 'block';
+      }
+    });
+
     function saveItem() {
+      const urlInput = document.getElementById('itemImageURL').value.trim();
+      const fileData = document.getElementById('imgPreview').dataset.base64;
+
+      let imageData = 'https://via.placeholder.com/200';
+      if (urlInput) {
+        imageData = urlInput;
+      } else if (fileData) {
+        imageData = fileData;
+      }
+
       const item = {
-        id: editingId || Date.now(),
-        name: document.getElementById('itemName').value,
-        desc: document.getElementById('itemDesc').value,
+        id: Date.now(),
+        name: document.getElementById('itemName').value.trim(),
+        desc: document.getElementById('itemDesc').value.trim(),
         price: parseInt(document.getElementById('itemPrice').value),
         category: document.getElementById('itemCategory').value,
-        image: document.getElementById('itemImage').value || 'https://via.placeholder.com/200'
+        image: imageData
       };
 
-      if (!item.name ||!item.price) {
-        alert('Name and price are required');
+      if (!item.name ||!item.price || item.price <= 0) {
+        alert('Please enter a valid name and price');
         return;
       }
 
-      if (editingId) {
-        menuData.items = menuData.items.map(i => i.id === editingId? item : i);
-      } else {
-        menuData.items.push(item);
-      }
-
+      menuData.items.push(item);
       saveToStorage();
       renderMenu();
       toggleAdmin();
-      editingId = null;
     }
 
     function clearForm() {
@@ -224,37 +566,62 @@
       document.getElementById('itemDesc').value = '';
       document.getElementById('itemPrice').value = '';
       document.getElementById('itemImage').value = '';
+      document.getElementById('itemImageURL').value = '';
+      document.getElementById('imgPreview').style.display = 'none';
+      document.getElementById('imgPreview').removeAttribute('data-base64');
     }
 
-    function exportMenu() {
-      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(menuData, null, 2));
-      const a = document.createElement('a');
-      a.setAttribute("href", dataStr);
-      a.setAttribute("download", "menu.json");
-      a.click();
+    function resetApp() {
+      if (confirm('Reset everything and restore sample items? This cannot be undone.')) {
+        localStorage.removeItem('menuData');
+        localStorage.removeItem('cart');
+        location.reload();
+      }
     }
 
-    function importMenu() {
-      const input = document.createElement('input');
-      input.type = 'file';
-      input.accept = '.json';
-      input.onchange = e => {
-        const file = e.target.files[0];
-        const reader = new FileReader();
-        reader.onload = event => {
-          menuData = JSON.parse(event.target.result);
-          saveToStorage();
-          renderCategories();
-          renderMenu();
-        };
-        reader.readAsText(file);
-      };
-      input.click();
+    function sendRating() {
+      if (rateRating === 0) {
+        alert('Please select a rating');
+        return;
+      }
+      const comment = document.getElementById('rateComment').value;
+      const stars = '⭐'.repeat(rateRating);
+      const message = `Menu Rating\nRating: ${stars} ${rateRating}/5\nComment: ${comment || 'No comment'}`;
+      const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+      window.open(url, '_blank');
+      closeRateModal();
     }
 
-    // Init
+    function sendFeedback() {
+      const feedback = document.getElementById('feedbackText').value.trim();
+      if (!feedback) {
+        alert('Please enter your feedback');
+        return;
+      }
+      const message = `Menu Feedback\n${feedback}`;
+      const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+      window.open(url, '_blank');
+      closeFeedbackModal();
+    }
+
+    function updateStars(containerId, rating) {
+      document.querySelectorAll(`#${containerId} i`).forEach((star, i) => {
+        star.classList.toggle('active', i < rating);
+        star.classList.toggle('fa-solid', i < rating);
+        star.classList.toggle('fa-regular', i >= rating);
+      });
+    }
+
+    document.getElementById('rateStars').addEventListener('click', (e) => {
+      if (e.target.tagName === 'I') {
+        rateRating = parseInt(e.target.dataset.val);
+        updateStars('rateStars', rateRating);
+      }
+    });
+
     renderCategories();
     renderMenu();
+    updateCartBadge();
   </script>
 </body>
 </html>
