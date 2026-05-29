@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Support - TasteHub</title>
+  <link rel="stylesheet" href="support.css">
+</head>
+<body>
+  <header>
+    <div class="container">
+      <h1><a href="index.html">TasteHub</a></h1>
+      <a href="index.html" class="back-btn">← Back to Menu</a>
+    </div>
+  </header>
+
+  <main class="container">
+    <h2>Contact Support</h2>
+    <p class="subtitle">We’re here to help. Reach out anytime.</p>
+
+    <div class="support-grid">
+      <div class="support-card">
+        <h3>💬 WhatsApp Chat</h3>
+        <p>Fastest way to get help with orders</p>
+        <a href="https://wa.me/254768394866" target="_blank" class="btn primary">Chat Now</a>
+      </div>
+
+      <div class="support-card">
+        <h3>📞 Call Us</h3>
+        <p>Mon - Sun: 8:00 AM - 10:00 PM</p>
+        <a href="tel:+254768394866" class="btn">+254 768 394 866</a>
+      </div>
+
+      <div class="support-card">
+        <h3>📧 Email Support</h3>
+        <p>We reply within 2 hours</p>
+        <a href="mailto:timo.munyiri@gmail.com" class="btn">timo.munyiri@gmail.com</a>
+      </div>
+    </div>
+
+    <div class="contact-form">
+      <h3>Send us a message</h3>
+      <form onsubmit="sendMessage(event)">
+        <input type="text" placeholder="Your Name" required>
+        <input type="email" placeholder="Your Email" required>
+        <input type="text" placeholder="Subject" required>
+        <textarea placeholder="How can we help?" rows="5" required></textarea>
+        <button type="submit" class="btn primary">Send Message</button>
+      </form>
+    </div>
+  </main>
+
+  <script>
+    function sendMessage(e) {
+      e.preventDefault();
+      const form = e.target;
+      const name = form[0].value;
+      const email = form[1].value;
+      const subject = form[2].value;
+      const message = form[3].value;
+
+      const whatsappMsg = `Support Request\nName: ${name}\nEmail: ${email}\nSubject: ${subject}\nMessage: ${message}`;
+      window.open(`https://wa.me/254768394866?text=${encodeURIComponent(whatsappMsg)}`, '_blank');
+    }
+  </script>
+</body>
+</html>
