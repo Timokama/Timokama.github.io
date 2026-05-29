@@ -1,4 +1,6 @@
 const WHATSAPP_NUMBER = "254768394866";
+
+// Product Data
 const products = [
   {id: 1, name: "Wireless Headphones", desc: "Active noise cancelling, 30hr battery", price: 8999, oldPrice: 12999, category: "Electronics", image: "https://images.pexels.com/photos/3394650/pexels-photo-3394650.jpeg?auto=compress&cs=tinysrgb&w=500", badge: "HOT"},
   {id: 2, name: "Smart Watch Pro", desc: "Heart rate, GPS, waterproof up to 50m", price: 19999, oldPrice: 24999, category: "Electronics", image: "https://images.pexels.com/photos/437037/pexels-photo-437037.jpeg?auto=compress&cs=tinysrgb&w=500", badge: "BESTSELLER"},
@@ -23,12 +25,17 @@ const products = [
 ];
 
 const categories = ["All", "Electronics", "Fashion", "Home", "Furniture"];
+
+// App State
 let currentCat = "All";
 let cart = JSON.parse(localStorage.getItem('cart')) || [];
 let rateRating = 0;
-let map, marker, mapLoaded = false;
-const sunton = [-1.2115, 36.9256];
 
+// Map State
+let map, marker, mapLoaded = false;
+const sunton = [-1.2115, 36.9256]; // Default: Kasarani Nairobi
+
+// Cart Functions
 function saveCart() {
   localStorage.setItem('cart', JSON.stringify(cart));
   updateCartBadge();
@@ -42,81 +49,24 @@ function updateCartBadge() {
   badge.style.display = qty > 0 ? 'flex' : 'none';
 }
 
-function renderCategories() {
-  const catDiv = document.getElementById('categories');
-  if (!catDiv) return;
-  catDiv.innerHTML = categories.map(cat => 
-    `<button class="cat-btn ${cat === currentCat ? 'active' : ''}" 
-     onclick="setCategory('${cat}')">${cat}</button>`
-  ).join('');
-}
-
-function renderProducts() {
-  const searchInput = document.getElementById('searchInput');
-  const search = searchInput ? searchInput.value.toLowerCase() : '';
-  const filtered = products.filter(p => {
-    const matchCat = currentCat === "All" || p.category === currentCat;
-    const matchSearch = p.name.toLowerCase().includes(search) || 
-                       p.desc.toLowerCase().includes(search);
-    return matchCat && matchSearch;
-  });
-
-  const grid = document.getElementById('products');
-  if (!grid) return;
-  
-  if (filtered.length === 0) {
-    grid.innerHTML = '<p style="text-align:center; grid-column:1/-1; padding:40px; font-size:1.1rem;">No products found</p>';
-    return;
-  }
-
-  grid.innerHTML = filtered.map(p => `
-    <div class="product-card">
-      <img src="${p.image}" class="product-img" 
-           onerror="this.onerror=null;this.src='https://via.placeholder.com/500x500?text=No+Image'">
-      <div class="product-info">
-        ${p.badge ? `<span class="product-badge">${p.badge}</span>` : ''}
-        <div class="product-title">${p.name}</div>
-        <div class="product-desc">${p.desc}</div>
-        <div class="product-price">
-          KSH ${p.price.toLocaleString()}
-          ${p.oldPrice ? `<small>KSH ${p.oldPrice.toLocaleString()}</small>` : ''}
-        </div>
-        <button class="add-cart-btn" onclick="addToCart(${p.id}, event)">
-          <i class="fas fa-cart-plus"></i> Add
-        </button>
-      </div>
-    </div>
-  `).join('');
-}
-
-function setCategory(cat, event) {
-  if (event) event.preventDefault();
-  currentCat = cat;
-  renderCategories();
-  renderProducts();
-  
-  const target = cat.trim().toLowerCase();
-  document.querySelectorAll('.cat-btn').forEach(btn => {
-    btn.classList.toggle('active', btn.textContent.trim().toLowerCase() === target);
-  });
-  document.querySelectorAll('.quick-links a').forEach(link => {
-    const text = link.textContent.trim().toLowerCase();
-    link.classList.toggle('active', text === target);
-  });
-}
-
 function addToCart(id, e) {
   const product = products.find(p => p.id === id);
+  if (!product) return;
+  
   const existing = cart.find(i => i.id === id);
   if (existing) existing.qty += 1;
   else cart.push({...product, qty: 1});
+  
   saveCart();
   
-  const btn = e.target.closest('button');
+  const btn = e?.target?.closest('button');
   if (btn) {
+    const originalHTML = btn.innerHTML;
     btn.innerHTML = '<i class="fas fa-check"></i> Added';
+    btn.disabled = true;
     setTimeout(() => {
-      btn.innerHTML = '<i class="fas fa-cart-plus"></i> Add';
+      btn.innerHTML = originalHTML;
+      btn.disabled = false;
     }, 1200);
   }
 }
@@ -187,6 +137,70 @@ function removeItem(id) {
   renderCart();
 }
 
+// Product Rendering
+function renderCategories() {
+  const catDiv = document.getElementById('categories');
+  if (!catDiv) return;
+  catDiv.innerHTML = categories.map(cat => 
+    `<button class="cat-btn ${cat === currentCat ? 'active' : ''}" 
+     onclick="setCategory('${cat}')">${cat}</button>`
+  ).join('');
+}
+
+function renderProducts() {
+  const searchInput = document.getElementById('searchInput');
+  const search = searchInput ? searchInput.value.toLowerCase() : '';
+  const filtered = products.filter(p => {
+    const matchCat = currentCat === "All" || p.category === currentCat;
+    const matchSearch = p.name.toLowerCase().includes(search) || 
+                       p.desc.toLowerCase().includes(search);
+    return matchCat && matchSearch;
+  });
+
+  const grid = document.getElementById('products');
+  if (!grid) return;
+  
+  if (filtered.length === 0) {
+    grid.innerHTML = '<p style="text-align:center; grid-column:1/-1; padding:40px; font-size:1.1rem;">No products found</p>';
+    return;
+  }
+
+  grid.innerHTML = filtered.map(p => `
+    <div class="product-card">
+      <img src="${p.image}" class="product-img" 
+           onerror="this.onerror=null;this.src='https://via.placeholder.com/500x500?text=No+Image'">
+      <div class="product-info">
+        ${p.badge ? `<span class="product-badge">${p.badge}</span>` : ''}
+        <div class="product-title">${p.name}</div>
+        <div class="product-desc">${p.desc}</div>
+        <div class="product-price">
+          KSH ${p.price.toLocaleString()}
+          ${p.oldPrice ? `<small>KSH ${p.oldPrice.toLocaleString()}</small>` : ''}
+        </div>
+        <button class="add-cart-btn" onclick="addToCart(${p.id}, event)">
+          <i class="fas fa-cart-plus"></i> Add
+        </button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function setCategory(cat, event) {
+  if (event) event.preventDefault();
+  currentCat = cat;
+  renderCategories();
+  renderProducts();
+  
+  const target = cat.trim().toLowerCase();
+  document.querySelectorAll('.cat-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.textContent.trim().toLowerCase() === target);
+  });
+  document.querySelectorAll('.quick-links a').forEach(link => {
+    const text = link.textContent.trim().toLowerCase();
+    link.classList.toggle('active', text === target);
+  });
+}
+
 // Map Functions
 function initMap() {
   if (mapLoaded) {
@@ -195,7 +209,10 @@ function initMap() {
   }
 
   const mapEl = document.getElementById('mapPreview');
-  if (!mapEl || typeof L === 'undefined') return;
+  if (!mapEl || typeof L === 'undefined') {
+    console.warn('Map element or Leaflet not found');
+    return;
+  }
 
   map = L.map('mapPreview', {
     zoomControl: true,
@@ -230,7 +247,7 @@ function reverseGeocode(lat, lng) {
   .then(data => {
     setLocation([lat, lng], data.display_name || `${lat}, ${lng}`);
   })
-  .catch(() => setLocation([lat, lng], `${lat}, ${lng}`));
+  .catch(() => setLocation([lat, lng], `${lat.toFixed(6)}, ${lng.toFixed(6)}`));
 }
 
 function setLocation(latLng, address) {
@@ -265,8 +282,8 @@ function getLocation() {
   navigator.geolocation.getCurrentPosition(
     (position) => {
       const pos = [position.coords.latitude, position.coords.longitude];
-      map.setView(pos, 17);
-      marker.setLatLng(pos);
+      if (map) map.setView(pos, 17);
+      if (marker) marker.setLatLng(pos);
       reverseGeocode(pos[0], pos[1]);
     },
     (error) => {
@@ -317,6 +334,10 @@ function setupLocationSearch() {
           `<div onclick="selectSearchResult(${place.lat}, ${place.lon}, '${place.display_name.replace(/'/g, "\\'")}')">${place.display_name}</div>`
         ).join('');
         resultsDiv.style.display = 'block';
+      })
+      .catch(() => {
+        const resultsDiv = document.getElementById('searchResults');
+        if (resultsDiv) resultsDiv.style.display = 'none';
       });
     }, 500);
   });
@@ -345,6 +366,7 @@ function checkLocationComplete() {
   }
 }
 
+// Checkout
 function checkout() {
   if (cart.length === 0) return alert('Cart is empty');
   
@@ -369,6 +391,7 @@ function checkout() {
   cart = [];
   saveCart();
   toggleCart();
+  
   setTimeout(() => {
     const rateModal = document.getElementById('rateModal');
     if (rateModal) rateModal.classList.add('open');
@@ -391,7 +414,20 @@ function sendOrderToWhatsApp(street, mapLink) {
   window.open(url, '_blank');
 }
 
+// Settings Modal
+function openSettings() {
+  const modal = document.getElementById('settingsModal');
+  if (modal) modal.classList.add('open');
+}
+
+function closeSettings() {
+  const modal = document.getElementById('settingsModal');
+  if (modal) modal.classList.remove('open');
+}
+
+// Feedback Modal
 function openFeedback() {
+  closeSettings();
   const modal = document.getElementById('feedbackModal');
   if (modal) modal.classList.add('open');
 }
@@ -411,6 +447,13 @@ function sendFeedback() {
   const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
   window.open(url, '_blank');
   closeFeedback();
+}
+
+// Rating Modal
+function openRateModal() {
+  closeSettings();
+  const modal = document.getElementById('rateModal');
+  if (modal) modal.classList.add('open');
 }
 
 function closeRateModal() {
@@ -441,7 +484,7 @@ function sendRating() {
   closeRateModal();
 }
 
-// Init everything after DOM loads
+// Init
 document.addEventListener('DOMContentLoaded', () => {
   renderCategories();
   renderProducts();
