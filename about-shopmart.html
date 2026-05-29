@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Us - Shopmart</title>
+  <style>
+  :root {
+  --primary: #ff6b35;
+  --primary-dark: #e55a2b;
+  --dark: #1a1a1a;
+  --gray: #6b7280;
+  --light-gray: #f3f4f6;
+  --white: #ffffff;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: var(--light-gray);
+  color: var(--dark);
+  line-height: 1.6;
+}
+
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+header {
+  background: var(--white);
+  padding: 20px 0;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  margin-bottom: 50px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+header .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+header h1 a {
+  text-decoration: none;
+  color: var(--primary);
+  font-size: 26px;
+  font-weight: 800;
+}
+
+.back-btn {
+  color: var(--dark);
+  text-decoration: none;
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: 8px;
+  transition: all 0.2s;
+}
+
+.back-btn:hover {
+  background: var(--light-gray);
+}
+
+main h2 {
+  font-size: 42px;
+  font-weight: 800;
+  margin-bottom: 12px;
+  background: linear-gradient(90deg, var(--primary), #ff8c61);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.subtitle {
+  color: var(--gray);
+  font-size: 18px;
+  margin-bottom: 50px;
+}
+
+.policy-section {
+  background: var(--white);
+  padding: 36px;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+  margin-bottom: 24px;
+}
+
+.policy-section h3 {
+  font-size: 24px;
+  margin-bottom: 16px;
+  color: var(--dark);
+}
+
+.policy-section p, 
+.policy-section li {
+  color: var(--gray);
+  font-size: 16px;
+}
+
+.policy-section ul,
+.policy-section ol {
+  padding-left: 24px;
+  margin-top: 12px;
+}
+
+.policy-section li {
+  margin-bottom: 10px;
+}
+
+.support-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+  margin-top: 20px;
+}
+
+.support-card {
+  background: linear-gradient(135deg, #fff5f2 0%, #ffffff 100%);
+  padding: 28px;
+  border-radius: 14px;
+  border: 2px solid #ffe8e0;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.support-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(255, 107, 53, 0.15);
+}
+
+.support-card h3 {
+  font-size: 20px;
+  margin-bottom: 10px;
+  color: var(--dark);
+}
+
+.cta-box {
+  text-align: center;
+  margin-top: 50px;
+  padding: 50px 30px;
+  background: linear-gradient(135deg, var(--primary) 0%, #ff8c61 100%);
+  border-radius: 16px;
+  color: var(--white);
+}
+
+.cta-box p {
+  font-size: 20px;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+.btn {
+  display: inline-block;
+  padding: 14px 32px;
+  background: var(--white);
+  color: var(--primary);
+  border-radius: 10px;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 16px;
+  transition: all 0.2s;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+.btn.primary {
+  background: var(--dark);
+  color: var(--white);
+}
+
+.btn.primary:hover {
+  background: #000;
+}
+
+a {
+  color: var(--primary);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  main h2 { font-size: 32px; }
+  .policy-section { padding: 24px; }
+  .subtitle { font-size: 16px; }
+}
+  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header>
+    <div class="container">
+      <h1><a href="e-commerce.html">Shopmart</a></h1>
+      <a href="e-commerce.html" class="back-btn">← Back to Shop</a>
+    </div>
+  </header>
+
+  <main class="container">
+    <h2>About Shopmart</h2>
+    <p class="subtitle">Your trusted online store for quality products at fair prices.</p>
+
+    <div class="policy-section">
+      <h3>Who We Are</h3>
+      <p>Shopmart launched in 2024 to make online shopping simple and reliable in Kenya. We curate electronics, fashion, home goods, and everyday essentials so you don’t have to hunt around multiple sites.</p>
+    </div>
+
+    <div class="policy-section">
+      <h3>What Makes Us Different</h3>
+      <div class="support-grid">
+        <div class="support-card">
+          <h3>✓ Verified Quality</h3>
+          <p>Every product is inspected before shipping. No fake goods, no surprises.</p>
+        </div>
+        <div class="support-card">
+          <h3>✓ Fast Delivery</h3>
+          <p>Nairobi: 1-2 days. Countrywide: 2-5 days. Track your order in real time.</p>
+        </div>
+        <div class="support-card">
+          <h3>✓ Easy Payments</h3>
+          <p>Pay with M-Pesa, card, or cash on delivery. Secure checkout every time.</p>
+        </div>
+        <div class="support-card">
+          <h3>✓ Real Support</h3>
+          <p>Talk to our team on WhatsApp or phone. 7 days a week.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="policy-section">
+      <h3>Our Promise</h3>
+      <ul>
+        <li><strong>Fair Prices:</strong> No inflated pricing. We keep margins low so you save more.</li>
+        <li><strong>Easy Returns:</strong> 7-day return policy on most items. Hassle-free.</li>
+        <li><strong>Secure Shopping:</strong> Your data and payments are protected.</li>
+        <li><strong>Customer First:</strong> If you’re not happy, we’ll make it right.</li>
+      </ul>
+    </div>
+
+    <div class="policy-section">
+      <h3>Contact Us</h3>
+      <p>Questions about an order or product?</p>
+      <p>📞 <a href="tel:+254768394866">+254 768 394 866</a></p>
+      <p>📧 <a href="mailto:timo.munyiri@gmail.com">timo.munyiri@gmail.com</a></p>
+      <p>💬 <a href="https://wa.me/254768394866" target="_blank">Chat on WhatsApp</a></p>
+    </div>
+
+    <div class="cta-box">
+      <p>Ready to start shopping?</p>
+      <a href="e-commerce.html" class="btn primary">Browse Products</a>
+    </div>
+  </main>
+</body>
+</html>
