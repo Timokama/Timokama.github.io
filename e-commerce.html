@@ -590,15 +590,19 @@ footer {
 
   <script src="e-commerce.js"></script>
   <script>
-  // Small tweak to sync quick links active state with categories
   function setCategory(cat) {
     currentCat = cat;
     renderCategories();
     renderProducts();
     
-    // Update quick links active state
-    document.querySelectorAll('.quick-links a').forEach(a => {
-      a.classList.toggle('active', a.textContent.trim() === cat);
+    // Sync category buttons
+    document.querySelectorAll('.cat-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.textContent.trim() === cat);
+    });
+    
+    // Sync quick links header
+    document.querySelectorAll('.quick-links a').forEach(link => {
+      link.classList.toggle('active', link.textContent.trim() === cat);
     });
   }
   const WHATSAPP_NUMBER = "254768394866";
