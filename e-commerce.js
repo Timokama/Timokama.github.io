@@ -511,7 +511,17 @@ document.addEventListener('DOMContentLoaded', () => {
     streetInput.addEventListener('input', checkLocationComplete);
   }
 });
+function openWhatsAppSupport() {
+  const message = `Hello ShopMart Support Team,\n\nI need help with:`;
+  const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+  window.open(url, '_blank');
+  closeSettings();
+}
 
+function openAboutPage() {
+  window.location.href = '/about-shopmart.html';
+  closeSettings();
+}
 window.addEventListener('resize', () => {
   if (map && document.getElementById('cartModal')?.classList.contains('open')) {
     map.invalidateSize();
