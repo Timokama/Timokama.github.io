@@ -430,6 +430,9 @@ footer {
   color: var(--gray);
   font-size: 0.85rem;
 }
+    .quick-links a.active {
+      color: var(--primary);
+    }
   </style>
 </head>
 <body>
@@ -595,14 +598,16 @@ footer {
     renderCategories();
     renderProducts();
     
+    const target = cat.trim().toLowerCase();
+    
     // Sync category buttons
     document.querySelectorAll('.cat-btn').forEach(btn => {
-      btn.classList.toggle('active', btn.textContent.trim() === cat);
+      btn.classList.toggle('active', btn.textContent.trim().toLowerCase() === target);
     });
     
     // Sync quick links header
     document.querySelectorAll('.quick-links a').forEach(link => {
-      link.classList.toggle('active', link.textContent.trim() === cat);
+      link.classList.toggle('active', link.textContent.trim().toLowerCase() === target);
     });
   }
   const WHATSAPP_NUMBER = "254768394866";
