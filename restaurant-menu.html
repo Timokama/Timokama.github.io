@@ -241,9 +241,29 @@
         <button class="close-x" onclick="toggleCart()">&times;</button>
       </div>
       <div id="cartItems"></div>
+
       <div class="cart-total">
         Total: KSH <span id="cartTotal">0</span>
       </div>
+
+      <div class="location-box">
+        <label><i class="fas fa-map-marker-alt"></i> Delivery Location</label>
+
+        <input id="streetAddress" type="text" placeholder="House/Building, Street, Estate">
+
+        <input id="locationSearch" type="text" placeholder="Search estate, area, or landmark">
+        <div id="searchResults" class="search-results"></div>
+
+        <button type="button" class="location-btn" onclick="getLocation()">
+          <i class="fas fa-location-arrow"></i> Use My Current Location
+        </button>
+
+        <div id="mapPreview"></div>
+
+        <input type="hidden" id="deliveryAddress">
+        <p class="location-status" id="locationStatus">Search, tap map, or use GPS to set location</p>
+      </div>
+
       <button class="checkout-btn" onclick="checkout()">
         <i class="fab fa-whatsapp"></i> Checkout on WhatsApp
       </button>
@@ -259,11 +279,12 @@
       <div class="footer-col">
         <h4>Quick Links</h4>
         <ul>
-          <li><a href="restaurant-menu.html">All</a></li>
-          <li><a href="restaurant-menu.html#Burgers">Burgers</a></li>
-          <li><a href="restaurant-menu.html#Pizza">Pizza</a></li>
-          <li><a href="restaurant-menu.html#Drinks">Drinks</a></li>
-          <li><a href="restaurant-menu.html#Desserts">Desserts</a></li>
+          <li><a href="#All">All</a></li>
+          <li><a href="#Burgers">Burgers</a></li>
+          <li><a href="#Pizza">Pizza</a></li>
+          <li><a href="#Drinks">Drinks</a></li>
+          <li><a href="#Desserts">Desserts</a></li>
+          <li><a href="#Snacks">Snacks</a></li>
         </ul>
       </div>
       <div class="footer-col">
@@ -275,210 +296,323 @@
           <li><a href="faqrestaurant.html">FAQ</a></li>
         </ul>
       </div>
-      <div class="footer-col">
-        <h4>Follow Us</h4>
-        <div class="social-links">
-          <a href="https://www.facebook.com/profile.php?id=100089901912701" target="_blank" aria-label="Facebook">
-            <i class="fab fa-facebook"></i>
-          </a>
-          <a href="https://instagram.com/timothykamau86" target="_blank" aria-label="Instagram">
-            <i class="fab fa-instagram"></i>
-          </a>
-          <a href="https://x.com/T1mo_Kama" target="_blank" aria-label="X">
-            <i class="fab fa-x-twitter"></i>
-          </a>
-        </div>
-      </div>
-      
     </div>
-    
     <div class="footer-bottom">
       <p>© 2026 TasteHub. All rights reserved. | Nairobi, Kenya</p>
     </div>
   </footer>
-  <script>
-    const WHATSAPP_NUMBER = "254768394866";
 
-    const menuData = {
-      categories: ['All', 'Burgers', 'Pizza', 'Drinks', 'Desserts', 'Snacks'],
-      items: [
-        // Burgers
-        {id: 1, name: "Classic Burger", desc: "Beef patty, lettuce, tomato, cheese, house sauce", price: 450, category: "Burgers", image: "https://images.pexels.com/photos/5488046/pexels-photo-5488046.jpeg?auto=compress&cs=tinysrgb&w=600"},
-        {id: 2, name: "Cheese Burger", desc: "Double cheese, beef patty, pickles, onion", price: 550, category: "Burgers", image: "https://images.pexels.com/photos/12420469/pexels-photo-12420469.jpeg?auto=compress&cs=tinysrgb&w=600"},
-        {id: 9, name: "BBQ Bacon Burger", desc: "Smoky BBQ sauce, crispy bacon, cheddar", price: 650, category: "Burgers", image: "https://images.pexels.com/photos/11653560/pexels-photo-11653560.jpeg?auto=compress&cs=tinysrgb&w=600"},
-    
-        // Pizza
-        {id: 3, name: "Pepperoni Pizza", desc: "Crispy pepperoni, mozzarella, tomato sauce", price: 900, category: "Pizza", image: "https://images.pexels.com/photos/825661/pexels-photo-825661.jpeg?auto=compress&cs=tinysrgb&w=600"},
-        {id: 4, name: "Margherita Pizza", desc: "Tomato, mozzarella, fresh basil, olive oil", price: 800, category: "Pizza", image: "https://images.pexels.com/photos/2619970/pexels-photo-2619970.jpeg?auto=compress&cs=tinysrgb&w=600"},
-        {id: 10, name: "Veggie Supreme", desc: "Bell peppers, mushrooms, onions, olives", price: 850, category: "Pizza", image: "https://images.pexels.com/photos/1260968/pexels-photo-1260968.jpeg?auto=compress&cs=tinysrgb&w=600"},
-    
-        // Drinks
-        {id: 5, name: "Fresh Juice", desc: "Passion & Mango blend, no added sugar", price: 120, category: "Drinks", image: "https://images.pexels.com/photos/96974/pexels-photo-96974.jpeg?auto=compress&cs=tinysrgb&w=600"},
-        {id: 6, name: "Milkshake", desc: "Strawberry milkshake with whipped cream", price: 180, category: "Drinks", image: "https://images.pexels.com/photos/1362534/pexels-photo-1362534.jpeg?auto=compress&cs=tinysrgb&w=600"},
-        {id: 11, name: "Iced Coffee", desc: "Cold brew with milk and vanilla syrup", price: 150, category: "Drinks", image: "https://images.pexels.com/photos/312418/pexels-photo-312418.jpeg?auto=compress&cs=tinysrgb&w=600"},
-    
-        // Desserts
-        {id: 7, name: "Chocolate Cake", desc: "Moist chocolate slice with cream frosting", price: 200, category: "Desserts", image: "https://images.pexels.com/photos/291528/pexels-photo-291528.jpeg?auto=compress&cs=tinysrgb&w=600"},
-        
-        // Ice Cream Sundae - UPDATED
-        {id: 8, name: "Ice Cream Sundae", desc: "Vanilla ice cream with syrup, nuts, cherry", price: 180, category: "Desserts", image: "https://images.pexels.com/photos/1352278/pexels-photo-1352278.jpeg?auto=compress&cs=tinysrgb&w=600"},
-        
-        {id: 12, name: "Apple Pie", desc: "Warm apple pie with cinnamon and ice cream", price: 220, category: "Desserts", image: "https://images.pexels.com/photos/6163273/pexels-photo-6163273.jpeg?auto=compress&cs=tinysrgb&w=600"},
-    
-        // Snacks
-        {id: 13, name: "Chicken Wings", desc: "Spicy buffalo wings, 6 pcs with dip", price: 400, category: "Snacks", image: "https://images.pexels.com/photos/2338407/pexels-photo-2338407.jpeg?auto=compress&cs=tinysrgb&w=600"},
-        {id: 14, name: "French Fries", desc: "Crispy golden fries with ketchup", price: 150, category: "Snacks", image: "https://images.pexels.com/photos/1583884/pexels-photo-1583884.jpeg?auto=compress&cs=tinysrgb&w=600"}
-      ]
-    };
-    
-    // ... rest of your JS stays the same
-    let currentCat = 'All';
-    let cart = JSON.parse(localStorage.getItem('cart')) || [];
-    
-    function renderCategories() {
-      const catDiv = document.getElementById('categories');
-      catDiv.innerHTML = menuData.categories.map(cat =>
-        `<button class="cat-btn ${cat === currentCat? 'active' : ''}" onclick="filterMenu('${cat}')">${cat}</button>`
-      ).join('');
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+  const WHATSAPP_NUMBER = "254768394866";
+  
+  const menuData = {
+    categories: ['All', 'Burgers', 'Pizza', 'Drinks', 'Desserts', 'Snacks'],
+    items: [
+      {id: 1, name: "Classic Burger", desc: "Beef patty, lettuce, tomato, cheese, house sauce", price: 450, category: "Burgers", image: "https://images.pexels.com/photos/5488046/pexels-photo-5488046.jpeg?auto=compress&cs=tinysrgb&w=600"},
+      {id: 2, name: "Cheese Burger", desc: "Double cheese, beef patty, pickles, onion", price: 550, category: "Burgers", image: "https://images.pexels.com/photos/12420469/pexels-photo-12420469.jpeg?auto=compress&cs=tinysrgb&w=600"},
+      {id: 9, name: "BBQ Bacon Burger", desc: "Smoky BBQ sauce, crispy bacon, cheddar", price: 650, category: "Burgers", image: "https://images.pexels.com/photos/11653560/pexels-photo-11653560.jpeg?auto=compress&cs=tinysrgb&w=600"},
+      {id: 3, name: "Pepperoni Pizza", desc: "Crispy pepperoni, mozzarella, tomato sauce", price: 900, category: "Pizza", image: "https://images.pexels.com/photos/825661/pexels-photo-825661.jpeg?auto=compress&cs=tinysrgb&w=600"},
+      {id: 4, name: "Margherita Pizza", desc: "Tomato, mozzarella, fresh basil, olive oil", price: 800, category: "Pizza", image: "https://images.pexels.com/photos/2619970/pexels-photo-2619970.jpeg?auto=compress&cs=tinysrgb&w=600"},
+      {id: 10, name: "Veggie Supreme", desc: "Bell peppers, mushrooms, onions, olives", price: 850, category: "Pizza", image: "https://images.pexels.com/photos/1260968/pexels-photo-1260968.jpeg?auto=compress&cs=tinysrgb&w=600"},
+      {id: 5, name: "Fresh Juice", desc: "Passion & Mango blend, no added sugar", price: 120, category: "Drinks", image: "https://images.pexels.com/photos/96974/pexels-photo-96974.jpeg?auto=compress&cs=tinysrgb&w=600"},
+      {id: 6, name: "Milkshake", desc: "Strawberry milkshake with whipped cream", price: 180, category: "Drinks", image: "https://images.pexels.com/photos/1362534/pexels-photo-1362534.jpeg?auto=compress&cs=tinysrgb&w=600"},
+      {id: 11, name: "Iced Coffee", desc: "Cold brew with milk and vanilla syrup", price: 150, category: "Drinks", image: "https://images.pexels.com/photos/312418/pexels-photo-312418.jpeg?auto=compress&cs=tinysrgb&w=600"},
+      {id: 7, name: "Chocolate Cake", desc: "Moist chocolate slice with cream frosting", price: 200, category: "Desserts", image: "https://images.pexels.com/photos/291528/pexels-photo-291528.jpeg?auto=compress&cs=tinysrgb&w=600"},
+      {id: 8, name: "Ice Cream Sundae", desc: "Vanilla ice cream with syrup, nuts, cherry", price: 180, category: "Desserts", image: "https://images.pexels.com/photos/1352278/pexels-photo-1352278.jpeg?auto=compress&cs=tinysrgb&w=600"},
+      {id: 12, name: "Apple Pie", desc: "Warm apple pie with cinnamon and ice cream", price: 220, category: "Desserts", image: "https://images.pexels.com/photos/6163273/pexels-photo-6163273.jpeg?auto=compress&cs=tinysrgb&w=600"},
+      {id: 13, name: "Chicken Wings", desc: "Spicy buffalo wings, 6 pcs with dip", price: 400, category: "Snacks", image: "https://images.pexels.com/photos/2338407/pexels-photo-2338407.jpeg?auto=compress&cs=tinysrgb&w=600"},
+      {id: 14, name: "French Fries", desc: "Crispy golden fries with ketchup", price: 150, category: "Snacks", image: "https://images.pexels.com/photos/1583884/pexels-photo-1583884.jpeg?auto=compress&cs=tinysrgb&w=600"}
+    ]
+  };
+  
+  let currentCat = 'All';
+  let cart = JSON.parse(localStorage.getItem('cart')) || [];
+  let map, marker, mapLoaded = false;
+  const sunton = [-1.2115, 36.9256];
+  
+  function renderCategories() {
+    const catDiv = document.getElementById('categories');
+    catDiv.innerHTML = menuData.categories.map(cat =>
+      `<button class="cat-btn ${cat === currentCat? 'active' : ''}" onclick="filterMenu('${cat}')">${cat}</button>`
+    ).join('');
+  }
+  
+  function renderMenu() {
+    const menuDiv = document.getElementById('menu');
+    const filtered = currentCat === 'All'
+     ? menuData.items
+      : menuData.items.filter(i => i.category === currentCat);
+  
+    menuDiv.innerHTML = `<h2>${currentCat}</h2><div class="menu-grid"></div>`;
+    const grid = menuDiv.querySelector('.menu-grid');
+  
+    if (filtered.length === 0) {
+      grid.innerHTML = '<p style="text-align:center; color:#666; padding:40px;">No items in this category yet.</p>';
+      return;
     }
-    
-    function renderMenu() {
-      const menuDiv = document.getElementById('menu');
-      const filtered = currentCat === 'All'
-      ? menuData.items
-        : menuData.items.filter(i => i.category === currentCat);
-    
-      menuDiv.innerHTML = `<h2>${currentCat}</h2><div class="menu-grid"></div>`;
-      const grid = menuDiv.querySelector('.menu-grid');
-    
-      if (filtered.length === 0) {
-        grid.innerHTML = '<p style="text-align:center; color:#666; padding:40px;">No items in this category yet.</p>';
-        return;
-      }
-    
-      grid.innerHTML = filtered.map(item => `
-        <div class="menu-item">
-          <div class="img-wrap">
-            <img src="${item.image}" alt="${item.name}" loading="lazy"
-                 onerror="this.src='https://via.placeholder.com/600x400?text=No+Image'">
-          </div>
-          <div class="menu-item-info">
-            <h3>${item.name}</h3>
-            <p>${item.desc}</p>
-            <div class="price-row">
-              <div class="price-badge">KSH ${item.price.toLocaleString()}</div>
-              <button class="add-cart-btn" onclick="addToCart(${item.id})">Add</button>
-            </div>
+  
+    grid.innerHTML = filtered.map(item => `
+      <div class="menu-item">
+        <div class="img-wrap">
+          <img src="${item.image}" alt="${item.name}" loading="lazy"
+               onerror="this.src='https://via.placeholder.com/600x400?text=No+Image'">
+        </div>
+        <div class="menu-item-info">
+          <h3>${item.name}</h3>
+          <p>${item.desc}</p>
+          <div class="price-row">
+            <div class="price-badge">KSH ${item.price.toLocaleString()}</div>
+            <button class="add-cart-btn" onclick="addToCart(${item.id})">Add</button>
           </div>
         </div>
-      `).join('');
+      </div>
+    `).join('');
+  }
+  
+  function filterMenu(cat) {
+    currentCat = cat;
+    window.location.hash = cat === 'All'? '' : cat;
+    renderCategories();
+    renderMenu();
+  }
+  
+  function addToCart(id) {
+    const item = menuData.items.find(i => i.id === id);
+    const existing = cart.find(i => i.id === id);
+    if (existing) existing.qty += 1;
+    else cart.push({...item, qty: 1});
+    saveCart();
+  }
+  
+  function saveCart() {
+    localStorage.setItem('cart', JSON.stringify(cart));
+    updateCartBadge();
+  }
+  
+  function updateCartBadge() {
+    const total = cart.reduce((sum, item) => sum + item.qty, 0);
+    document.getElementById('cartBadge').textContent = total;
+  }
+  
+  function toggleCart() {
+    renderCart();
+    document.getElementById('cartModal').classList.toggle('open');
+  
+    if (document.getElementById('cartModal').classList.contains('open')) {
+      initMap();
     }
-    
-    function filterMenu(cat) {
-      currentCat = cat;
-      window.location.hash = cat === 'All'? '' : cat;
-      renderCategories();
-      renderMenu();
+  }
+  
+  function renderCart() {
+    const cartDiv = document.getElementById('cartItems');
+    const totalEl = document.getElementById('cartTotal');
+  
+    if (cart.length === 0) {
+      cartDiv.innerHTML = '<p style="text-align:center; color:#666;">Your cart is empty</p>';
+      totalEl.textContent = '0';
+      return;
     }
-    
-    function addToCart(id) {
-      const item = menuData.items.find(i => i.id === id);
-      const existing = cart.find(i => i.id === id);
-      if (existing) existing.qty += 1;
-      else cart.push({...item, qty: 1});
-      saveCart();
-    }
-    
-    function saveCart() {
-      localStorage.setItem('cart', JSON.stringify(cart));
-      updateCartBadge();
-    }
-    
-    function updateCartBadge() {
-      const total = cart.reduce((sum, item) => sum + item.qty, 0);
-      document.getElementById('cartBadge').textContent = total;
-    }
-    
-    function toggleCart() {
-      renderCart();
-      document.getElementById('cartModal').classList.toggle('open');
-    }
-    
-    function renderCart() {
-      const cartDiv = document.getElementById('cartItems');
-      const totalEl = document.getElementById('cartTotal');
-    
-      if (cart.length === 0) {
-        cartDiv.innerHTML = '<p style="text-align:center; color:#666;">Your cart is empty</p>';
-        totalEl.textContent = '0';
+  
+    let total = 0;
+    cartDiv.innerHTML = cart.map(item => {
+      total += item.price * item.qty;
+      return `
+        <div class="cart-item">
+          <div>
+            <strong>${item.name}</strong><br>
+            <small>KSH ${item.price} x ${item.qty}</small>
+          </div>
+          <div class="cart-qty">
+            <button onclick="updateQty(${item.id}, -1)">-</button>
+            ${item.qty}
+            <button onclick="updateQty(${item.id}, 1)">+</button>
+          </div>
+        </div>
+      `;
+    }).join('');
+  
+    totalEl.textContent = total.toLocaleString();
+  }
+  
+  function updateQty(id, change) {
+    const item = cart.find(i => i.id === id);
+    if (!item) return;
+    item.qty += change;
+    if (item.qty <= 0) cart = cart.filter(i => i.id!== id);
+    saveCart();
+    renderCart();
+  }
+  
+  function initMap() {
+    if (mapLoaded) return;
+  
+    map = L.map('mapPreview').setView(sunton, 16);
+  
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+  
+    marker = L.marker(sunton, {draggable: true}).addTo(map);
+    setLocation(sunton, "Sunton, Kasarani, Nairobi, Kenya");
+  
+    map.on('click', function(e) {
+      marker.setLatLng(e.latlng);
+      reverseGeocode(e.latlng.lat, e.latlng.lng);
+    });
+  
+    marker.on('dragend', function(e) {
+      const pos = marker.getLatLng();
+      reverseGeocode(pos.lat, pos.lng);
+    });
+  
+    mapLoaded = true;
+    setTimeout(() => map.invalidateSize(), 400);
+  }
+  
+  // Location search using Nominatim
+  let searchTimeout;
+  document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('locationSearch').addEventListener('input', function() {
+      clearTimeout(searchTimeout);
+      const query = this.value.trim();
+      
+      if (query.length < 3) {
+        document.getElementById('searchResults').style.display = 'none';
         return;
       }
-    
-      let total = 0;
-      cartDiv.innerHTML = cart.map(item => {
-        total += item.price * item.qty;
-        return `
-          <div class="cart-item">
-            <div>
-              <strong>${item.name}</strong><br>
-              <small>KSH ${item.price} x ${item.qty}</small>
-            </div>
-            <div class="cart-qty">
-              <button onclick="updateQty(${item.id}, -1)">-</button>
-              ${item.qty}
-              <button onclick="updateQty(${item.id}, 1)">+</button>
-            </div>
-          </div>
-        `;
-      }).join('');
-    
-      totalEl.textContent = total.toLocaleString();
-    }
-    
-    function updateQty(id, change) {
-      const item = cart.find(i => i.id === id);
-      if (!item) return;
-      item.qty += change;
-      if (item.qty <= 0) cart = cart.filter(i => i.id!== id);
-      saveCart();
-      renderCart();
-    }
-    
-    function checkout() {
-      if (cart.length === 0) return alert('Cart is empty');
-    
-      let message = 'New Order from TasteHub\n';
-      let total = 0;
-      cart.forEach(item => {
-        message += `${item.name} x${item.qty} - KSH ${item.price * item.qty}\n`;
-        total += item.price * item.qty;
-      });
-      message += `\nTotal: KSH ${total}`;
-    
-      window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`, '_blank');
-      cart = [];
-      saveCart();
-      toggleCart();
-    }
-    
-    function setCategoryFromHash() {
-      const hash = decodeURIComponent(window.location.hash.replace('#', ''));
-      if (menuData.categories.includes(hash)) {
-        currentCat = hash;
-      }
-    }
-    
-    window.addEventListener('hashchange', () => {
-      setCategoryFromHash();
-      renderCategories();
-      renderMenu();
+  
+      searchTimeout = setTimeout(() => {
+        fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&countrycodes=ke&limit=5`)
+        .then(res => res.json())
+        .then(data => {
+          const resultsDiv = document.getElementById('searchResults');
+          if (data.length === 0) {
+            resultsDiv.style.display = 'none';
+            return;
+          }
+          
+          resultsDiv.innerHTML = data.map(place => 
+            `<div onclick="selectSearchResult(${place.lat}, ${place.lon}, '${place.display_name.replace(/'/g, "\\'")}')">${place.display_name}</div>`
+          ).join('');
+          resultsDiv.style.display = 'block';
+        });
+      }, 500);
     });
-    
-    // Init
+  
+    document.getElementById('streetAddress').addEventListener('input', checkLocationComplete);
+  });
+  
+  function selectSearchResult(lat, lon, address) {
+    const pos = [parseFloat(lat), parseFloat(lon)];
+    map.setView(pos, 17);
+    marker.setLatLng(pos);
+    setLocation(pos, address);
+    document.getElementById('searchResults').style.display = 'none';
+    document.getElementById('locationSearch').value = address;
+  }
+  
+  function reverseGeocode(lat, lng) {
+    fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`)
+    .then(res => res.json())
+    .then(data => {
+        setLocation([lat, lng], data.display_name || `${lat}, ${lng}`);
+      })
+    .catch(() => setLocation([lat, lng], `${lat}, ${lng}`));
+  }
+  
+  function setLocation(latLng, address) {
+    document.getElementById('deliveryAddress').value =
+      `https://maps.google.com/?q=${latLng[0]},${latLng[1]}`;
+    document.getElementById('locationStatus').textContent = '✓ Location set';
+    document.getElementById('locationStatus').style.color = '#10b981';
+    checkLocationComplete();
+  }
+  
+  function getLocation() {
+    const statusEl = document.getElementById('locationStatus');
+  
+    if (!navigator.geolocation) {
+      statusEl.textContent = "GPS not supported. Search or tap map instead.";
+      statusEl.style.color = "#ef4444";
+      return;
+    }
+  
+    statusEl.textContent = "Getting your location...";
+  
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const pos = [position.coords.latitude, position.coords.longitude];
+        map.setView(pos, 17);
+        marker.setLatLng(pos);
+        reverseGeocode(pos[0], pos[1]);
+      },
+      () => {
+        statusEl.textContent = "Could not get location. Search or tap map instead.";
+        statusEl.style.color = "#ef4444";
+      }
+    );
+  }
+  
+  function checkLocationComplete() {
+    const street = document.getElementById('streetAddress').value.trim();
+    const mapLink = document.getElementById('deliveryAddress').value;
+  
+    if (street && mapLink) {
+      document.getElementById('locationStatus').textContent = '✓ Location complete';
+      document.getElementById('locationStatus').style.color = '#10b981';
+    }
+  }
+  
+  function checkout() {
+    if (cart.length === 0) return alert('Cart is empty');
+  
+    const street = document.getElementById('streetAddress').value.trim();
+    const mapLink = document.getElementById('deliveryAddress').value;
+  
+    if (!street) {
+      alert("Please enter your street address / house number");
+      return;
+    }
+    if (!mapLink) {
+      alert("Please set your location on the map");
+      return;
+    }
+  
+    let message = 'New Order from TasteHub\n';
+    let total = 0;
+    cart.forEach(item => {
+      message += `${item.name} x${item.qty} - KSH ${item.price * item.qty}\n`;
+      total += item.price * item.qty;
+    });
+    message += `\nTotal: KSH ${total}`;
+    message += `\n\nStreet Address: ${street}`;
+    message += `\nMap Link: ${mapLink}`;
+  
+    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`, '_blank');
+    cart = [];
+    saveCart();
+    toggleCart();
+  }
+  
+  function setCategoryFromHash() {
+    const hash = decodeURIComponent(window.location.hash.replace('#', ''));
+    if (menuData.categories.includes(hash)) {
+      currentCat = hash;
+    }
+  }
+  
+  window.addEventListener('hashchange', () => {
     setCategoryFromHash();
     renderCategories();
     renderMenu();
-    updateCartBadge();
-  </script>
+  });
+  
+  // Init
+  setCategoryFromHash();
+  renderCategories();
+  renderMenu();
+  updateCartBadge();
+</script>
 </body>
 </html>
