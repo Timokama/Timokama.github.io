@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FAQ | ShopMart</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+  :root {
+    --primary: #ff3e00;
+    --dark: #0f0f0f;
+    --card: #1a1a1a;
+    --text: #f5f5f5;
+    --gray: #a0a0a0;
+    --border: #2a2a2a;
+  }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--dark);
+    color: var(--text);
+    line-height: 1.6;
+  }
+  header {
+    position: sticky;
+    top: 0;
+    background: var(--dark);
+    border-bottom: 1px solid var(--border);
+    padding: 16px;
+    z-index: 100;
+  }
+  .header-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .logo {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--primary);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .back-btn {
+    color: var(--text);
+    text-decoration: none;
+    font-size: 0.9rem;
+  }
+  .back-btn:hover { color: var(--primary); }
+  
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 40px 16px;
+  }
+  h1 {
+    font-size: 2rem;
+    margin-bottom: 8px;
+  }
+  .subtitle {
+    color: var(--gray);
+    margin-bottom: 32px;
+  }
+  .faq-item {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 12px;
+  }
+  .faq-item h3 {
+    color: var(--primary);
+    margin-bottom: 8px;
+    font-size: 1.1rem;
+  }
+  .faq-item p {
+    color: var(--gray);
+  }
+  footer {
+    text-align: center;
+    padding: 32px 16px;
+    color: var(--gray);
+    border-top: 1px solid var(--border);
+    margin-top: 60px;
+    font-size: 0.9rem;
+  }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-inner">
+      <a href="index.html" class="logo"><i class="fas fa-bolt"></i>ShopMart</a>
+      <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Shop</a>
+    </div>
+  </header>
+
+  <div class="container">
+    <h1>Frequently Asked Questions</h1>
+    <p class="subtitle">Quick answers to common questions</p>
+
+    <div class="faq-item">
+      <h3>How long does delivery take?</h3>
+      <p>Orders in Nairobi are delivered within 24-48 hours. Other counties take 2-5 business days depending on location.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>Do you offer cash on delivery?</h3>
+      <p>Yes, cash on delivery is available in Nairobi and select towns. Pay on delivery with cash or M-Pesa.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>Are products original?</h3>
+      <p>100% genuine. All electronics come with manufacturer warranty. We source directly from authorized distributors.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>How do I track my order?</h3>
+      <p>Once shipped, you’ll receive a WhatsApp message with tracking details. You can also contact us on 0768 394 866.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>Can I cancel my order?</h3>
+      <p>Orders can be cancelled before they’re shipped. Contact us immediately on WhatsApp to cancel.</p>
+    </div>
+
+    <div class="faq-item">
+      <h3>Do you have a physical store?</h3>
+      <p>We’re currently online only. Visit us at shopmart.co.ke or contact us on WhatsApp for support.</p>
+    </div>
+  </div>
+
+  <footer>
+    <p>© 2026 ShopMart. All rights reserved. | Nairobi, Kenya</p>
+  </footer>
+</body>
+</html>
