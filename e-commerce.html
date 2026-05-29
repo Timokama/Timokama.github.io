@@ -430,9 +430,21 @@ footer {
   color: var(--gray);
   font-size: 0.85rem;
 }
-    .quick-links a.active {
-      color: var(--primary);
-    }
+.quick-links a.active {
+  color: var(--primary);
+  border-bottom: 2px solid var(--primary);
+}
+
+.quick-links a {
+  color: var(--gray);
+  text-decoration: none;
+  padding: 8px 0;
+  transition: 0.2s;
+}
+
+.quick-links a:hover {
+  color: var(--text);
+}
   </style>
 </head>
 <body>
@@ -456,11 +468,11 @@ footer {
   <!-- Quick Links Bar -->
   <div class="quick-links">
     <div class="quick-links-inner">
-      <a href="#" class="active" onclick="setCategory('All')">All</a>
-      <a href="#" onclick="setCategory('Electronics')">Electronics</a>
-      <a href="#" onclick="setCategory('Fashion')">Fashion</a>
-      <a href="#" onclick="setCategory('Home')">Home</a>
-      <a href="#" onclick="setCategory('Furniture')">Furniture</a>
+      <a href="#" onclick="setCategory('All', event)">All</a>
+      <a href="#" onclick="setCategory('Electronics', event)">Electronics</a>
+      <a href="#" onclick="setCategory('Fashion', event)">Fashion</a>
+      <a href="#" onclick="setCategory('Home', event)">Home</a>
+      <a href="#" onclick="setCategory('Furniture', event)">Furniture</a>
       <a href="#" onclick="openFeedback()">Contact</a>
     </div>
   </div>
@@ -591,23 +603,25 @@ footer {
   </div>
 </footer>
 
-  <script src="e-commerce.js"></script>
   <script>
-  function setCategory(cat) {
+  function setCategory(cat, event) {
+    if (event) event.preventDefault(); // stops page jump
+    
     currentCat = cat;
     renderCategories();
     renderProducts();
     
     const target = cat.trim().toLowerCase();
     
-    // Sync category buttons
+    // Sync category pills
     document.querySelectorAll('.cat-btn').forEach(btn => {
       btn.classList.toggle('active', btn.textContent.trim().toLowerCase() === target);
     });
     
-    // Sync quick links header
+    // Sync quick links bar
     document.querySelectorAll('.quick-links a').forEach(link => {
-      link.classList.toggle('active', link.textContent.trim().toLowerCase() === target);
+      const text = link.textContent.trim().toLowerCase();
+      link.classList.toggle('active', text === target);
     });
   }
   const WHATSAPP_NUMBER = "254768394866";
