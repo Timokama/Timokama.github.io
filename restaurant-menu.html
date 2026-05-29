@@ -3,592 +3,410 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mama's Kitchen | Digital Menu</title>
+  <title>Restaurant Menu - TasteHub</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
     :root {
       --primary: #d62828;
       --dark: #1a1a1a;
       --light: #f8f9fa;
+      --card: #ffffff;
+      --border: #e0e0e0;
+      --gray: #666;
       --accent: #fcbf49;
-      --whatsapp: #25D366;
     }
-    * { margin:0; padding:0; box-sizing:border-box; font-family: 'Segoe UI', sans-serif; }
+    
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
     body { background: var(--light); color: var(--dark); }
-
+    
     header {
-      background: var(--primary); color: #fff; text-align: center;
-      padding: 20px 15px; position: sticky; top: 0; z-index: 10;
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 10;
     }
-    header h1 { font-size: 1.8rem; margin-bottom: 5px; }
-    header p { font-size: 0.95rem; opacity: 0.9; }
-
-.categories {
-      display: flex; overflow-x: auto; gap: 10px; padding: 15px;
-      background: #fff; border-bottom: 1px solid #eee;
-      position: sticky; top: 85px; z-index: 9;
+    .header-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
-.categories::-webkit-scrollbar { display: none; }
-.category-btn {
-      padding: 10px 18px; border: 2px solid var(--primary);
-      border-radius: 25px; background: #fff; color: var(--primary);
-      white-space: nowrap; cursor: pointer; font-weight: 600;
-      transition: 0.2s;
-    }
-.category-btn.active,.category-btn:hover {
-      background: var(--primary); color: #fff;
-    }
-
-.menu-section { padding: 20px; max-width: 1200px; margin: auto; padding-bottom: 120px; }
-.menu-section h2 { margin-bottom: 15px; font-size: 1.5rem; }
-
-.menu-grid {
-      display: grid;
-      gap: 15px;
-      grid-template-columns: 1fr;
-    }
-.menu-item {
-      background: #fff; padding: 15px; border-radius: 12px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-      display: flex; gap: 15px; align-items: center;
-      transition: transform 0.2s;
-    }
-.menu-item:hover { transform: translateY(-2px); }
-.menu-item img {
-      width: 80px; height: 80px; object-fit: cover; border-radius: 10px;
-      background: #eee; flex-shrink: 0;
-    }
-.menu-item-info { flex: 1; }
-.menu-item-info h3 { font-size: 1.1rem; margin-bottom: 5px; }
-.menu-item-info p { font-size: 0.9rem; color: #666; }
-.price { color: var(--primary); font-weight: 700; font-size: 1.2rem; margin-top: 5px; }
-.empty-msg { text-align:center; color:#777; padding:40px 0; }
-
-.add-cart-btn {
+    header h1 { color: var(--primary); font-size: 1.8rem; }
+    .cart-btn {
       background: var(--primary); color: #fff; border: none;
-      padding: 8px 15px; border-radius: 8px; cursor: pointer;
-      font-weight: 600; margin-top: 8px;
-      transition: 0.2s;
+      padding: 10px 16px; border-radius: 8px; cursor: pointer;
+      position: relative; font-size: 1rem;
     }
-.add-cart-btn:hover { opacity: 0.9; }
-
-.floating-btns {
-      position: fixed; bottom: 20px; right: 20px;
-      display: flex; flex-direction: column; gap: 12px; z-index: 20;
+    .cart-badge {
+      position: absolute; top: -8px; right: -8px;
+      background: var(--accent); color: #000; border-radius: 50%;
+      width: 22px; height: 22px; font-size: 0.8rem;
+      display: flex; align-items: center; justify-content: center; font-weight: 600;
     }
-.floating-btn {
-      background: var(--accent); color: #000; border: none;
-      width: 55px; height: 55px; border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.3rem; box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-      cursor: pointer; position: relative;
-      transition: 0.2s;
+    
+    .categories {
+      display: flex; overflow-x: auto; gap: 10px;
+      padding: 16px; max-width: 1200px; margin: 0 auto;
     }
-.floating-btn:hover { transform: scale(1.05); }
-.floating-btn.settings { background: #444; color: #fff; }
-.cart-badge {
-      position: absolute; top: -5px; right: -5px;
+    .categories::-webkit-scrollbar { display: none; }
+    .cat-btn {
+      padding: 10px 20px; border: 2px solid var(--primary);
+      border-radius: 25px; background: var(--card); color: var(--primary);
+      white-space: nowrap; cursor: pointer; font-weight: 600; transition: 0.2s;
+    }
+    .cat-btn.active,.cat-btn:hover {
       background: var(--primary); color: #fff;
-      border-radius: 50%; width: 22px; height: 22px;
-      font-size: 0.8rem; display: flex; align-items: center; justify-content: center;
     }
-
-.modal {
-      display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0,0,0,0.7); z-index: 30; padding: 20px; overflow-y: auto;
+    
+    .menu-section {
+      max-width: 1200px; margin: 0 auto; padding: 20px 16px 100px;
     }
-.modal.open { display: flex; align-items: center; justify-content: center; }
-.modal-content {
-      background: #fff; max-width: 500px; width: 100%;
-      padding: 25px; border-radius: 12px; max-height: 90vh; overflow-y: auto;
+    .menu-section h2 { margin-bottom: 20px; font-size: 1.5rem; }
+    
+    .menu-grid {
+      display: grid; gap: 20px;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     }
-.modal-header {
+    
+    /* E-commerce card style */
+    .menu-item {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      transition: all 0.25s ease;
+      display: flex; flex-direction: column;
+    }
+    .menu-item:hover {
+      box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+      transform: translateY(-4px);
+    }
+    
+    .img-wrap {
+      width: 100%;
+      height: 200px;
+      background: #f2f2f2;
+      overflow: hidden;
+    }
+    .menu-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    
+    .menu-item-info {
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+    .menu-item-info h3 {
+      margin-bottom: 6px;
+      font-size: 1.1rem;
+      font-weight: 600;
+    }
+    .menu-item-info p {
+      color: var(--gray);
+      font-size: 0.9rem;
+      margin-bottom: 14px;
+      flex: 1;
+    }
+    .price-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: auto;
+    }
+    .price-badge {
+      background: var(--primary);
+      color: #fff;
+      padding: 8px 14px;
+      border-radius: 20px;
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+    .add-cart-btn {
+      background: var(--dark);
+      color: #fff;
+      border: none;
+      padding: 8px 18px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: 0.2s;
+    }
+    .add-cart-btn:hover {
+      background: var(--primary);
+    }
+    
+    .modal {
+      display: none; position: fixed; top: 0; left: 0;
+      width: 100%; height: 100%; background: rgba(0,0,0,0.7);
+      z-index: 30; padding: 20px; overflow-y: auto;
+    }
+    .modal.open { display: flex; align-items: center; justify-content: center; }
+    .modal-content {
+      background: var(--card); max-width: 500px; width: 100%;
+      padding: 24px; border-radius: 12px;
+    }
+    .modal-header {
       display: flex; justify-content: space-between; align-items: center;
-      margin-bottom: 15px;
+      margin-bottom: 20px;
     }
-.modal-header h2 { font-size: 1.3rem; }
-.close-x {
-      background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #666;
+    .close-x {
+      background: none; border: none; font-size: 1.5rem;
+      cursor: pointer; color: var(--gray);
     }
-.modal-content label { font-weight: 600; font-size: 0.9rem; display:block; margin:12px 0 5px; }
-.modal-content input,.modal-content textarea,.modal-content select {
-      width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px;
-      font-size: 1rem;
-    }
-.modal-actions {
-      display: flex; gap: 10px; margin-top: 20px;
-    }
-.btn-save { flex:1; background: var(--primary); color: #fff; border:none; padding:12px; border-radius:8px; cursor:pointer; font-weight:600; }
-.btn-close { flex:1; background: #ccc; border:none; padding:12px; border-radius:8px; cursor:pointer; font-weight:600; }
-.btn-whatsapp { background:var(--whatsapp); color:#fff; border:none; padding:12px; border-radius:8px; cursor:pointer; width:100%; font-weight:600; }
-
-.divider { height: 1px; background: #eee; margin: 20px 0; }
-.section-title { font-size: 1.1rem; font-weight: 600; margin-bottom: 10px; }
-
-/* Settings Style */
-.settings-list { display: flex; flex-direction: column; gap: 12px; }
-.settings-item {
-      display: flex; align-items: center; gap: 15px;
-      padding: 15px; border: 1px solid #e0e0e0; border-radius: 10px;
-      cursor: pointer; transition: 0.2s; background: #fafafa;
-    }
-.settings-item:hover { background: #f0f0f0; border-color: var(--primary); }
-.settings-icon {
-      width: 40px; height: 40px; border-radius: 10px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.2rem; color: #fff; flex-shrink: 0;
-    }
-.settings-icon.rate { background: var(--accent); color: #000; }
-.settings-icon.feedback { background: var(--whatsapp); }
-.settings-icon.reset { background: var(--primary); }
-.settings-text h4 { margin: 0; font-size: 1rem; }
-.settings-text p { margin: 2px 0 0; font-size: 0.85rem; color: #666; }
-
-.cart-item {
+    .cart-item {
       display: flex; justify-content: space-between; align-items: center;
-      padding: 10px 0; border-bottom: 1px solid #eee;
+      padding: 12px 0; border-bottom: 1px solid var(--border);
     }
-.cart-qty {
-      display: flex; align-items: center; gap: 10px;
+    .cart-qty {
+      display: flex; align-items: center; gap: 8px;
     }
-.qty-btn {
-      width: 32px; height: 32px; border: 1px solid #ddd;
-      background: #fff; border-radius: 5px; cursor: pointer;
+    .cart-qty button {
+      width: 28px; height: 28px; border: 1px solid var(--border);
+      background: var(--card); border-radius: 6px; cursor: pointer;
     }
-
-.stars { display: flex; justify-content: center; gap: 8px; margin: 15px 0; }
-.stars i { font-size: 2rem; color: #ddd; cursor: pointer; transition: 0.2s; }
-.stars i.active { color: var(--accent); }
-
-.image-options {
-      display: flex; gap: 10px; margin-top: 8px;
+    .cart-total {
+      font-size: 1.3rem; font-weight: 700; text-align: right; margin: 20px 0;
     }
-.image-options input { flex: 1; }
-.or-divider {
-      text-align: center; color: #999; margin: 8px 0; font-size: 0.85rem;
+    .checkout-btn {
+      width: 100%; background: #25D366; color: #fff; border: none;
+      padding: 14px; border-radius: 8px; cursor: pointer;
+      font-weight: 600; font-size: 1rem;
     }
-
-footer { text-align: center; padding: 30px; color: #777; font-size: 0.9rem; }
-.preview-img { width: 80px; height: 80px; object-fit: cover; border-radius: 8px; margin:10px 0; display:none; }
-
-/* Tablet: 768px and up */
-@media (min-width: 768px) {
-  header h1 { font-size: 2rem; }
-
- .categories {
-    justify-content: center;
-    top: 90px;
-  }
-
- .menu-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
-  }
-
- .menu-item {
-    flex-direction: column;
-    text-align: center;
-    padding: 20px;
-  }
-
- .menu-item img {
-    width: 100%;
-    height: 160px;
-  }
-
- .modal-content {
-    max-width: 600px;
-    padding: 30px;
-  }
-
- .floating-btns {
-    bottom: 30px;
-    right: 30px;
-  }
-
- .floating-btn {
-    width: 60px;
-    height: 60px;
-    font-size: 1.4rem;
-  }
-}
-
-/* Desktop: 1024px and up */
-@media (min-width: 1024px) {
-  header {
-    padding: 25px 40px;
-  }
-
- .categories {
-    top: 95px;
-    gap: 15px;
-    padding: 20px 40px;
-  }
-
- .menu-section {
-    padding: 30px 40px 120px;
-  }
-
- .menu-grid {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 25px;
-  }
-
- .menu-item {
-    padding: 20px;
-  }
-
- .menu-item img {
-    height: 180px;
-  }
-
- .modal-content {
-    max-width: 650px;
-  }
-
- .settings-item {
-    padding: 18px 20px;
-  }
-
- .settings-item:hover {
-    transform: translateX(5px);
-  }
-}
-
-/* Large Desktop: 1440px and up */
-@media (min-width: 1440px) {
- .menu-grid {
-    grid-template-columns: repeat(4, 1fr);
-  }
-}
+    
+    footer {
+      background: var(--dark); color: var(--light); margin-top: 60px;
+    }
+    .footer-content {
+      max-width: 1200px; margin: 0 auto; padding: 40px 16px;
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 32px;
+    }
+    .footer-col h4 { color: var(--accent); margin-bottom: 16px; font-size: 1rem; }
+    .footer-col p,.footer-col li {
+      color: #ccc; font-size: 0.9rem; margin-bottom: 8px;
+    }
+    .footer-col ul { list-style: none; padding: 0; }
+    .footer-col a { color: #ccc; text-decoration: none; transition: 0.2s; }
+    .footer-col a:hover { color: var(--accent); }
+    .footer-bottom {
+      text-align: center; padding: 20px 16px;
+      border-top: 1px solid #333; color: #999; font-size: 0.85rem;
+    }
+    
+    @media (max-width: 768px) {
+    .menu-grid { grid-template-columns: 1fr; }
+    .footer-content { grid-template-columns: 1fr; }
+    }
   </style>
 </head>
 <body>
-
   <header>
-    <h1><i class="fas fa-utensils"></i> Mama's Kitchen</h1>
-    <p> Order & Enjoy. Updated live.</p>
+    <div class="header-content">
+      <h1><i class="fas fa-utensils"></i> TasteHub</h1>
+      <button class="cart-btn" onclick="toggleCart()">
+        <i class="fas fa-shopping-cart"></i>
+        <span class="cart-badge" id="cartBadge">0</span>
+      </button>
+    </div>
   </header>
 
   <div class="categories" id="categories"></div>
   <div class="menu-section" id="menu"></div>
 
-  <div class="floating-btns">
-    <button class="floating-btn" onclick="toggleCart()">
-      <i class="fas fa-shopping-cart"></i>
-      <span class="cart-badge" id="cartBadge" style="display:none;">0</span>
-    </button>
-    <button class="floating-btn" onclick="toggleAdmin()">
-      <i class="fas fa-edit"></i>
-    </button>
-    <button class="floating-btn settings" onclick="toggleSettings()">
-      <i class="fas fa-cog"></i>
-    </button>
-  </div>
-
-  <!-- Add/Edit Item Modal -->
-  <div class="modal" id="adminPanel">
+  <div class="modal" id="cartModal">
     <div class="modal-content">
       <div class="modal-header">
-        <h2>Add/Edit Item</h2>
-        <button class="close-x" onclick="toggleAdmin()">&times;</button>
-      </div>
-      <label>Item Name</label>
-      <input type="text" id="itemName" placeholder="e.g. Nyama Choma">
-
-      <label>Description</label>
-      <textarea id="itemDesc" placeholder="Short description" rows="2"></textarea>
-
-      <label>Price in KSH</label>
-      <input type="number" id="itemPrice" placeholder="400" min="0">
-
-      <label>Category</label>
-      <select id="itemCategory"></select>
-
-      <label>Image</label>
-      <img id="imgPreview" class="preview-img">
-
-      <div class="image-options">
-        <input type="url" id="itemImageURL" placeholder="Paste image URL">
-      </div>
-      <div class="or-divider">OR</div>
-      <input type="file" id="itemImage" accept="image/*">
-
-      <div class="modal-actions">
-        <button class="btn-save" onclick="saveItem()">Save Item</button>
-        <button class="btn-close" onclick="toggleAdmin()">Cancel</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Settings Modal -->
-  <div class="modal" id="settingsPanel">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h2>Settings</h2>
-        <button class="close-x" onclick="toggleSettings()">&times;</button>
-      </div>
-
-      <div class="settings-list">
-        <div class="settings-item" onclick="openRateModal()">
-          <div class="settings-icon rate"><i class="fas fa-star"></i></div>
-          <div class="settings-text">
-            <h4>Rate Us</h4>
-            <p>Rate your experience with us</p>
-          </div>
-        </div>
-
-        <div class="settings-item" onclick="openFeedbackModal()">
-          <div class="settings-icon feedback"><i class="fab fa-whatsapp"></i></div>
-          <div class="settings-text">
-            <h4>Send Feedback</h4>
-            <p>Send feedback directly to WhatsApp</p>
-          </div>
-        </div>
-
-        <div class="settings-item" onclick="resetApp()">
-          <div class="settings-icon reset"><i class="fas fa-undo"></i></div>
-          <div class="settings-text">
-            <h4>Reset to Default</h4>
-            <p>Restore all sample items</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Rate Us Modal -->
-  <div class="modal" id="rateModal">
-    <div class="modal-content" style="text-align:center">
-      <div class="modal-header">
-        <h2>Rate Us</h2>
-        <button class="close-x" onclick="closeRateModal()">&times;</button>
-      </div>
-      <p>How was your experience?</p>
-      <div class="stars" id="rateStars">
-        <i class="fa-regular fa-star" data-val="1"></i>
-        <i class="fa-regular fa-star" data-val="2"></i>
-        <i class="fa-regular fa-star" data-val="3"></i>
-        <i class="fa-regular fa-star" data-val="4"></i>
-        <i class="fa-regular fa-star" data-val="5"></i>
-      </div>
-      <textarea id="rateComment" placeholder="Leave a comment (optional)" rows="3"></textarea>
-      <button class="btn-whatsapp" onclick="sendRating()">
-        <i class="fab fa-whatsapp"></i> Send to WhatsApp
-      </button>
-    </div>
-  </div>
-
-  <!-- Feedback Modal -->
-  <div class="modal" id="feedbackModal">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h2>Send Feedback</h2>
-        <button class="close-x" onclick="closeFeedbackModal()">&times;</button>
-      </div>
-      <label>Your Feedback</label>
-      <textarea id="feedbackText" placeholder="Tell us what you think..." rows="4"></textarea>
-      <button class="btn-whatsapp" onclick="sendFeedback()">
-        <i class="fab fa-whatsapp"></i> Send to WhatsApp
-      </button>
-    </div>
-  </div>
-
-  <!-- Cart Modal -->
-  <div class="modal" id="cartPanel">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h2>Your Order</h2>
+        <h2>Your Cart</h2>
         <button class="close-x" onclick="toggleCart()">&times;</button>
       </div>
       <div id="cartItems"></div>
-      <div style="margin-top:15px; font-weight:700; font-size:1.2rem;">
+      <div class="cart-total">
         Total: KSH <span id="cartTotal">0</span>
       </div>
-      <button class="btn-whatsapp" onclick="sendOrderToWhatsApp()" style="margin-top:15px;">
-        <i class="fab fa-whatsapp"></i> Send Order to WhatsApp
+      <button class="checkout-btn" onclick="checkout()">
+        <i class="fab fa-whatsapp"></i> Checkout on WhatsApp
       </button>
     </div>
   </div>
 
   <footer>
-    <p>Powered by Timokama</p>
+    <div class="footer-content">
+      <div class="footer-col">
+        <h4>TasteHub</h4>
+        <p>Fresh food, fast delivery. Order your favorite meals online.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="restaurant-menu.html">All</a></li>
+          <li><a href="restaurant-menu.html#Burgers">Burgers</a></li>
+          <li><a href="restaurant-menu.html#Pizza">Pizza</a></li>
+          <li><a href="restaurant-menu.html#Drinks">Drinks</a></li>
+          <li><a href="restaurant-menu.html#Desserts">Desserts</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Customer Service</h4>
+        <ul>
+         
+          <li><a href="contact.html">Contact Us</a></li>
+          <li><a href="restaurant-returns.html">Returns</a></li>
+          <li><a href="faqrestaurant.html">FAQ</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 TasteHub. All rights reserved. | Nairobi, Kenya</p>
+    </div>
   </footer>
 
   <script>
     const WHATSAPP_NUMBER = "254768394866";
 
-    const defaultData = {
-      categories: ["Mains", "Drinks", "Snacks", "Desserts"],
+    const menuData = {
+      categories: ['All', 'Burgers', 'Pizza', 'Drinks', 'Desserts', 'Snacks'],
       items: [
-        // Mains
-        {id: 1, name: "Nyama Choma", desc: "Grilled beef with kachumbari", price: 400, category: "Mains", image: "https://images.unsplash.com/photo-1544025162-d76694265947?w=200"},
-        {id: 2, name: "Ugali & Sukuma", desc: "Classic Kenyan combo", price: 150, category: "Mains", image: "https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=200"},
-        {id: 3, name: "Chicken Stew", desc: "Served with rice", price: 250, category: "Mains", image: "https://images.unsplash.com/photo-1585032226651-759b368d7246?w=200"},
-
+        // Burgers
+        {id: 1, name: "Classic Burger", desc: "Beef patty, lettuce, tomato, cheese, house sauce", price: 450, category: "Burgers", image: "https://images.pexels.com/photos/5488046/pexels-photo-5488046.jpeg?auto=compress&cs=tinysrgb&w=600"},
+        {id: 2, name: "Cheese Burger", desc: "Double cheese, beef patty, pickles, onion", price: 550, category: "Burgers", image: "https://images.pexels.com/photos/12420469/pexels-photo-12420469.jpeg?auto=compress&cs=tinysrgb&w=600"},
+        {id: 9, name: "BBQ Bacon Burger", desc: "Smoky BBQ sauce, crispy bacon, cheddar", price: 650, category: "Burgers", image: "https://images.pexels.com/photos/11653560/pexels-photo-11653560.jpeg?auto=compress&cs=tinysrgb&w=600"},
+    
+        // Pizza
+        {id: 3, name: "Pepperoni Pizza", desc: "Crispy pepperoni, mozzarella, tomato sauce", price: 900, category: "Pizza", image: "https://images.pexels.com/photos/825661/pexels-photo-825661.jpeg?auto=compress&cs=tinysrgb&w=600"},
+        {id: 4, name: "Margherita Pizza", desc: "Tomato, mozzarella, fresh basil, olive oil", price: 800, category: "Pizza", image: "https://images.pexels.com/photos/2619970/pexels-photo-2619970.jpeg?auto=compress&cs=tinysrgb&w=600"},
+        {id: 10, name: "Veggie Supreme", desc: "Bell peppers, mushrooms, onions, olives", price: 850, category: "Pizza", image: "https://images.pexels.com/photos/1260968/pexels-photo-1260968.jpeg?auto=compress&cs=tinysrgb&w=600"},
+    
         // Drinks
-        {id: 4, name: "Fresh Juice", desc: "Passion & Mango blend", price: 120, category: "Drinks", image: "https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=200"},
-        {id: 5, name: "Soda 500ml", desc: "Coca Cola, Fanta, Sprite", price: 60, category: "Drinks", image: "https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=200"},
-        {id: 6, name: "Milkshake", desc: "Strawberry milkshake", price: 180, category: "Drinks", image: "https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=200"},
-        // Snacks
-        {id: 7, name: "Samosa", desc: "Crispy beef samosa, 2 pcs", price: 80, category: "Snacks", image: "https://images.unsplash.com/photo-1626132641358-444c442fd312?w=200"},
-        {id: 8, name: "Mandazi", desc: "Soft sweet fried dough, 3 pcs", price: 50, category: "Snacks", image: "https://images.unsplash.com/photo-1621303837174-89787a7d4729?w=200"},
-        {id: 9, name: "Bhajia", desc: "Potato bhajia with chutney", price: 70, category: "Snacks", image: "https://images.unsplash.com/photo-1596797038530-2c107229654b?w=200"},
-
+        {id: 5, name: "Fresh Juice", desc: "Passion & Mango blend, no added sugar", price: 120, category: "Drinks", image: "https://images.pexels.com/photos/96974/pexels-photo-96974.jpeg?auto=compress&cs=tinysrgb&w=600"},
+        {id: 6, name: "Milkshake", desc: "Strawberry milkshake with whipped cream", price: 180, category: "Drinks", image: "https://images.pexels.com/photos/1362534/pexels-photo-1362534.jpeg?auto=compress&cs=tinysrgb&w=600"},
+        {id: 11, name: "Iced Coffee", desc: "Cold brew with milk and vanilla syrup", price: 150, category: "Drinks", image: "https://images.pexels.com/photos/312418/pexels-photo-312418.jpeg?auto=compress&cs=tinysrgb&w=600"},
+    
         // Desserts
-        {id: 10, name: "Chocolate Cake", desc: "Moist chocolate slice with cream", price: 200, category: "Desserts", image: "https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=200"},
-        {id: 11, name: "Fruit Salad", desc: "Fresh seasonal fruits with cream", price: 150, category: "Desserts", image: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=200"},
-        {id: 12, name: "Ice Cream Sundae", desc: "Vanilla ice cream with syrup & nuts", price: 180, category: "Desserts", image: "https://images.unsplash.com/photo-1505394033641-40c6ad1178d7?w=200"}
+        {id: 7, name: "Chocolate Cake", desc: "Moist chocolate slice with cream frosting", price: 200, category: "Desserts", image: "https://images.pexels.com/photos/291528/pexels-photo-291528.jpeg?auto=compress&cs=tinysrgb&w=600"},
+        
+        // Ice Cream Sundae - UPDATED
+        {id: 8, name: "Ice Cream Sundae", desc: "Vanilla ice cream with syrup, nuts, cherry", price: 180, category: "Desserts", image: "https://images.pexels.com/photos/1352278/pexels-photo-1352278.jpeg?auto=compress&cs=tinysrgb&w=600"},
+        
+        {id: 12, name: "Apple Pie", desc: "Warm apple pie with cinnamon and ice cream", price: 220, category: "Desserts", image: "https://images.pexels.com/photos/6163273/pexels-photo-6163273.jpeg?auto=compress&cs=tinysrgb&w=600"},
+    
+        // Snacks
+        {id: 13, name: "Chicken Wings", desc: "Spicy buffalo wings, 6 pcs with dip", price: 400, category: "Snacks", image: "https://images.pexels.com/photos/2338407/pexels-photo-2338407.jpeg?auto=compress&cs=tinysrgb&w=600"},
+        {id: 14, name: "French Fries", desc: "Crispy golden fries with ketchup", price: 150, category: "Snacks", image: "https://images.pexels.com/photos/1583884/pexels-photo-1583884.jpeg?auto=compress&cs=tinysrgb&w=600"}
       ]
     };
-
-    let menuData = JSON.parse(localStorage.getItem('menuData'));
-    if (!menuData ||!menuData.items || menuData.items.length === 0) {
-      menuData = defaultData;
-      localStorage.setItem('menuData', JSON.stringify(menuData));
-    }
-
-    let currentCategory = menuData.categories[0];
+    
+    // ... rest of your JS stays the same
+    let currentCat = 'All';
     let cart = JSON.parse(localStorage.getItem('cart')) || [];
-    let rateRating = 0;
-
+    
+    function renderCategories() {
+      const catDiv = document.getElementById('categories');
+      catDiv.innerHTML = menuData.categories.map(cat =>
+        `<button class="cat-btn ${cat === currentCat? 'active' : ''}" onclick="filterMenu('${cat}')">${cat}</button>`
+      ).join('');
+    }
+    
+    function renderMenu() {
+      const menuDiv = document.getElementById('menu');
+      const filtered = currentCat === 'All'
+      ? menuData.items
+        : menuData.items.filter(i => i.category === currentCat);
+    
+      menuDiv.innerHTML = `<h2>${currentCat}</h2><div class="menu-grid"></div>`;
+      const grid = menuDiv.querySelector('.menu-grid');
+    
+      if (filtered.length === 0) {
+        grid.innerHTML = '<p style="text-align:center; color:#666; padding:40px;">No items in this category yet.</p>';
+        return;
+      }
+    
+      grid.innerHTML = filtered.map(item => `
+        <div class="menu-item">
+          <div class="img-wrap">
+            <img src="${item.image}" alt="${item.name}" loading="lazy"
+                 onerror="this.src='https://via.placeholder.com/600x400?text=No+Image'">
+          </div>
+          <div class="menu-item-info">
+            <h3>${item.name}</h3>
+            <p>${item.desc}</p>
+            <div class="price-row">
+              <div class="price-badge">KSH ${item.price.toLocaleString()}</div>
+              <button class="add-cart-btn" onclick="addToCart(${item.id})">Add</button>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+    
+    function filterMenu(cat) {
+      currentCat = cat;
+      window.location.hash = cat === 'All'? '' : cat;
+      renderCategories();
+      renderMenu();
+    }
+    
+    function addToCart(id) {
+      const item = menuData.items.find(i => i.id === id);
+      const existing = cart.find(i => i.id === id);
+      if (existing) existing.qty += 1;
+      else cart.push({...item, qty: 1});
+      saveCart();
+    }
+    
     function saveCart() {
       localStorage.setItem('cart', JSON.stringify(cart));
       updateCartBadge();
     }
-
+    
     function updateCartBadge() {
-      const badge = document.getElementById('cartBadge');
-      const totalQty = cart.reduce((sum, item) => sum + item.qty, 0);
-      badge.textContent = totalQty;
-      badge.style.display = totalQty > 0? 'flex' : 'none';
+      const total = cart.reduce((sum, item) => sum + item.qty, 0);
+      document.getElementById('cartBadge').textContent = total;
     }
-
-    function saveToStorage() {
-      localStorage.setItem('menuData', JSON.stringify(menuData));
-    }
-
-    function renderCategories() {
-      const catDiv = document.getElementById('categories');
-      const catSelect = document.getElementById('itemCategory');
-      catDiv.innerHTML = '';
-      catSelect.innerHTML = '';
-      menuData.categories.forEach(cat => {
-        catDiv.innerHTML += `<button class="category-btn ${cat === currentCategory? 'active' : ''}"
-          onclick="setCategory('${cat}')">${cat}</button>`;
-        catSelect.innerHTML += `<option value="${cat}">${cat}</option>`;
-      });
-    }
-
-    function renderMenu() {
-      const menuDiv = document.getElementById('menu');
-      const filtered = menuData.items.filter(i => i.category === currentCategory);
-
-      menuDiv.innerHTML = `<h2>${currentCategory}</h2><div class="menu-grid"></div>`;
-      const grid = menuDiv.querySelector('.menu-grid');
-
-      if (filtered.length === 0) {
-        grid.innerHTML = '<div class="empty-msg">No items found in this category.<br>Click the edit button to add some.</div>';
-        return;
-      }
-
-      filtered.forEach(item => {
-        grid.innerHTML += `
-          <div class="menu-item">
-            <img src="${item.image}" onerror="this.src='https://via.placeholder.com/200?text=No+Image'">
-            <div class="menu-item-info">
-              <h3>${item.name}</h3>
-              <p>${item.desc}</p>
-              <div class="price">KSH ${item.price.toLocaleString()}</div>
-              <button class="add-cart-btn" onclick="addToCart(${item.id})">Add to Cart</button>
-            </div>
-          </div>
-        `;
-      });
-    }
-
-    function setCategory(cat) {
-      currentCategory = cat;
-      renderCategories();
-      renderMenu();
-    }
-
-    function toggleAdmin() {
-      document.getElementById('adminPanel').classList.toggle('open');
-      if (document.getElementById('adminPanel').classList.contains('open')) clearForm();
-    }
-
-    function toggleSettings() {
-      document.getElementById('settingsPanel').classList.toggle('open');
-    }
-
+    
     function toggleCart() {
       renderCart();
-      document.getElementById('cartPanel').classList.toggle('open');
+      document.getElementById('cartModal').classList.toggle('open');
     }
-
-    function openRateModal() {
-      document.getElementById('settingsPanel').classList.remove('open');
-      document.getElementById('rateModal').classList.add('open');
-    }
-
-    function closeRateModal() {
-      document.getElementById('rateModal').classList.remove('open');
-      rateRating = 0;
-      document.getElementById('rateComment').value = '';
-      updateStars('rateStars', 0);
-    }
-
-    function openFeedbackModal() {
-      document.getElementById('settingsPanel').classList.remove('open');
-      document.getElementById('feedbackModal').classList.add('open');
-    }
-
-    function closeFeedbackModal() {
-      document.getElementById('feedbackModal').classList.remove('open');
-      document.getElementById('feedbackText').value = '';
-    }
-
-    function addToCart(id) {
-      const item = menuData.items.find(i => i.id === id);
-      const existing = cart.find(i => i.id === id);
-      if (existing) {
-        existing.qty += 1;
-      } else {
-        cart.push({...item, qty: 1});
-      }
-      saveCart();
-    }
-
+    
     function renderCart() {
       const cartDiv = document.getElementById('cartItems');
       const totalEl = document.getElementById('cartTotal');
+    
       if (cart.length === 0) {
-        cartDiv.innerHTML = '<p style="text-align:center; color:#777;">Cart is empty</p>';
+        cartDiv.innerHTML = '<p style="text-align:center; color:#666;">Your cart is empty</p>';
         totalEl.textContent = '0';
         return;
       }
+    
       let total = 0;
-      cartDiv.innerHTML = '';
-      cart.forEach(item => {
+      cartDiv.innerHTML = cart.map(item => {
         total += item.price * item.qty;
-        cartDiv.innerHTML += `
+        return `
           <div class="cart-item">
             <div>
               <strong>${item.name}</strong><br>
               <small>KSH ${item.price} x ${item.qty}</small>
             </div>
             <div class="cart-qty">
-              <button class="qty-btn" onclick="updateQty(${item.id}, -1)">-</button>
-              <span>${item.qty}</span>
-              <button class="qty-btn" onclick="updateQty(${item.id}, 1)">+</button>
+              <button onclick="updateQty(${item.id}, -1)">-</button>
+              ${item.qty}
+              <button onclick="updateQty(${item.id}, 1)">+</button>
             </div>
           </div>
         `;
-      });
+      }).join('');
+    
       totalEl.textContent = total.toLocaleString();
     }
-
+    
     function updateQty(id, change) {
       const item = cart.find(i => i.id === id);
       if (!item) return;
@@ -597,135 +415,39 @@ footer { text-align: center; padding: 30px; color: #777; font-size: 0.9rem; }
       saveCart();
       renderCart();
     }
-
-    function sendOrderToWhatsApp() {
-      if (cart.length === 0) {
-        alert('Cart is empty');
-        return;
-      }
-      let message = 'New Order from Mama\'s Kitchen\n';
+    
+    function checkout() {
+      if (cart.length === 0) return alert('Cart is empty');
+    
+      let message = 'New Order from TasteHub\n';
       let total = 0;
       cart.forEach(item => {
         message += `${item.name} x${item.qty} - KSH ${item.price * item.qty}\n`;
         total += item.price * item.qty;
       });
       message += `\nTotal: KSH ${total}`;
-      const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
-      window.open(url, '_blank');
+    
+      window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`, '_blank');
       cart = [];
       saveCart();
       toggleCart();
     }
-
-    document.getElementById('itemImage').addEventListener('change', function(e) {
-      const file = e.target.files[0];
-      if (!file) return;
-      const reader = new FileReader();
-      reader.onload = function(event) {
-        document.getElementById('imgPreview').src = event.target.result;
-        document.getElementById('imgPreview').style.display = 'block';
-        document.getElementById('imgPreview').dataset.base64 = event.target.result;
-      };
-      reader.readAsDataURL(file);
-    });
-
-    document.getElementById('itemImageURL').addEventListener('input', function(e) {
-      const url = e.target.value;
-      if (url) {
-        document.getElementById('imgPreview').src = url;
-        document.getElementById('imgPreview').style.display = 'block';
+    
+    function setCategoryFromHash() {
+      const hash = decodeURIComponent(window.location.hash.replace('#', ''));
+      if (menuData.categories.includes(hash)) {
+        currentCat = hash;
       }
-    });
-
-    function saveItem() {
-      const urlInput = document.getElementById('itemImageURL').value.trim();
-      const fileData = document.getElementById('imgPreview').dataset.base64;
-
-      let imageData = 'https://via.placeholder.com/200';
-      if (urlInput) {
-        imageData = urlInput;
-      } else if (fileData) {
-        imageData = fileData;
-      }
-
-      const item = {
-        id: Date.now(),
-        name: document.getElementById('itemName').value.trim(),
-        desc: document.getElementById('itemDesc').value.trim(),
-        price: parseInt(document.getElementById('itemPrice').value),
-        category: document.getElementById('itemCategory').value,
-        image: imageData
-      };
-
-      if (!item.name ||!item.price || item.price <= 0) {
-        alert('Please enter a valid name and price');
-        return;
-      }
-
-      menuData.items.push(item);
-      saveToStorage();
+    }
+    
+    window.addEventListener('hashchange', () => {
+      setCategoryFromHash();
+      renderCategories();
       renderMenu();
-      toggleAdmin();
-    }
-
-    function clearForm() {
-      document.getElementById('itemName').value = '';
-      document.getElementById('itemDesc').value = '';
-      document.getElementById('itemPrice').value = '';
-      document.getElementById('itemImage').value = '';
-      document.getElementById('itemImageURL').value = '';
-      document.getElementById('imgPreview').style.display = 'none';
-      document.getElementById('imgPreview').removeAttribute('data-base64');
-    }
-
-    function resetApp() {
-      if (confirm('Reset everything and restore sample items? This cannot be undone.')) {
-        localStorage.removeItem('menuData');
-        localStorage.removeItem('cart');
-        location.reload();
-      }
-    }
-
-    function sendRating() {
-      if (rateRating === 0) {
-        alert('Please select a rating');
-        return;
-      }
-      const comment = document.getElementById('rateComment').value;
-      const stars = '⭐'.repeat(rateRating);
-      const message = `Menu Rating\nRating: ${stars} ${rateRating}/5\nComment: ${comment || 'No comment'}`;
-      const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
-      window.open(url, '_blank');
-      closeRateModal();
-    }
-
-    function sendFeedback() {
-      const feedback = document.getElementById('feedbackText').value.trim();
-      if (!feedback) {
-        alert('Please enter your feedback');
-        return;
-      }
-      const message = `Menu Feedback\n${feedback}`;
-      const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
-      window.open(url, '_blank');
-      closeFeedbackModal();
-    }
-
-    function updateStars(containerId, rating) {
-      document.querySelectorAll(`#${containerId} i`).forEach((star, i) => {
-        star.classList.toggle('active', i < rating);
-        star.classList.toggle('fa-solid', i < rating);
-        star.classList.toggle('fa-regular', i >= rating);
-      });
-    }
-
-    document.getElementById('rateStars').addEventListener('click', (e) => {
-      if (e.target.tagName === 'I') {
-        rateRating = parseInt(e.target.dataset.val);
-        updateStars('rateStars', rateRating);
-      }
     });
-
+    
+    // Init
+    setCategoryFromHash();
     renderCategories();
     renderMenu();
     updateCartBadge();
