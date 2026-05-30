@@ -6,16 +6,21 @@
   <title>Restaurant Menu - TasteHub</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-  <link rel="stylesheet" href="restaurant-menu.css">
+  <link rel="stylesheet" href="restaurants-menu.css">
 </head>
 <body>
   <header>
     <div class="header-content">
       <h1><i class="fas fa-utensils"></i> TasteHub</h1>
-      <button class="cart-btn" onclick="toggleCart()">
-        <i class="fas fa-shopping-cart"></i>
-        <span class="cart-badge" id="cartBadge" style="display:none;">0</span>
-      </button>
+      <div style="display:flex;gap:8px;align-items:center;">
+        <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn" title="Toggle theme">
+          <i class="fas fa-moon"></i>
+        </button>
+        <button class="cart-btn" onclick="toggleCart()">
+          <i class="fas fa-shopping-cart"></i>
+          <span class="cart-badge" id="cartBadge">0</span>
+        </button>
+      </div>
     </div>
   </header>
 
@@ -24,7 +29,7 @@
     <div class="menu-section" id="menu"></div>
   </main>
 
-  <!-- Floating buttons: Settings + Cart -->
+  <!-- Floating buttons -->
   <div class="floating-btns">
     <button class="floating-btn btn-settings" onclick="openSettings()">
       <i class="fas fa-cog"></i>
@@ -34,7 +39,7 @@
     </button>
   </div>
 
-  <!-- Cart Modal - With Map like e-commerce -->
+  <!-- Cart Modal with Map -->
   <div class="modal" id="cartModal">
     <div class="modal-content">
       <div class="modal-header">
@@ -47,7 +52,6 @@
         Total: KSH <span id="cartTotal">0</span>
       </div>
 
-      <!-- Delivery Location with Map -->
       <div class="location-box">
         <label><i class="fas fa-map-marker-alt"></i> Delivery Location</label>
 
