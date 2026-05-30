@@ -24,20 +24,24 @@ let currentCat = 'All';
 let cart = JSON.parse(localStorage.getItem('cart')) || [];
 let rateRating = 0;
 
+// Map State
+let map, marker, mapLoaded = false;
+const sunton = [-1.2115, 36.9256]; // Default: Kasarani Nairobi
+
 // Menu Rendering
 function renderCategories() {
   const catDiv = document.getElementById('categories');
   if (!catDiv) return;
   catDiv.innerHTML = menuData.categories.map(cat =>
-    `<button class="cat-btn ${cat === currentCat ? 'active' : ''}" onclick="filterMenu('${cat}')">${cat}</button>`
+    `<button class="cat-btn ${cat === currentCat? 'active' : ''}" onclick="filterMenu('${cat}')">${cat}</button>`
   ).join('');
 }
 
 function renderMenu() {
   const menuDiv = document.getElementById('menu');
   if (!menuDiv) return;
-  
-  const filtered = currentCat === 'All' ? menuData.items : menuData.items.filter(i => i.category === currentCat);
+
+  const filtered = currentCat === 'All'? menuData.items : menuData.items.filter(i => i.category === currentCat);
 
   menuDiv.innerHTML = `<h2>${currentCat}</h2><div class="menu-grid"></div>`;
   const grid = menuDiv.querySelector('.menu-grid');
@@ -67,7 +71,7 @@ function renderMenu() {
 
 function filterMenu(cat) {
   currentCat = cat;
-  window.location.hash = cat === 'All' ? '' : cat;
+  window.location.hash = cat === 'All'? '' : cat;
   renderCategories();
   renderMenu();
 }
@@ -76,13 +80,13 @@ function filterMenu(cat) {
 function addToCart(id, e) {
   const item = menuData.items.find(i => i.id === id);
   if (!item) return;
-  
+
   const existing = cart.find(i => i.id === id);
   if (existing) existing.qty += 1;
   else cart.push({...item, qty: 1});
-  
+
   saveCart();
-  
+
   const btn = e?.target?.closest('button');
   if (btn) {
     btn.innerHTML = '<i class="fas fa-check"></i> Added';
@@ -100,20 +104,29 @@ function updateCartBadge() {
   if (!badge) return;
   const total = cart.reduce((sum, item) => sum + item.qty, 0);
   badge.textContent = total;
-  badge.style.display = total > 0 ? 'flex' : 'none';
+  badge.style.display = total > 0? 'flex' : 'none';
 }
 
 function toggleCart() {
   const modal = document.getElementById('cartModal');
   if (!modal) return;
+
+  const isOpening =!modal.classList.contains('open');
   renderCart();
   modal.classList.toggle('open');
+
+  if (isOpening) {
+    setTimeout(() => {
+      initMap();
+      if (map) map.invalidateSize();
+    }, 350);
+  }
 }
 
 function renderCart() {
   const cartDiv = document.getElementById('cartItems');
   const totalEl = document.getElementById('cartTotal');
-  if (!cartDiv || !totalEl) return;
+  if (!cartDiv ||!totalEl) return;
 
   if (cart.length === 0) {
     cartDiv.innerHTML = '<p style="text-align:center; color:#666; padding: 20px;">Your cart is empty</p>';
@@ -150,38 +163,198 @@ function updateQty(id, change) {
   const item = cart.find(i => i.id === id);
   if (!item) return;
   item.qty += change;
-  if (item.qty <= 0) cart = cart.filter(i => i.id !== id);
+  if (item.qty <= 0) cart = cart.filter(i => i.id!== id);
   saveCart();
   renderCart();
 }
 
 function removeItem(id) {
-  cart = cart.filter(i => i.id !== id);
+  cart = cart.filter(i => i.id!== id);
   saveCart();
   renderCart();
 }
 
-// Checkout - Address only, no map
+// Map Functions - Leaflet
+function initMap() {
+  if (mapLoaded) {
+    setTimeout(() => map && map.invalidateSize(), 100);
+    return;
+  }
+
+  const mapEl = document.getElementById('mapPreview');
+  if (!mapEl || typeof L === 'undefined') return;
+
+  map = L.map('mapPreview', {
+    zoomControl: true,
+    scrollWheelZoom: true,
+    dragging: true
+  }).setView(sunton, 16);
+
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; OpenStreetMap contributors',
+    maxZoom: 19
+  }).addTo(map);
+
+  marker = L.marker(sunton, {draggable: true}).addTo(map);
+  setLocation(sunton, "Sunton, Kasarani, Nairobi, Kenya");
+
+  map.on('click', function(e) {
+    marker.setLatLng(e.latlng);
+    reverseGeocode(e.latlng.lat, e.latlng.lng);
+  });
+
+  marker.on('dragend', function(e) {
+    const pos = marker.getLatLng();
+    reverseGeocode(pos.lat, pos.lng);
+  });
+
+  mapLoaded = true;
+}
+
+function reverseGeocode(lat, lng) {
+  fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`)
+ .then(res => res.json())
+ .then(data => {
+    setLocation([lat, lng], data.display_name || `${lat}, ${lng}`);
+  })
+ .catch(() => setLocation([lat, lng], `${lat.toFixed(6)}, ${lng.toFixed(6)}`));
+}
+
+function setLocation(latLng, address) {
+  const addrInput = document.getElementById('deliveryAddress');
+  const statusEl = document.getElementById('locationStatus');
+  if (!addrInput ||!statusEl) return;
+
+  addrInput.value = `https://maps.google.com/?q=${latLng[0]},${latLng[1]}`;
+  statusEl.textContent = '✓ Location set';
+  statusEl.style.color = '#10b981';
+  checkLocationComplete();
+}
+
+function getLocation() {
+  const statusEl = document.getElementById('locationStatus');
+  if (!statusEl) return;
+
+  if (!navigator.geolocation) {
+    statusEl.textContent = "GPS not supported. Use search or tap map.";
+    statusEl.style.color = "#ef4444";
+    return;
+  }
+
+  if (location.protocol!== 'https:' && location.hostname!== 'localhost') {
+    statusEl.textContent = "GPS needs HTTPS. Host site online or use search/tap map.";
+    statusEl.style.color = "#ef4444";
+    return;
+  }
+
+  statusEl.textContent = "Requesting location...";
+
+  navigator.geolocation.getCurrentPosition(
+    (position) => {
+      const pos = [position.coords.latitude, position.coords.longitude];
+      map.setView(pos, 17);
+      marker.setLatLng(pos);
+      reverseGeocode(pos[0], pos[1]);
+    },
+    (error) => {
+      let msg = "Could not get location. ";
+      if (error.code === error.PERMISSION_DENIED) {
+        msg += "Permission denied. Allow location in browser settings.";
+      } else if (error.code === error.POSITION_UNAVAILABLE) {
+        msg += "Location unavailable. Turn on GPS.";
+      } else if (error.code === error.TIMEOUT) {
+        msg += "Request timed out.";
+      }
+      msg += " Use search or tap map instead.";
+      statusEl.textContent = msg;
+      statusEl.style.color = "#ef4444";
+    },
+    { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+  );
+}
+
+// Location Search
+let searchTimeout;
+function setupLocationSearch() {
+  const searchInput = document.getElementById('locationSearch');
+  if (!searchInput) return;
+
+  searchInput.addEventListener('input', function() {
+    clearTimeout(searchTimeout);
+    const query = this.value.trim();
+
+    if (query.length < 3) {
+      document.getElementById('searchResults').style.display = 'none';
+      return;
+    }
+
+    searchTimeout = setTimeout(() => {
+      fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&countrycodes=ke&limit=5`)
+     .then(res => res.json())
+     .then(data => {
+        const resultsDiv = document.getElementById('searchResults');
+        if (data.length === 0) {
+          resultsDiv.style.display = 'none';
+          return;
+        }
+
+        resultsDiv.innerHTML = data.map(place =>
+          `<div onclick="selectSearchResult(${place.lat}, ${place.lon}, '${place.display_name.replace(/'/g, "\\'")}')">${place.display_name}</div>`
+        ).join('');
+        resultsDiv.style.display = 'block';
+      });
+    }, 500);
+  });
+}
+
+function selectSearchResult(lat, lon, address) {
+  const pos = [parseFloat(lat), parseFloat(lon)];
+  map.setView(pos, 17);
+  marker.setLatLng(pos);
+  setLocation(pos, address);
+  document.getElementById('searchResults').style.display = 'none';
+  document.getElementById('locationSearch').value = address;
+}
+
+function checkLocationComplete() {
+  const street = document.getElementById('streetAddress');
+  const mapLink = document.getElementById('deliveryAddress');
+  const statusEl = document.getElementById('locationStatus');
+  if (!street ||!mapLink ||!statusEl) return;
+
+  if (street.value.trim() && mapLink.value) {
+    statusEl.textContent = '✓ Location complete';
+    statusEl.style.color = '#10b981';
+  }
+}
+
+// Checkout - With Map Link
 function checkout() {
   if (cart.length === 0) return alert('Cart is empty');
 
   const street = document.getElementById('streetAddress');
-  if (!street || !street.value.trim()) {
+  const mapLink = document.getElementById('deliveryAddress');
+
+  if (!street ||!street.value.trim()) {
     alert("Please enter your house/building, street, estate");
     return;
   }
+  if (!mapLink ||!mapLink.value) {
+    alert("Please set your location on the map");
+    return;
+  }
 
-  sendOrderToWhatsApp(street.value.trim());
+  sendOrderToWhatsApp(street.value.trim(), mapLink.value);
   cart = [];
   saveCart();
   toggleCart();
-  
+
   setTimeout(() => {
     document.getElementById('rateModal')?.classList.add('open');
   }, 2000);
 }
 
-function sendOrderToWhatsApp(address) {
+function sendOrderToWhatsApp(address, mapLink) {
   let message = '🍔 New Order from TasteHub\n';
   let total = 0;
   cart.forEach(item => {
@@ -190,6 +363,7 @@ function sendOrderToWhatsApp(address) {
   });
   message += `\nTotal: KSH ${total.toLocaleString()}`;
   message += `\n\n📍 Delivery Address: ${address}`;
+  message += `\n🗺️ Map Link: ${mapLink}`;
   message += `\n\nOrder Time: ${new Date().toLocaleString()}`;
 
   window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`, '_blank');
@@ -282,13 +456,20 @@ window.addEventListener('hashchange', () => {
   renderMenu();
 });
 
+window.addEventListener('resize', () => {
+  if (map && document.getElementById('cartModal')?.classList.contains('open')) {
+    map.invalidateSize();
+  }
+});
+
 // Initialize
 document.addEventListener('DOMContentLoaded', () => {
   setCategoryFromHash();
   renderCategories();
   renderMenu();
   updateCartBadge();
-  
+  setupLocationSearch();
+
   const rateStars = document.getElementById('rateStars');
   if (rateStars) {
     rateStars.addEventListener('click', (e) => {
@@ -297,5 +478,10 @@ document.addEventListener('DOMContentLoaded', () => {
         updateStars(rateRating);
       }
     });
+  }
+
+  const streetInput = document.getElementById('streetAddress');
+  if (streetInput) {
+    streetInput.addEventListener('input', checkLocationComplete);
   }
 });
