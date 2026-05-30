@@ -23,10 +23,29 @@ const menuData = {
 let currentCat = 'All';
 let cart = JSON.parse(localStorage.getItem('cart')) || [];
 let rateRating = 0;
-
-// Map State
 let map, marker, mapLoaded = false;
-const sunton = [-1.2115, 36.9256]; // Default: Kasarani Nairobi
+const sunton = [-1.2115, 36.9256];
+
+// Theme Toggle
+function initTheme() {
+  const savedTheme = localStorage.getItem('tastehub_theme') || 'dark';
+  document.documentElement.setAttribute('data-theme', savedTheme);
+  updateThemeIcon(savedTheme);
+}
+
+function toggleTheme() {
+  const currentTheme = document.documentElement.getAttribute('data-theme');
+  const newTheme = currentTheme === 'dark'? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', newTheme);
+  localStorage.setItem('tastehub_theme', newTheme);
+  updateThemeIcon(newTheme);
+}
+
+function updateThemeIcon(theme) {
+  const btn = document.getElementById('themeBtn');
+  if (!btn) return;
+  btn.innerHTML = theme === 'dark'? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+}
 
 // Menu Rendering
 function renderCategories() {
@@ -47,7 +66,7 @@ function renderMenu() {
   const grid = menuDiv.querySelector('.menu-grid');
 
   if (filtered.length === 0) {
-    grid.innerHTML = '<p style="text-align:center; color:#666; padding:40px;">No items in this category yet.</p>';
+    grid.innerHTML = '<p style="text-align:center; color:var(--gray); padding:40px;">No items in this category yet.</p>';
     return;
   }
 
@@ -118,8 +137,8 @@ function toggleCart() {
   if (isOpening) {
     setTimeout(() => {
       initMap();
-      if (map) map.invalidateSize();
-    }, 350);
+      if (map) setTimeout(() => map.invalidateSize(), 100);
+    }, 300);
   }
 }
 
@@ -129,7 +148,7 @@ function renderCart() {
   if (!cartDiv ||!totalEl) return;
 
   if (cart.length === 0) {
-    cartDiv.innerHTML = '<p style="text-align:center; color:#666; padding: 20px;">Your cart is empty</p>';
+    cartDiv.innerHTML = '<p style="text-align:center; color:var(--gray); padding: 20px;">Your cart is empty</p>';
     totalEl.textContent = '0';
     return;
   }
@@ -174,7 +193,7 @@ function removeItem(id) {
   renderCart();
 }
 
-// Map Functions - Leaflet
+// Map Functions
 function initMap() {
   if (mapLoaded) {
     setTimeout(() => map && map.invalidateSize(), 100);
@@ -213,11 +232,11 @@ function initMap() {
 
 function reverseGeocode(lat, lng) {
   fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`)
- .then(res => res.json())
- .then(data => {
-    setLocation([lat, lng], data.display_name || `${lat}, ${lng}`);
-  })
- .catch(() => setLocation([lat, lng], `${lat.toFixed(6)}, ${lng.toFixed(6)}`));
+   .then(res => res.json())
+   .then(data => {
+      setLocation([lat, lng], data.display_name || `${lat}, ${lng}`);
+    })
+   .catch(() => setLocation([lat, lng], `${lat.toFixed(6)}, ${lng.toFixed(6)}`));
 }
 
 function setLocation(latLng, address) {
@@ -227,7 +246,7 @@ function setLocation(latLng, address) {
 
   addrInput.value = `https://maps.google.com/?q=${latLng[0]},${latLng[1]}`;
   statusEl.textContent = '✓ Location set';
-  statusEl.style.color = '#10b981';
+  statusEl.style.color = 'var(--success)';
   checkLocationComplete();
 }
 
@@ -237,13 +256,13 @@ function getLocation() {
 
   if (!navigator.geolocation) {
     statusEl.textContent = "GPS not supported. Use search or tap map.";
-    statusEl.style.color = "#ef4444";
+    statusEl.style.color = "var(--danger)";
     return;
   }
 
   if (location.protocol!== 'https:' && location.hostname!== 'localhost') {
     statusEl.textContent = "GPS needs HTTPS. Host site online or use search/tap map.";
-    statusEl.style.color = "#ef4444";
+    statusEl.style.color = "var(--danger)";
     return;
   }
 
@@ -267,13 +286,12 @@ function getLocation() {
       }
       msg += " Use search or tap map instead.";
       statusEl.textContent = msg;
-      statusEl.style.color = "#ef4444";
+      statusEl.style.color = "var(--danger)";
     },
     { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
   );
 }
 
-// Location Search
 let searchTimeout;
 function setupLocationSearch() {
   const searchInput = document.getElementById('locationSearch');
@@ -290,19 +308,19 @@ function setupLocationSearch() {
 
     searchTimeout = setTimeout(() => {
       fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&countrycodes=ke&limit=5`)
-     .then(res => res.json())
-     .then(data => {
-        const resultsDiv = document.getElementById('searchResults');
-        if (data.length === 0) {
-          resultsDiv.style.display = 'none';
-          return;
-        }
+       .then(res => res.json())
+       .then(data => {
+          const resultsDiv = document.getElementById('searchResults');
+          if (data.length === 0) {
+            resultsDiv.style.display = 'none';
+            return;
+          }
 
-        resultsDiv.innerHTML = data.map(place =>
-          `<div onclick="selectSearchResult(${place.lat}, ${place.lon}, '${place.display_name.replace(/'/g, "\\'")}')">${place.display_name}</div>`
-        ).join('');
-        resultsDiv.style.display = 'block';
-      });
+          resultsDiv.innerHTML = data.map(place =>
+            `<div onclick="selectSearchResult(${place.lat}, ${place.lon}, '${place.display_name.replace(/'/g, "\\'")}')">${place.display_name}</div>`
+          ).join('');
+          resultsDiv.style.display = 'block';
+        });
     }, 500);
   });
 }
@@ -324,11 +342,11 @@ function checkLocationComplete() {
 
   if (street.value.trim() && mapLink.value) {
     statusEl.textContent = '✓ Location complete';
-    statusEl.style.color = '#10b981';
+    statusEl.style.color = 'var(--success)';
   }
 }
 
-// Checkout - With Map Link
+// Checkout
 function checkout() {
   if (cart.length === 0) return alert('Cart is empty');
 
@@ -464,6 +482,7 @@ window.addEventListener('resize', () => {
 
 // Initialize
 document.addEventListener('DOMContentLoaded', () => {
+  initTheme();
   setCategoryFromHash();
   renderCategories();
   renderMenu();
