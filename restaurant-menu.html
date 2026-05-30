@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Restaurant Menu - TasteHub</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
   <link rel="stylesheet" href="restaurant-menu.css">
 </head>
 <body>
@@ -33,7 +34,7 @@
     </button>
   </div>
 
-  <!-- Cart Modal - No Map -->
+  <!-- Cart Modal - With Map like e-commerce -->
   <div class="modal" id="cartModal">
     <div class="modal-content">
       <div class="modal-header">
@@ -46,11 +47,23 @@
         Total: KSH <span id="cartTotal">0</span>
       </div>
 
-      <!-- Delivery Address Only -->
+      <!-- Delivery Location with Map -->
       <div class="location-box">
-        <label><i class="fas fa-map-marker-alt"></i> Delivery Address</label>
-        <input id="streetAddress" type="text" placeholder="House/Building, Street, Estate, Landmark">
-        <p class="location-status" id="locationStatus">Enter full delivery address</p>
+        <label><i class="fas fa-map-marker-alt"></i> Delivery Location</label>
+
+        <input id="streetAddress" type="text" placeholder="House/Building, Street, Estate">
+
+        <input id="locationSearch" type="text" placeholder="Search estate, area, or landmark">
+        <div id="searchResults" class="search-results"></div>
+
+        <button type="button" class="location-btn" onclick="getLocation()">
+          <i class="fas fa-location-arrow"></i> Use My Current Location
+        </button>
+
+        <div id="mapPreview"></div>
+
+        <input type="hidden" id="deliveryAddress">
+        <p class="location-status" id="locationStatus">Search, tap map, or use GPS to set location</p>
       </div>
 
       <button class="checkout-btn" onclick="checkout()">
@@ -154,6 +167,7 @@
     </div>
   </footer>
 
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="restaurant-menu.js"></script>
 </body>
-  </html>
+</html>
