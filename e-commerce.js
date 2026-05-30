@@ -1,31 +1,48 @@
 const WHATSAPP_NUMBER = "254768394866";
 
+// Theme Toggle
+function initTheme() {
+  const savedTheme = localStorage.getItem('shopmart_theme') || 'dark';
+  document.documentElement.setAttribute('data-theme', savedTheme);
+  updateThemeIcon(savedTheme);
+}
+
+function toggleTheme() {
+  const currentTheme = document.documentElement.getAttribute('data-theme');
+  const newTheme = currentTheme === 'dark'? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', newTheme);
+  localStorage.setItem('shopmart_theme', newTheme);
+  updateThemeIcon(newTheme);
+}
+
+function updateThemeIcon(theme) {
+  const btn = document.getElementById('themeBtn');
+  if (!btn) return;
+  btn.innerHTML = theme === 'dark'? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+}
+
 // Product Data
 const products = [
   {id: 1, name: "Wireless Headphones", desc: "Active noise cancelling, 30hr battery", price: 8999, oldPrice: 12999, category: "Electronics", image: "https://images.pexels.com/photos/3394650/pexels-photo-3394650.jpeg?auto=compress&cs=tinysrgb&w=500", badge: "HOT"},
   {id: 2, name: "Smart Watch Pro", desc: "Heart rate, GPS, waterproof up to 50m", price: 19999, oldPrice: 24999, category: "Electronics", image: "https://images.pexels.com/photos/437037/pexels-photo-437037.jpeg?auto=compress&cs=tinysrgb&w=500", badge: "BESTSELLER"},
   {id: 3, name: "Bluetooth Speaker", desc: "Portable, 12hr playtime, deep bass", price: 4999, category: "Electronics", image: "https://images.pexels.com/photos/1279107/pexels-photo-1279107.jpeg?auto=compress&cs=tinysrgb&w=500", badge: ""},
   {id: 4, name: "Gaming Mouse", desc: "16000 DPI, RGB lighting, ultra fast", price: 5999, category: "Electronics", image: "https://images.pexels.com/photos/7915437/pexels-photo-7915437.jpeg?auto=compress&cs=tinysrgb&w=500", badge: ""},
-  
   {id: 5, name: "Premium T-Shirt", desc: "100% organic cotton, slim fit", price: 1999, category: "Fashion", image: "https://images.pexels.com/photos/1040424/pexels-photo-1040424.jpeg?auto=compress&cs=tinysrgb&w=500", badge: ""},
   {id: 6, name: "Winter Jacket", desc: "Waterproof, windproof, thermal lining", price: 7999, oldPrice: 9999, category: "Fashion", image: "https://images.pexels.com/photos/1183266/pexels-photo-1183266.jpeg?auto=compress&cs=tinysrgb&w=500", badge: "SALE"},
   {id: 7, name: "Running Shoes", desc: "Lightweight, breathable, anti-slip sole", price: 6999, category: "Fashion", image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=500&q=80", badge: ""},
   {id: 8, name: "Travel Backpack", desc: "20L capacity, laptop compartment", price: 3999, category: "Fashion", image: "https://images.pexels.com/photos/2905238/pexels-photo-2905238.jpeg?auto=compress&cs=tinysrgb&w=500", badge: ""},
   {id: 15, name: "Perfume", desc: "Eau de parfum 50ml, long lasting scent", price: 3200, category: "Fashion", image: "https://images.unsplash.com/photo-1541643600914-78b084683601?w=600&auto=format&fit=crop&q=75", badge: ""},
-  
   {id: 9, name: "Coffee Maker", desc: "12-cup programmable, auto shut-off", price: 4499, category: "Home", image: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=600&auto=format&fit=crop&q=75", badge: ""},
   {id: 10, name: "Air Fryer XL", desc: "5.5L capacity, digital control, oil-free", price: 8999, category: "Home", image: "https://images.pexels.com/photos/1581384/pexels-photo-1581384.jpeg?auto=compress&cs=tinysrgb&w=500", badge: "NEW"},
   {id: 11, name: "Cordless Vacuum", desc: "Powerful suction, 40min runtime", price: 12999, oldPrice: 15999, category: "Home", image: "https://images.pexels.com/photos/4108715/pexels-photo-4108715.jpeg?auto=compress&cs=tinysrgb&w=500", badge: ""},
   {id: 12, name: "LED Desk Lamp", desc: "Adjustable brightness, eye-care mode", price: 2499, category: "Home", image: "https://images.pexels.com/photos/1123260/pexels-photo-1123260.jpeg?auto=compress&cs=tinysrgb&w=500", badge: ""},
   {id: 13, name: "Water Heater", desc: "50L electric water heater, fast heating", price: 12000, category: "Home", image: "https://images.pexels.com/photos/30946797/pexels-photo-30946797.jpeg?auto=compress&cs=tinysrgb&w=500", badge: ""},
   {id: 14, name: "Duvet", desc: "Soft warm duvet 200x230cm, hypoallergenic", price: 3500, category: "Home", image: "https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=600&auto=format&fit=crop&q=75", badge: "NEW"},
-  
   {id: 16, name: "3-Seater Sofa", desc: "Fabric sofa with cushions, modern design", price: 45000, category: "Furniture", image: "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=600&auto=format&fit=crop&q=75", badge: ""},
   {id: 17, name: "Ergonomic Chair", desc: "Adjustable office chair with lumbar support", price: 12000, category: "Furniture", image: "https://images.unsplash.com/photo-1600494603989-9650cf6ddd3d?w=600&auto=format&fit=crop&q=75", badge: "NEW"}
 ];
 
 const categories = ["All", "Electronics", "Fashion", "Home", "Furniture"];
-
 // App State
 let currentCat = "All";
 let cart = JSON.parse(localStorage.getItem('cart')) || [];
@@ -46,7 +63,7 @@ function updateCartBadge() {
   if (!badge) return;
   const qty = cart.reduce((sum, item) => sum + item.qty, 0);
   badge.textContent = qty;
-  badge.style.display = qty > 0 ? 'flex' : 'none';
+  badge.style.display = qty > 0? 'flex' : 'none';
 }
 
 function addToCart(id, e) {
@@ -75,7 +92,7 @@ function toggleCart() {
   const modal = document.getElementById('cartModal');
   if (!modal) return;
   
-  const isOpening = !modal.classList.contains('open');
+  const isOpening =!modal.classList.contains('open');
   renderCart();
   modal.classList.toggle('open');
 
@@ -90,7 +107,7 @@ function toggleCart() {
 function renderCart() {
   const cartDiv = document.getElementById('cartItems');
   const totalEl = document.getElementById('cartTotal');
-  if (!cartDiv || !totalEl) return;
+  if (!cartDiv ||!totalEl) return;
   
   if (cart.length === 0) {
     cartDiv.innerHTML = '<p style="text-align:center; color:var(--gray); padding:30px;">Your cart is empty</p>';
@@ -103,7 +120,7 @@ function renderCart() {
     total += item.price * item.qty;
     return `
       <div class="cart-item">
-        <img src="${item.image}" onerror="this.onerror=null;this.src='https://via.placeholder.com/500x500?text=No+Image'">
+        <img src="${item.image}" onerror="this.onerror=null;this.src='https://via.placeholder.com/60x60?text=No+Img'">
         <div style="flex:1;">
           <strong>${item.name}</strong>
           <div style="color:var(--primary); font-weight:700;">KSH ${item.price.toLocaleString()}</div>
@@ -126,30 +143,29 @@ function updateQty(id, change) {
   const item = cart.find(i => i.id === id);
   if (!item) return;
   item.qty += change;
-  if (item.qty <= 0) cart = cart.filter(i => i.id !== id);
+  if (item.qty <= 0) cart = cart.filter(i => i.id!== id);
   saveCart();
   renderCart();
 }
 
 function removeItem(id) {
-  cart = cart.filter(i => i.id !== id);
+  cart = cart.filter(i => i.id!== id);
   saveCart();
   renderCart();
 }
-
 // Product Rendering
 function renderCategories() {
   const catDiv = document.getElementById('categories');
   if (!catDiv) return;
   catDiv.innerHTML = categories.map(cat => 
-    `<button class="cat-btn ${cat === currentCat ? 'active' : ''}" 
+    `<button class="cat-btn ${cat === currentCat? 'active' : ''}" 
      onclick="setCategory('${cat}')">${cat}</button>`
   ).join('');
 }
 
 function renderProducts() {
   const searchInput = document.getElementById('searchInput');
-  const search = searchInput ? searchInput.value.toLowerCase() : '';
+  const search = searchInput? searchInput.value.toLowerCase() : '';
   const filtered = products.filter(p => {
     const matchCat = currentCat === "All" || p.category === currentCat;
     const matchSearch = p.name.toLowerCase().includes(search) || 
@@ -170,12 +186,12 @@ function renderProducts() {
       <img src="${p.image}" class="product-img" 
            onerror="this.onerror=null;this.src='https://via.placeholder.com/500x500?text=No+Image'">
       <div class="product-info">
-        ${p.badge ? `<span class="product-badge">${p.badge}</span>` : ''}
+        ${p.badge? `<span class="product-badge">${p.badge}</span>` : ''}
         <div class="product-title">${p.name}</div>
         <div class="product-desc">${p.desc}</div>
         <div class="product-price">
           KSH ${p.price.toLocaleString()}
-          ${p.oldPrice ? `<small>KSH ${p.oldPrice.toLocaleString()}</small>` : ''}
+          ${p.oldPrice? `<small>KSH ${p.oldPrice.toLocaleString()}</small>` : ''}
         </div>
         <button class="add-cart-btn" onclick="addToCart(${p.id}, event)">
           <i class="fas fa-cart-plus"></i> Add
@@ -200,7 +216,6 @@ function setCategory(cat, event) {
     link.classList.toggle('active', text === target);
   });
 }
-
 // Map Functions
 function initMap() {
   if (mapLoaded) {
@@ -253,7 +268,7 @@ function reverseGeocode(lat, lng) {
 function setLocation(latLng, address) {
   const addrInput = document.getElementById('deliveryAddress');
   const statusEl = document.getElementById('locationStatus');
-  if (!addrInput || !statusEl) return;
+  if (!addrInput ||!statusEl) return;
   
   addrInput.value = `https://maps.google.com/?q=${latLng[0]},${latLng[1]}`;
   statusEl.textContent = '✓ Location set';
@@ -271,7 +286,7 @@ function getLocation() {
     return;
   }
 
-  if (location.protocol !== 'https:' && location.hostname !== 'localhost') {
+  if (location.protocol!== 'https:' && location.hostname!== 'localhost') {
     statusEl.textContent = "GPS needs HTTPS. Host site online or use search/tap map.";
     statusEl.style.color = "var(--danger)";
     return;
@@ -358,7 +373,7 @@ function checkLocationComplete() {
   const street = document.getElementById('streetAddress');
   const mapLink = document.getElementById('deliveryAddress');
   const statusEl = document.getElementById('locationStatus');
-  if (!street || !mapLink || !statusEl) return;
+  if (!street ||!mapLink ||!statusEl) return;
 
   if (street.value.trim() && mapLink.value) {
     statusEl.textContent = '✓ Location complete';
@@ -373,7 +388,7 @@ function checkout() {
   const street = document.getElementById('streetAddress');
   const mapLink = document.getElementById('deliveryAddress');
   
-  if (!street || !mapLink) {
+  if (!street ||!mapLink) {
     alert("Location fields not found");
     return;
   }
@@ -413,7 +428,6 @@ function sendOrderToWhatsApp(street, mapLink) {
   const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
   window.open(url, '_blank');
 }
-
 // Settings Modal
 function openSettings() {
   const modal = document.getElementById('settingsModal');
@@ -478,14 +492,33 @@ function sendRating() {
   if (rateRating === 0) return alert('Please select a rating');
   const comment = document.getElementById('rateComment');
   const stars = '⭐'.repeat(rateRating);
-  const message = `ShopMart Rating\nRating: ${stars} ${rateRating}/5\nComment: ${comment ? comment.value : 'No comment'}`;
+  const message = `ShopMart Rating\nRating: ${stars} ${rateRating}/5\nComment: ${comment? comment.value : 'No comment'}`;
   const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
   window.open(url, '_blank');
   closeRateModal();
 }
 
+function openWhatsAppSupport() {
+  const message = `Hello ShopMart Support Team,\n\nI need help with:`;
+  const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+  window.open(url, '_blank');
+  closeSettings();
+}
+
+function openAboutPage() {
+  window.location.href = '/about-shopmart.html';
+  closeSettings();
+}
+
+window.addEventListener('resize', () => {
+  if (map && document.getElementById('cartModal')?.classList.contains('open')) {
+    map.invalidateSize();
+  }
+});
+
 // Init
 document.addEventListener('DOMContentLoaded', () => {
+  initTheme();
   renderCategories();
   renderProducts();
   updateCartBadge();
@@ -509,21 +542,5 @@ document.addEventListener('DOMContentLoaded', () => {
   const streetInput = document.getElementById('streetAddress');
   if (streetInput) {
     streetInput.addEventListener('input', checkLocationComplete);
-  }
-});
-function openWhatsAppSupport() {
-  const message = `Hello ShopMart Support Team,\n\nI need help with:`;
-  const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
-  window.open(url, '_blank');
-  closeSettings();
-}
-
-function openAboutPage() {
-  window.location.href = '/about-shopmart.html';
-  closeSettings();
-}
-window.addEventListener('resize', () => {
-  if (map && document.getElementById('cartModal')?.classList.contains('open')) {
-    map.invalidateSize();
   }
 });
