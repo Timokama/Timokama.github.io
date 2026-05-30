@@ -506,7 +506,19 @@ footer {
   text-decoration: none;
   line-height: 2;
 }
-
+.social-links {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+}
+.social-links a {
+  color: var(--gray);
+  font-size: 1.4rem;
+  transition: 0.2s;
+}
+.social-links a:hover {
+  color: var(--primary);
+}
 .footer-bottom {
   text-align: center;
   padding: 20px;
