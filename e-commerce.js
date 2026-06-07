@@ -1,273 +1,328 @@
-// ===== CONFIG - BADILISHA HII NA LINK YAKO YA CLOUDFLARE =====
-const API_URL = "https://loud-redhead-establishing-descending.trycloudflare.com";
-const WHATSAPP_NUMBER = "254768394866";
+const CONFIG = {
+  API_URL: 'https://refrigerator-interference-managers-belkin.trycloudflare.com/api',
+  WHATSAPP_NUMBER: '254768394866',
+  TIMEOUT: 10000,
+  RETRY_COUNT: 2
+};
 
-// ===== THEME =====
-function initTheme() {
-  const savedTheme = localStorage.getItem('shopmart_theme') || 'dark';
-  document.documentElement.setAttribute('data-theme', savedTheme);
-  updateThemeIcon(savedTheme);
-}
+let state = {
+  cart: JSON.parse(localStorage.getItem('cart')) || [],
+  products: JSON.parse(localStorage.getItem('products_cache')) || [],
+  categories: JSON.parse(localStorage.getItem('cats_cache')) || ['All'],
+  currentCategory: 'All',
+  loading: false,
+  map: null,
+  marker: null,
+  selectedLocation: null
+};
 
-function toggleTheme() {
-  const currentTheme = document.documentElement.getAttribute('data-theme');
-  const newTheme = currentTheme === 'dark'? 'light' : 'dark';
-  document.documentElement.setAttribute('data-theme', newTheme);
-  localStorage.setItem('shopmart_theme', newTheme);
-  updateThemeIcon(newTheme);
-}
-
-function updateThemeIcon(theme) {
-  const btn = document.getElementById('themeBtn');
-  if (btn) btn.innerHTML = theme === 'dark'? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
-}
-
-// ===== STATE =====
-let currentCat = "All";
-let cart = JSON.parse(localStorage.getItem('cart')) || [];
-let products = [];
-let map, marker;
-
-// ===== CART FUNCTIONS =====
-function saveCart() {
-  localStorage.setItem('cart', JSON.stringify(cart));
+document.addEventListener('DOMContentLoaded', () => {
+  renderCategories();
+  if (state.products.length > 0) renderProducts();
   updateCartBadge();
-}
+  
+  Promise.all([loadCategories(), loadProducts()]);
+  
+  let searchTimer;
+  document.getElementById('searchInput')?.addEventListener('input', () => {
+    clearTimeout(searchTimer);
+    searchTimer = setTimeout(loadProducts, 300);
+  });
+});
 
-function updateCartBadge() {
-  const badge = document.getElementById('cartBadge');
-  if (!badge) return;
-  const qty = cart.reduce((sum, item) => sum + item.qty, 0);
-  badge.textContent = qty;
-  badge.style.display = qty > 0? 'flex' : 'none';
-}
-
-function addToCart(id, e) {
-  const product = products.find(p => p.id === id);
-  if (!product) return;
-  
-  const existing = cart.find(i => i.id === id);
-  if (existing) existing.qty += 1;
-  else cart.push({...product, qty: 1});
-  
-  saveCart();
-  
-  const btn = e.target.closest('button');
-  const originalHTML = btn.innerHTML;
-  btn.innerHTML = '<i class="fas fa-check"></i> Added';
-  btn.disabled = true;
-  setTimeout(() => {
-    btn.innerHTML = originalHTML;
-    btn.disabled = false;
-  }, 1200);
-}
-
-function toggleCart() {
-  const modal = document.getElementById('cartModal');
-  modal.classList.toggle('open');
-  
-  if (modal.classList.contains('open')) {
-    renderCart();
-    setTimeout(initMap, 300);
+async function fetchWithRetry(url, options = {}, retries = CONFIG.RETRY_COUNT) {
+  for (let i = 0; i <= retries; i++) {
+    try {
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), CONFIG.TIMEOUT);
+      
+      const res = await fetch(url + `&t=${Date.now()}`, { ...options, signal: controller.signal });
+      clearTimeout(timeout);
+      
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      return res;
+    } catch (err) {
+      if (i === retries) throw err;
+      await new Promise(r => setTimeout(r, 1000 * (i + 1)));
+      console.log(`Retry ${i + 1}/${retries}`);
+    }
   }
 }
 
-function renderCart() {
-  const cartDiv = document.getElementById('cartItems');
-  const totalEl = document.getElementById('cartTotal');
-  
-  if (cart.length === 0) {
-    cartDiv.innerHTML = '<p style="text-align:center; color:var(--muted); padding:40px;">Your cart is empty</p>';
-    totalEl.textContent = '0';
-    return;
-  }
-
-  let total = 0;
-  cartDiv.innerHTML = cart.map(item => {
-    total += item.price * item.qty;
-    return `
-      <div class="cart-item">
-        <img src="${item.image}" onerror="this.src='https://via.placeholder.com/70x70?text=No+Img'">
-        <div style="flex:1;">
-          <strong>${item.name}</strong>
-          <div style="color:var(--primary); font-weight:700;">KSH ${item.price.toLocaleString()}</div>
-          <div class="cart-qty">
-            <button class="qty-btn" onclick="updateQty(${item.id}, -1)">-</button>
-            <span>${item.qty}</span>
-            <button class="qty-btn" onclick="updateQty(${item.id}, 1)">+</button>
-            <button class="qty-btn" onclick="removeItem(${item.id})" style="color:var(--danger); border-color:var(--danger);">
-              <i class="fas fa-trash"></i>
-            </button>
-          </div>
-        </div>
-      </div>
-    `;
-  }).join('');
-  totalEl.textContent = total.toLocaleString();
-}
-
-function updateQty(id, change) {
-  const item = cart.find(i => i.id === id);
-  if (!item) return;
-  item.qty += change;
-  if (item.qty <= 0) cart = cart.filter(i => i.id!== id);
-  saveCart();
-  renderCart();
-}
-
-function removeItem(id) {
-  cart = cart.filter(i => i.id!== id);
-  saveCart();
-  renderCart();
-}
-
-// ===== PRODUCTS =====
-const categories = ["All", "Electronics", "Fashion", "Home", "Furniture"];
-
-async function loadProducts() {
-  const grid = document.getElementById('products');
+async function loadCategories() {
   try {
-    const res = await fetch(`${API_URL}/api/products`);
-    if (!res.ok) throw new Error('Network response was not ok');
-    products = await res.json();
-    renderProducts();
-  } catch (err) {
-    console.error('Failed to load products:', err);
-    grid.innerHTML = `
-      <div class="loading" style="color:var(--danger)">
-        <i class="fas fa-exclamation-triangle"></i><br>
-        Failed to connect to backend.<br>
-        <small>Make sure Cloudflare Tunnel is running: cloudflared tunnel --url http://localhost:5000</small>
-      </div>
-    `;
+    const res = await fetchWithRetry(`${CONFIG.API_URL}/categories`);
+    const cats = await res.json();
+    if (JSON.stringify(cats) !== JSON.stringify(state.categories)) {
+      state.categories = cats;
+      localStorage.setItem('cats_cache', JSON.stringify(cats));
+      renderCategories();
+    }
+  } catch (e) {
+    console.log('Categories from cache');
   }
 }
 
 function renderCategories() {
-  const catDiv = document.getElementById('categories');
-  catDiv.innerHTML = categories.map(cat => 
-    `<button class="cat-btn ${cat === currentCat? 'active' : ''}" 
-     onclick="setCategory('${cat}')">${cat}</button>`
-  ).join('');
+  document.getElementById('categories').innerHTML = state.categories.map(cat => `
+    <button class="cat-btn ${cat === state.currentCategory ? 'active' : ''}"
+      onclick="filterByCategory('${cat}')">${cat}</button>
+  `).join('');
 }
 
-function renderProducts() {
-  const search = document.getElementById('searchInput').value.toLowerCase();
-  const filtered = products.filter(p => {
-    const matchCat = currentCat === "All" || p.category === currentCat;
-    const matchSearch = p.name.toLowerCase().includes(search) || 
-                       p.description.toLowerCase().includes(search);
-    return matchCat && matchSearch;
-  });
-
-  const grid = document.getElementById('products');
+async function filterByCategory(cat) {
+  if (state.currentCategory === cat || state.loading) return;
+  state.currentCategory = cat;
   
-  if (filtered.length === 0) {
-    grid.innerHTML = '<div class="loading">No products found</div>';
-    return;
-  }
+  document.querySelectorAll('.cat-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.textContent === cat);
+  });
+  
+  showSkeleton();
+  loadProducts();
+}
 
-  grid.innerHTML = filtered.map(p => `
+function showSkeleton() {
+  state.loading = true;
+  document.getElementById('products').innerHTML = Array(6).fill(0).map(() => `
     <div class="product-card">
-      <img src="${p.image}" class="product-img" onerror="this.src='https://via.placeholder.com/500x500?text=No+Image'">
+      <div class="img-wrap skeleton"></div>
       <div class="product-info">
-        ${p.badge? `<span class="product-badge">${p.badge}</span>` : ''}
-        <div class="product-title">${p.name}</div>
-        <div class="product-desc">${p.description}</div>
-        <div class="product-price">
-          KSH ${p.price.toLocaleString()}
-          ${p.old_price? `<small>KSH ${p.old_price.toLocaleString()}</small>` : ''}
+        <div class="skeleton-line"></div>
+        <div class="skeleton-line short"></div>
+        <div class="price-row">
+          <div class="skeleton-line price"></div>
+          <div class="skeleton-btn"></div>
         </div>
-        <button class="add-cart-btn" onclick="addToCart(${p.id}, event)">
-          <i class="fas fa-cart-plus"></i> Add to Cart
-        </button>
       </div>
     </div>
   `).join('');
 }
 
-function setCategory(cat) {
-  currentCat = cat;
-  renderCategories();
-  renderProducts();
+async function loadProducts() {
+  const grid = document.getElementById('products');
+  
+  try {
+    const params = new URLSearchParams();
+    if (state.currentCategory !== 'All') params.append('category', state.currentCategory);
+    const search = document.getElementById('searchInput')?.value.trim();
+    if (search) params.append('search', search);
+    
+    const res = await fetchWithRetry(`${CONFIG.API_URL}/products?${params}`);
+    state.products = await res.json();
+    
+    localStorage.setItem('products_cache', JSON.stringify(state.products));
+    renderProducts();
+  } catch (err) {
+    console.error('Load error:', err);
+    
+    if (state.products.length > 0) {
+      renderProducts();
+      grid.insertAdjacentHTML('afterbegin', 
+        '<div style="grid-column:1/-1;text-align:center;padding:10px;background:var(--card);border-radius:8px;margin-bottom:10px;color:var(--gray);font-size:13px;cursor:pointer;" onclick="loadProducts()">⚠️ Offline mode - tap to refresh</div>'
+      );
+    } else {
+      grid.innerHTML = `
+        <div class="no-products" onclick="loadProducts()" style="cursor:pointer;">
+          <i class="fas fa-wifi" style="font-size:2rem;margin-bottom:10px;display:block;"></i>
+          Failed to load products<br>
+          <small>${err.message}</small><br><br>
+          <button style="padding:8px 16px;background:var(--primary);color:#fff;border:none;border-radius:6px;">Tap to retry</button>
+        </div>
+      `;
+    }
+  } finally {
+    state.loading = false;
+  }
 }
 
-// ===== MAP =====
-function initMap() {
-  if (map) {
-    map.invalidateSize();
+function renderProducts() {
+  const grid = document.getElementById('products');
+  if (state.products.length === 0) {
+    grid.innerHTML = `<div class="no-products">No items in ${state.currentCategory}</div>`;
     return;
   }
   
-  map = L.map('map').setView([-1.2864, 36.8172], 13);
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '© OpenStreetMap'
-  }).addTo(map);
-  
-  map.on('click', function(e) {
-    if (marker) map.removeLayer(marker);
-    marker = L.marker(e.latlng).addTo(map);
-    document.getElementById('customerLocation').value = `${e.latlng.lat.toFixed(5)}, ${e.latlng.lng.toFixed(5)}`;
-  });
+  grid.innerHTML = state.products.map(p => `
+    <div class="product-card">
+      <div class="img-wrap">
+        <img src="${p.image}" class="product-img" alt="${p.name}" loading="lazy"
+             onerror="this.src='https://via.placeholder.com/400x300?text=No+Image'">
+      </div>
+      <div class="product-info">
+        <h3 class="product-name">${p.name}</h3>
+        ${p.description ? `<p class="product-desc">${p.description}</p>` : ''}
+        <div class="price-row">
+          <div class="price-badge">KSH ${Number(p.price).toLocaleString()}</div>
+          <button class="add-cart-btn" onclick="addToCart(${p.id}, event)">Add</button>
+        </div>
+      </div>
+    </div>
+  `).join('');
 }
 
-// ===== CHECKOUT =====
+function addToCart(id, e) {
+  const product = state.products.find(p => p.id === id);
+  if (!product) return;
+  const existing = state.cart.find(i => i.id === id);
+  existing ? existing.qty++ : state.cart.push({...product, qty: 1});
+  localStorage.setItem('cart', JSON.stringify(state.cart));
+  updateCartBadge();
+  const btn = e.target.closest('button');
+  btn.innerHTML = '<i class="fas fa-check"></i> Added';
+  setTimeout(() => btn.innerHTML = 'Add', 800);
+}
+
+function updateCartBadge() {
+  const qty = state.cart.reduce((s,i) => s + i.qty, 0);
+  const badge = document.getElementById('cartCount');
+  badge.textContent = qty;
+  badge.style.display = qty > 0 ? 'flex' : 'none';
+}
+
+function toggleCart() {
+  const modal = document.getElementById('cartModal');
+  modal.classList.toggle('open');
+  renderCart();
+}
+
+function renderCart() {
+  const container = document.getElementById('cartItems');
+  if (state.cart.length === 0) {
+    container.innerHTML = '<p style="text-align:center;padding:40px;color:var(--gray);">Your cart is empty</p>';
+    document.getElementById('cartTotal').textContent = '0';
+    return;
+  }
+  
+  container.innerHTML = state.cart.map(item => `
+    <div class="cart-item">
+      <img src="${item.image}" alt="${item.name}">
+      <div style="flex:1">
+        <div style="font-weight:600;margin-bottom:4px;">${item.name}</div>
+        <div style="color:var(--primary);font-weight:700;">KSH ${item.price.toLocaleString()}</div>
+        <div class="cart-qty">
+          <button onclick="updateQty(${item.id}, -1)">-</button>
+          <span>${item.qty}</span>
+          <button onclick="updateQty(${item.id}, 1)">+</button>
+        </div>
+      </div>
+      <button onclick="removeFromCart(${item.id})" style="background:none;border:none;color:var(--danger);font-size:1.2rem;cursor:pointer;">
+        <i class="fas fa-trash"></i>
+      </button>
+    </div>
+  `).join('');
+  
+  const total = state.cart.reduce((sum, item) => sum + item.price * item.qty, 0);
+  document.getElementById('cartTotal').textContent = total.toLocaleString();
+}
+
+function updateQty(id, change) {
+  const item = state.cart.find(i => i.id === id);
+  if (!item) return;
+  item.qty += change;
+  if (item.qty <= 0) state.cart = state.cart.filter(i => i.id !== id);
+  localStorage.setItem('cart', JSON.stringify(state.cart));
+  updateCartBadge();
+  renderCart();
+}
+
+function removeFromCart(id) {
+  state.cart = state.cart.filter(i => i.id !== id);
+  localStorage.setItem('cart', JSON.stringify(state.cart));
+  updateCartBadge();
+  renderCart();
+}
+
 async function checkout() {
   const name = document.getElementById('customerName').value.trim();
   const phone = document.getElementById('customerPhone').value.trim();
-  const location = document.getElementById('customerLocation').value.trim();
   
-  if (!name ||!phone ||!location) {
-    alert('Please fill all fields and select location on map');
+  if (!name || !phone) {
+    alert('Please enter your name and phone number');
     return;
   }
   
-  if (cart.length === 0) {
-    alert('Your cart is empty');
+  if (state.cart.length === 0) {
+    alert('Cart is empty');
     return;
   }
   
-  const total = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
+  const total = state.cart.reduce((sum, item) => sum + item.price * item.qty, 0);
+  const location = document.getElementById('streetAddress').value.trim();
   
   try {
-    const res = await fetch(`${API_URL}/api/order-whatsapp`, {
+    const res = await fetch(`${CONFIG.API_URL}/order-whatsapp`, {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({customerName: name, phone, items: cart, total, location})
+      body: JSON.stringify({ customerName: name, phone, items: state.cart, total, location })
     });
     
     const data = await res.json();
-    if (data.whatsappUrl) {
-      window.open(data.whatsappUrl, '_blank');
-      cart = [];
-      saveCart();
-      toggleCart();
-      document.getElementById('customerName').value = '';
-      document.getElementById('customerPhone').value = '';
-      document.getElementById('customerLocation').value = '';
-    } else {
-      alert('Failed to generate WhatsApp link');
-    }
+    window.open(data.whatsappUrl, '_blank');
+    state.cart = [];
+    localStorage.removeItem('cart');
+    updateCartBadge();
+    toggleCart();
   } catch (err) {
-    alert('Failed to process order. Check backend connection.');
-    console.error(err);
+    alert('Failed to create order');
   }
 }
 
-// ===== INIT =====
-document.addEventListener('DOMContentLoaded', () => {
-  initTheme();
-  renderCategories();
-  loadProducts();
-  updateCartBadge();
-  
-  const searchInput = document.getElementById('searchInput');
-  if (searchInput) {
-    searchInput.addEventListener('input', renderProducts);
+function openSettings() { document.getElementById('settingsModal').classList.add('open'); }
+function closeSettings() { document.getElementById('settingsModal').classList.remove('open'); }
+function toggleTheme() {
+  const theme = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+  document.documentElement.setAttribute('data-theme', theme);
+  localStorage.setItem('theme', theme);
+}
+function openFeedback() { closeSettings(); document.getElementById('feedbackModal').classList.add('open'); }
+function closeFeedback() { document.getElementById('feedbackModal').classList.remove('open'); }
+function sendFeedback() {
+  const text = document.getElementById('feedbackText').value.trim();
+  if (!text) return alert('Please write feedback');
+  window.open(`https://wa.me/${CONFIG.WHATSAPP_NUMBER}?text=${encodeURIComponent('Feedback: ' + text)}`, '_blank');
+  closeFeedback();
+}
+function openRateModal() { closeSettings(); document.getElementById('rateModal').classList.add('open'); }
+function closeRateModal() { document.getElementById('rateModal').classList.remove('open'); }
+function sendRating() {
+  const stars = document.querySelectorAll('#rateStars i.active').length;
+  const comment = document.getElementById('rateComment').value.trim();
+  if (stars === 0) return alert('Please select rating');
+  window.open(`https://wa.me/${CONFIG.WHATSAPP_NUMBER}?text=${encodeURIComponent(`Rating: ${stars} stars. ${comment}`)}`, '_blank');
+  closeRateModal();
+}
+function openWhatsAppSupport() {
+  window.open(`https://wa.me/${CONFIG.WHATSAPP_NUMBER}`, '_blank');
+}
+
+function getLocation() {
+  if (!navigator.geolocation) return alert('Geolocation not supported');
+  navigator.geolocation.getCurrentPosition(pos => {
+    const lat = pos.coords.latitude;
+    const lng = pos.coords.longitude;
+    initMap(lat, lng);
+  }, err => alert('Location access denied'));
+}
+
+function initMap(lat, lng) {
+  if (!state.map) {
+    state.map = L.map('mapPreview').setView([lat, lng], 15);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(state.map);
+    state.map.on('click', e => setMarker(e.latlng.lat, e.latlng.lng));
+  } else {
+    state.map.setView([lat, lng], 15);
   }
-  
-  // Close modal on outside click
-  document.getElementById('cartModal').addEventListener('click', (e) => {
-    if (e.target.id === 'cartModal') toggleCart();
-  });
-});
+  setMarker(lat, lng);
+}
+
+function setMarker(lat, lng) {
+  if (state.marker) state.map.removeLayer(state.marker);
+  state.marker = L.marker([lat, lng]).addTo(state.map);
+  state.selectedLocation = { lat, lng };
+  document.getElementById('locationStatus').textContent = `Location set: ${lat.toFixed(4)}, ${lng.toFixed(4)}`;
+}
+
+// Load saved theme
+const savedTheme = localStorage.getItem('theme');
+if (savedTheme) document.documentElement.setAttribute('data-theme', savedTheme);
