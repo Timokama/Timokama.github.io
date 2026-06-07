@@ -1,5 +1,5 @@
 const CONFIG = {
-  API_URL: 'https://refrigerator-interference-managers-belkin.trycloudflare.com/api',
+  API_URL: 'https://tiles-functions-licenses-lease.trycloudflare.com/api',
   WHATSAPP_NUMBER: '254768394866',
   TIMEOUT: 10000,
   RETRY_COUNT: 2
@@ -8,7 +8,7 @@ const CONFIG = {
 let state = {
   cart: JSON.parse(localStorage.getItem('cart')) || [],
   products: JSON.parse(localStorage.getItem('products_cache')) || [],
-  categories: JSON.parse(localStorage.getItem('cats_cache')) || ['All'],
+  categories: ['All','Electronics','Fashion','Home','Furniture','Sports','Accessories','Beauty'], // FORCED
   currentCategory: 'All',
   loading: false,
   map: null,
@@ -17,11 +17,12 @@ let state = {
 };
 
 document.addEventListener('DOMContentLoaded', () => {
+  console.log('🚀 App starting...');
   renderCategories();
   if (state.products.length > 0) renderProducts();
   updateCartBadge();
   
-  Promise.all([loadCategories(), loadProducts()]);
+  loadProducts();
   
   let searchTimer;
   document.getElementById('searchInput')?.addEventListener('input', () => {
@@ -49,22 +50,17 @@ async function fetchWithRetry(url, options = {}, retries = CONFIG.RETRY_COUNT) {
   }
 }
 
-async function loadCategories() {
-  try {
-    const res = await fetchWithRetry(`${CONFIG.API_URL}/categories`);
-    const cats = await res.json();
-    if (JSON.stringify(cats) !== JSON.stringify(state.categories)) {
-      state.categories = cats;
-      localStorage.setItem('cats_cache', JSON.stringify(cats));
-      renderCategories();
-    }
-  } catch (e) {
-    console.log('Categories from cache');
-  }
+// FORCED CATEGORIES - Delete this function ukishaweka categories halisi kwa DB
+function loadCategories() {
+  console.log('✅ Using forced categories:', state.categories);
+  renderCategories();
 }
 
 function renderCategories() {
-  document.getElementById('categories').innerHTML = state.categories.map(cat => `
+  const container = document.getElementById('categories');
+  if (!container) return;
+  
+  container.innerHTML = state.categories.map(cat => `
     <button class="cat-btn ${cat === state.currentCategory ? 'active' : ''}"
       onclick="filterByCategory('${cat}')">${cat}</button>
   `).join('');
@@ -111,6 +107,7 @@ async function loadProducts() {
     const res = await fetchWithRetry(`${CONFIG.API_URL}/products?${params}`);
     state.products = await res.json();
     
+    console.log(`✅ Loaded ${state.products.length} products for category: ${state.currentCategory}`);
     localStorage.setItem('products_cache', JSON.stringify(state.products));
     renderProducts();
   } catch (err) {
