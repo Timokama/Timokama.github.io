@@ -1,214 +1,75 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ShopMart | Online Store</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-  <link rel="stylesheet" href="e-commerce.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ShopMart - Premium Online Shopping</title>
+<link rel="stylesheet" href="e-commerce.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 </head>
 <body>
-<header>
-  <div class="header-inner">
-    <div class="logo"><i class="fas fa-bolt"></i>ShopMart</div>
-    <div class="search-box">
-      <input type="text" id="searchInput" placeholder="Search for products, brands...">
-      <i class="fas fa-search"></i>
-    </div>
-    <div class="header-icons">
-      <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn" title="Toggle theme">
-        <i class="fas fa-moon"></i>
-      </button>
-      <button class="icon-btn" onclick="toggleCart()">
-        <i class="fas fa-shopping-cart"></i>
-        <span class="cart-badge" id="cartBadge" style="display:none;">0</span>
-      </button>
-    </div>
+
+<header class="header">
+  <div class="container">
+    <nav class="nav">
+      <a href="#" class="logo"><i class="fas fa-shopping-bag"></i> ShopMart</a>
+      
+      <div class="search-box">
+        <input type="text" id="searchInput" placeholder="Search products...">
+        <i class="fas fa-search"></i>
+      </div>
+      
+      <div class="nav-actions">
+        <button class="btn-icon" id="themeBtn" onclick="toggleTheme()">
+          <i class="fas fa-moon"></i>
+        </button>
+        <button class="btn-icon" onclick="toggleCart()">
+          <i class="fas fa-shopping-cart"></i>
+          <span class="cart-badge" id="cartBadge">0</span>
+        </button>
+      </div>
+    </nav>
   </div>
 </header>
 
-<div class="quick-links">
-  <div class="quick-links-inner">
-    <a href="#" onclick="setCategory('All', event)">All</a>
-    <a href="#" onclick="setCategory('Electronics', event)">Electronics</a>
-    <a href="#" onclick="setCategory('Fashion', event)">Fashion</a>
-    <a href="#" onclick="setCategory('Home', event)">Home</a>
-    <a href="#" onclick="setCategory('Furniture', event)">Furniture</a>
-    <a href="#" onclick="openFeedback()">Contact</a>
-  </div>
-</div>
-
-<div class="container">
-  <div class="hero">
-    <h1>Big Sale Live Now 🔥</h1>
-    <p>Up to 50% off on Electronics, Fashion & Home Essentials</p>
-  </div>
-
+<main class="container">
   <div class="categories" id="categories"></div>
-  <div class="product-grid" id="products"></div>
-</div>
+  <div class="products-grid" id="products">
+    <div class="loading">Loading products from server...</div>
+  </div>
+</main>
 
-<!-- Floating buttons: Settings + Cart -->
-<div class="floating-btns">
-  <button class="floating-btn btn-settings" onclick="openSettings()">
-    <i class="fas fa-cog"></i>
-  </button>
-  <button class="floating-btn btn-cart" onclick="toggleCart()">
-    <i class="fas fa-shopping-cart"></i>
-  </button>
-</div>
-
-<!-- Cart Modal with Map -->
+<!-- Cart Modal -->
 <div class="modal" id="cartModal">
   <div class="modal-content">
     <div class="modal-header">
-      <h2><i class="fas fa-shopping-cart"></i> Your Cart</h2>
-      <button class="close-x" onclick="toggleCart()">&times;</button>
+      <h2>Your Cart</h2>
+      <button class="close-btn" onclick="toggleCart()"><i class="fas fa-times"></i></button>
     </div>
-    <div id="cartItems"></div>
-    <div style="margin-top:20px; text-align:right;">
-      <div style="font-size:1.4rem; font-weight:800; color:var(--primary);">
-        Total: KSH <span id="cartTotal">0</span>
+    <div class="modal-body" id="cartItems"></div>
+    <div class="modal-footer">
+      <div class="total-row">
+        <span>Total:</span>
+        <span>KSH <span id="cartTotal">0</span></span>
       </div>
-    </div>
-
-    <!-- Map Location Picker -->
-    <div class="location-box">
-      <label><i class="fas fa-map-marker-alt"></i> Delivery Location</label>
-
-      <input id="streetAddress" type="text" placeholder="House/Building, Street, Estate">
-
-      <input id="locationSearch" type="text" placeholder="Search estate, area, or landmark">
-      <div id="searchResults" class="search-results"></div>
-
-      <button type="button" class="location-btn" onclick="getLocation()">
-        <i class="fas fa-location-arrow"></i> Use My Current Location
-      </button>
-
-      <div id="mapPreview"></div>
-
-      <input type="hidden" id="deliveryAddress">
-      <p class="location-status" id="locationStatus">Search, tap map, or use GPS to set location</p>
-    </div>
-
-    <button class="checkout-btn" onclick="checkout()">
-      <i class="fas fa-credit-card"></i> Proceed to Checkout
-    </button>
-  </div>
-</div>
-
-<!-- Settings Modal -->
-<div class="modal" id="settingsModal">
-  <div class="modal-content">
-    <div class="modal-header">
-      <h2><i class="fas fa-cog"></i> Settings</h2>
-      <button class="close-x" onclick="closeSettings()">&times;</button>
-    </div>
-    <div class="settings-menu">
-      <button class="settings-item" onclick="openFeedback()">
-        <i class="fas fa-comment-dots"></i> Send Feedback
-      </button>
-      <button class="settings-item" onclick="openRateModal()">
-        <i class="fas fa-star"></i> Rate Your Experience
-      </button>
-      <button class="settings-item" onclick="openWhatsAppSupport()">
-        <i class="fas fa-headset"></i> Customer Support
-      </button>
-      <button class="settings-item" onclick="openAboutPage()">
-        <i class="fas fa-info-circle"></i> About ShopMart
-      </button>
-    </div>
-  </div>
-</div>
-
-<!-- Feedback Modal -->
-<div class="modal" id="feedbackModal">
-  <div class="modal-content">
-    <div class="modal-header">
-      <h2><i class="fab fa-whatsapp"></i> Send Feedback</h2>
-      <button class="close-x" onclick="closeFeedback()">&times;</button>
-    </div>
-    <div class="feedback-form">
-      <p>Tell us what you think. Your feedback goes straight to our WhatsApp.</p>
-      <textarea id="feedbackText" rows="5" placeholder="Write your feedback here..."></textarea>
-      <button class="checkout-btn" style="background:#25D366;" onclick="sendFeedback()">
-        <i class="fab fa-whatsapp"></i> Send to WhatsApp
-      </button>
-    </div>
-  </div>
-</div>
-
-<!-- Rate Us Modal -->
-<div class="modal" id="rateModal">
-  <div class="modal-content" style="text-align:center;">
-    <div class="modal-header">
-      <h2>Rate Your Experience ⭐</h2>
-      <button class="close-x" onclick="closeRateModal()">&times;</button>
-    </div>
-    <p>How was your shopping experience?</p>
-    <div class="stars" id="rateStars">
-      <i class="fa-regular fa-star" data-val="1"></i>
-      <i class="fa-regular fa-star" data-val="2"></i>
-      <i class="fa-regular fa-star" data-val="3"></i>
-      <i class="fa-regular fa-star" data-val="4"></i>
-      <i class="fa-regular fa-star" data-val="5"></i>
-    </div>
-    <textarea id="rateComment" class="rate-comment" rows="3" placeholder="Leave a comment (optional)"></textarea>
-    <button class="checkout-btn" style="background:#25D366;" onclick="sendRating()">
-      <i class="fab fa-whatsapp"></i> Send Rating to WhatsApp
-    </button>
-  </div>
-</div>
-
-<footer>
-  <div class="footer-container">
-    <div class="footer-col">
-      <h4>ShopMart</h4>
-      <p>Your trusted online store for electronics, fashion, home & furniture at the best prices in Kenya.</p>
-    </div>
-    <div class="footer-col">
-      <h4>Customer Service</h4>
-      <ul>
-        <li><a href="/about-shopmart.html">About Us</a></li>
-        <li><a href="#" onclick="openFeedback()">Contact Us</a></li>
-        <li><a href="tel:+254768394866">Call: 0768 394 866</a></li>
-        <li><a href="https://wa.me/254768394866" target="_blank">WhatsApp Support</a></li>
-        <li><a href="/return.html">Returns & Refunds</a></li>
-        <li><a href="/faq.html">FAQ</a></li>
-      </ul>
-    </div>
-    <div class="footer-col">
-      <h4>Quick Links</h4>
-      <ul>
-        <li><a href="#" onclick="setCategory('All')">Shop All</a></li>
-        <li><a href="#" onclick="setCategory('Electronics')">Electronics</a></li>
-        <li><a href="#" onclick="setCategory('Fashion')">Fashion</a></li>
-        <li><a href="#" onclick="setCategory('Home')">Home</a></li>
-        <li><a href="#" onclick="setCategory('Furniture')">Furniture</a></li>
-      </ul>
-    </div>
-    <div class="footer-col">
-      <h4>Follow Us</h4>
-      <div class="social-links">
-        <a href="https://www.facebook.com/profile.php?id=100089901912701" target="_blank" aria-label="Facebook">
-          <i class="fab fa-facebook"></i>
-        </a>
-        <a href="https://instagram.com/timothykamau86" target="_blank" aria-label="Instagram">
-          <i class="fab fa-instagram"></i>
-        </a>
-        <a href="https://x.com/Timothykamau99" target="_blank" aria-label="X">
-          <i class="fab fa-x-twitter"></i>
-        </a>
+      
+      <div class="checkout-form" id="checkoutForm">
+        <input type="text" id="customerName" placeholder="Full Name" required>
+        <input type="tel" id="customerPhone" placeholder="07XXXXXXXX" required>
+        <input type="text" id="customerLocation" placeholder="Click map to set location" required readonly>
+        <div id="map"></div>
+        <small style="color:var(--muted)">Click on map to select delivery location</small>
       </div>
+      
+      <button class="checkout-btn" onclick="checkout()">
+        <i class="fab fa-whatsapp"></i> Order via WhatsApp
+      </button>
     </div>
   </div>
-  <div class="footer-bottom">
-    <p>© 2026 ShopMart. All rights reserved. | Nairobi, Kenya</p>
-  </div>
-</footer>
+</div>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="e-commerce.js"></script>
 </body>
-  </html>
+</html>
