@@ -1,5 +1,5 @@
 // ===== CONFIG - BADILISHA HII NA LINK YAKO YA CLOUDFLARE =====
-const API_URL = "https://accompanying-tickets-depend-building.trycloudflare.com";
+const API_URL = "https://loud-redhead-establishing-descending.trycloudflare.com";
 const WHATSAPP_NUMBER = "254768394866";
 
 // ===== THEME =====
