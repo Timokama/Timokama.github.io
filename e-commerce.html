@@ -3,73 +3,142 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ShopMart - Premium Online Shopping</title>
-<link rel="stylesheet" href="e-commerce.css">
+<title>ShopMart - Shop Online</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<link rel="stylesheet" href="e-commerce.css" />
 </head>
 <body>
 
-<header class="header">
-  <div class="container">
-    <nav class="nav">
-      <a href="#" class="logo"><i class="fas fa-shopping-bag"></i> ShopMart</a>
-      
-      <div class="search-box">
-        <input type="text" id="searchInput" placeholder="Search products...">
-        <i class="fas fa-search"></i>
-      </div>
-      
-      <div class="nav-actions">
-        <button class="btn-icon" id="themeBtn" onclick="toggleTheme()">
-          <i class="fas fa-moon"></i>
-        </button>
-        <button class="btn-icon" onclick="toggleCart()">
-          <i class="fas fa-shopping-cart"></i>
-          <span class="cart-badge" id="cartBadge">0</span>
-        </button>
-      </div>
-    </nav>
+<header>
+  <div class="header-content">
+    <h1><i class="fas fa-store"></i> ShopMart</h1>
+    <div style="display:flex;gap:8px;align-items:center;">
+      <button class="cart-btn" onclick="toggleCart()">
+        <i class="fas fa-shopping-cart"></i>
+        <span class="cart-badge" id="cartCount">0</span>
+      </button>
+    </div>
   </div>
 </header>
 
-<main class="container">
+<nav class="categories-nav">
   <div class="categories" id="categories"></div>
-  <div class="products-grid" id="products">
-    <div class="loading">Loading products from server...</div>
+</nav>
+
+<main>
+  <div class="menu-section">
+    <div class="search-wrapper">
+      <input type="text" class="search-input" id="searchInput" placeholder="🔍 Search products...">
+    </div>
+    <div class="products-grid" id="products"></div>
   </div>
 </main>
 
-<!-- Cart Modal -->
+<div class="floating-btns">
+  <button class="floating-btn btn-settings" onclick="openSettings()">
+    <i class="fas fa-cog"></i>
+  </button>
+  <button class="floating-btn btn-cart" onclick="toggleCart()">
+    <i class="fas fa-shopping-cart"></i>
+  </button>
+</div>
+
 <div class="modal" id="cartModal">
   <div class="modal-content">
     <div class="modal-header">
-      <h2>Your Cart</h2>
-      <button class="close-btn" onclick="toggleCart()"><i class="fas fa-times"></i></button>
+      <h2><i class="fas fa-shopping-cart"></i> Your Cart</h2>
+      <button class="close-x" onclick="toggleCart()">&times;</button>
     </div>
-    <div class="modal-body" id="cartItems"></div>
-    <div class="modal-footer">
-      <div class="total-row">
-        <span>Total:</span>
-        <span>KSH <span id="cartTotal">0</span></span>
+    <div id="cartItems"></div>
+    <div class="cart-total">Total: KSH <span id="cartTotal">0</span></div>
+    <div class="location-box">
+      <label><i class="fas fa-map-marker-alt"></i> Delivery Details</label>
+      <div class="form-group">
+        <label>Full Name</label>
+        <input type="text" id="customerName" placeholder="Timothy Kamau">
       </div>
-      
-      <div class="checkout-form" id="checkoutForm">
-        <input type="text" id="customerName" placeholder="Full Name" required>
-        <input type="tel" id="customerPhone" placeholder="07XXXXXXXX" required>
-        <input type="text" id="customerLocation" placeholder="Click map to set location" required readonly>
-        <div id="map"></div>
-        <small style="color:var(--muted)">Click on map to select delivery location</small>
+      <div class="form-group">
+        <label>Phone Number</label>
+        <input type="tel" id="customerPhone" placeholder="0712 345 678">
       </div>
-      
-      <button class="checkout-btn" onclick="checkout()">
-        <i class="fab fa-whatsapp"></i> Order via WhatsApp
+      <input id="streetAddress" type="text" placeholder="House/Building, Street, Estate">
+      <input id="locationSearch" type="text" placeholder="Search estate, area, or landmark">
+      <div id="searchResults" class="search-results"></div>
+      <button type="button" class="location-btn" onclick="getLocation()">
+        <i class="fas fa-location-arrow"></i> Use My Current Location
+      </button>
+      <div id="mapPreview"></div>
+      <input type="hidden" id="deliveryAddress">
+      <p class="location-status" id="locationStatus">Search, tap map, or use GPS to set location</p>
+    </div>
+    <button class="checkout-btn" onclick="checkout()">
+      <i class="fab fa-whatsapp"></i> Order via WhatsApp
+    </button>
+  </div>
+</div>
+
+<div class="modal" id="settingsModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2><i class="fas fa-cog"></i> Settings</h2>
+      <button class="close-x" onclick="closeSettings()">&times;</button>
+    </div>
+    <div class="settings-menu">
+      <button class="settings-item" onclick="toggleTheme()">
+        <i class="fas fa-palette"></i> Toggle Dark/Light Theme
+      </button>
+      <button class="settings-item" onclick="openFeedback()">
+        <i class="fas fa-comment-dots"></i> Send Feedback
+      </button>
+      <button class="settings-item" onclick="openRateModal()">
+        <i class="fas fa-star"></i> Rate Your Experience
+      </button>
+      <button class="settings-item" onclick="openWhatsAppSupport()">
+        <i class="fas fa-headset"></i> Customer Support
       </button>
     </div>
+  </div>
+</div>
+
+<div class="modal" id="feedbackModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2><i class="fab fa-whatsapp"></i> Send Feedback</h2>
+      <button class="close-x" onclick="closeFeedback()">&times;</button>
+    </div>
+    <div class="feedback-form">
+      <p>Tell us what you think about ShopMart.</p>
+      <textarea id="feedbackText" rows="5" placeholder="Write your feedback here..."></textarea>
+      <button class="checkout-btn" style="background:#25D366;" onclick="sendFeedback()">
+        <i class="fab fa-whatsapp"></i> Send to WhatsApp
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="rateModal">
+  <div class="modal-content" style="text-align:center;">
+    <div class="modal-header">
+      <h2>Rate Your Experience ⭐</h2>
+      <button class="close-x" onclick="closeRateModal()">&times;</button>
+    </div>
+    <p>How was your shopping experience?</p>
+    <div class="stars" id="rateStars">
+      <i class="fa-regular fa-star" data-val="1"></i>
+      <i class="fa-regular fa-star" data-val="2"></i>
+      <i class="fa-regular fa-star" data-val="3"></i>
+      <i class="fa-regular fa-star" data-val="4"></i>
+      <i class="fa-regular fa-star" data-val="5"></i>
+    </div>
+    <textarea id="rateComment" class="rate-comment" rows="3" placeholder="Leave a comment (optional)"></textarea>
+    <button class="checkout-btn" style="background:#25D366;" onclick="sendRating()">
+      <i class="fab fa-whatsapp"></i> Send Rating
+    </button>
   </div>
 </div>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="e-commerce.js"></script>
 </body>
-</html>
+  </html>
