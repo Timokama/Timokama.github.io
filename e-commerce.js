@@ -28,6 +28,16 @@ document.addEventListener('DOMContentLoaded', () => {
     clearTimeout(searchTimer);
     searchTimer = setTimeout(loadProducts, 300);
   });
+
+  // Star rating click
+  document.querySelectorAll('#rateStars i').forEach(star => {
+    star.addEventListener('click', () => {
+      const val = parseInt(star.dataset.val);
+      document.querySelectorAll('#rateStars i').forEach((s, i) => {
+        s.className = i < val ? 'fa-solid fa-star active' : 'fa-regular fa-star';
+      });
+    });
+  });
 });
 
 async function fetchWithRetry(url, options = {}, retries = CONFIG.RETRY_COUNT) {
@@ -225,16 +235,33 @@ function removeFromCart(id) {
 async function checkout() {
   const name = document.getElementById('customerName').value.trim();
   const phone = document.getElementById('customerPhone').value.trim();
+  const street = document.getElementById('streetAddress').value.trim();
+  const coords = document.getElementById('deliveryAddress').value.trim();
+  
   if (!name || !phone) return alert('Please enter your name and phone number');
   if (state.cart.length === 0) return alert('Cart is empty');
+  
   const total = state.cart.reduce((sum, item) => sum + item.price * item.qty, 0);
-  const location = document.getElementById('streetAddress').value.trim();
+  
+  // Tengeneza location text + Google Maps link
+  let locationText = street || 'Address not provided';
+  if (coords && coords.includes(',')) {
+    const [lat, lng] = coords.split(',');
+    const mapLink = `https://www.google.com/maps?q=${lat},${lng}`;
+    locationText += `\n📍 Map Link: ${mapLink}`;
+  }
   
   try {
     const res = await fetch(`${CONFIG.API_URL}/order-whatsapp`, {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({ customerName: name, phone, items: state.cart, total, location })
+      body: JSON.stringify({ 
+        customerName: name, 
+        phone, 
+        items: state.cart, 
+        total, 
+        location: locationText 
+      })
     });
     const data = await res.json();
     window.open(data.whatsappUrl, '_blank');
