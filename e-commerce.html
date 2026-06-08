@@ -62,9 +62,11 @@
         <label>Phone Number</label>
         <input type="tel" id="customerPhone" placeholder="0712 345 678">
       </div>
-      <input id="streetAddress" type="text" placeholder="House/Building, Street, Estate">
-      <input id="locationSearch" type="text" placeholder="Search estate, area, or landmark">
-      <div id="searchResults" class="search-results"></div>
+      <div style="position:relative">
+        <input id="streetAddress" type="text" placeholder="House/Building, Street, Estate">
+        <input id="locationSearch" type="text" placeholder="Search estate, area, or landmark">
+        <div id="searchResults" class="search-results"></div>
+      </div>
       <button type="button" class="location-btn" onclick="getLocation()">
         <i class="fas fa-location-arrow"></i> Use My Current Location
       </button>
@@ -141,4 +143,4 @@
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="e-commerce.js"></script>
 </body>
-  </html>
+    </html>
