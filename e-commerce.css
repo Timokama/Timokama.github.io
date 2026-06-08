@@ -373,6 +373,7 @@ header h1 { font-size: 1.5rem; display: flex; align-items: center; gap: 8px; }
   border-radius: 10px;
   border: 1px solid var(--border);
   margin-top: 10px;
+  z-index: 1;
 }
 
 .search-results {
@@ -383,8 +384,10 @@ header h1 { font-size: 1.5rem; display: flex; align-items: center; gap: 8px; }
   overflow-y: auto;
   display: none;
   position: absolute;
-  width: calc(100% - 32px);
-  z-index: 10;
+  width: 100%;
+  z-index: 1000;
+  top: 100%;
+  left: 0;
 }
 
 .search-results div {
@@ -513,4 +516,4 @@ header h1 { font-size: 1.5rem; display: flex; align-items: center; gap: 8px; }
   .product-desc { font-size: 0.75rem; -webkit-line-clamp: 1; }
   .price-badge { font-size: 0.95rem; }
   .add-cart-btn { padding: 6px 10px; font-size: 0.8rem; }
-  }
+}
