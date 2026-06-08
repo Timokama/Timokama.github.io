@@ -8,7 +8,7 @@ const CONFIG = {
 let state = {
   cart: JSON.parse(localStorage.getItem('cart')) || [],
   products: JSON.parse(localStorage.getItem('products_cache')) || [],
-  categories: ['All','Electronics','Fashion','Home','Furniture','Sports','Accessories','Beauty'], // FORCED
+  categories: ['All','Electronics','Fashion','Home','Furniture','Sports','Accessories','Beauty'],
   currentCategory: 'All',
   loading: false,
   map: null,
@@ -21,7 +21,6 @@ document.addEventListener('DOMContentLoaded', () => {
   renderCategories();
   if (state.products.length > 0) renderProducts();
   updateCartBadge();
-  
   loadProducts();
   
   let searchTimer;
@@ -36,10 +35,8 @@ async function fetchWithRetry(url, options = {}, retries = CONFIG.RETRY_COUNT) {
     try {
       const controller = new AbortController();
       const timeout = setTimeout(() => controller.abort(), CONFIG.TIMEOUT);
-      
       const res = await fetch(url + `&t=${Date.now()}`, { ...options, signal: controller.signal });
       clearTimeout(timeout);
-      
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       return res;
     } catch (err) {
@@ -50,16 +47,9 @@ async function fetchWithRetry(url, options = {}, retries = CONFIG.RETRY_COUNT) {
   }
 }
 
-// FORCED CATEGORIES - Delete this function ukishaweka categories halisi kwa DB
-function loadCategories() {
-  console.log('✅ Using forced categories:', state.categories);
-  renderCategories();
-}
-
 function renderCategories() {
   const container = document.getElementById('categories');
   if (!container) return;
-  
   container.innerHTML = state.categories.map(cat => `
     <button class="cat-btn ${cat === state.currentCategory ? 'active' : ''}"
       onclick="filterByCategory('${cat}')">${cat}</button>
@@ -69,11 +59,9 @@ function renderCategories() {
 async function filterByCategory(cat) {
   if (state.currentCategory === cat || state.loading) return;
   state.currentCategory = cat;
-  
   document.querySelectorAll('.cat-btn').forEach(btn => {
     btn.classList.toggle('active', btn.textContent === cat);
   });
-  
   showSkeleton();
   loadProducts();
 }
@@ -97,7 +85,6 @@ function showSkeleton() {
 
 async function loadProducts() {
   const grid = document.getElementById('products');
-  
   try {
     const params = new URLSearchParams();
     if (state.currentCategory !== 'All') params.append('category', state.currentCategory);
@@ -106,13 +93,11 @@ async function loadProducts() {
     
     const res = await fetchWithRetry(`${CONFIG.API_URL}/products?${params}`);
     state.products = await res.json();
-    
-    console.log(`✅ Loaded ${state.products.length} products for category: ${state.currentCategory}`);
+    console.log(`✅ Loaded ${state.products.length} products`);
     localStorage.setItem('products_cache', JSON.stringify(state.products));
     renderProducts();
   } catch (err) {
     console.error('Load error:', err);
-    
     if (state.products.length > 0) {
       renderProducts();
       grid.insertAdjacentHTML('afterbegin', 
@@ -139,7 +124,6 @@ function renderProducts() {
     grid.innerHTML = `<div class="no-products">No items in ${state.currentCategory}</div>`;
     return;
   }
-  
   grid.innerHTML = state.products.map(p => `
     <div class="product-card">
       <div class="img-wrap">
@@ -181,6 +165,16 @@ function toggleCart() {
   const modal = document.getElementById('cartModal');
   modal.classList.toggle('open');
   renderCart();
+  
+  if (modal.classList.contains('open')) {
+    setTimeout(() => {
+      if (!state.map) {
+        initMap(-1.2921, 36.8219); // Nairobi default
+      } else {
+        state.map.invalidateSize();
+      }
+    }, 100);
+  }
 }
 
 function renderCart() {
@@ -190,7 +184,6 @@ function renderCart() {
     document.getElementById('cartTotal').textContent = '0';
     return;
   }
-  
   container.innerHTML = state.cart.map(item => `
     <div class="cart-item">
       <img src="${item.image}" alt="${item.name}">
@@ -208,7 +201,6 @@ function renderCart() {
       </button>
     </div>
   `).join('');
-  
   const total = state.cart.reduce((sum, item) => sum + item.price * item.qty, 0);
   document.getElementById('cartTotal').textContent = total.toLocaleString();
 }
@@ -233,17 +225,8 @@ function removeFromCart(id) {
 async function checkout() {
   const name = document.getElementById('customerName').value.trim();
   const phone = document.getElementById('customerPhone').value.trim();
-  
-  if (!name || !phone) {
-    alert('Please enter your name and phone number');
-    return;
-  }
-  
-  if (state.cart.length === 0) {
-    alert('Cart is empty');
-    return;
-  }
-  
+  if (!name || !phone) return alert('Please enter your name and phone number');
+  if (state.cart.length === 0) return alert('Cart is empty');
   const total = state.cart.reduce((sum, item) => sum + item.price * item.qty, 0);
   const location = document.getElementById('streetAddress').value.trim();
   
@@ -253,7 +236,6 @@ async function checkout() {
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({ customerName: name, phone, items: state.cart, total, location })
     });
-    
     const data = await res.json();
     window.open(data.whatsappUrl, '_blank');
     state.cart = [];
@@ -299,18 +281,28 @@ function getLocation() {
     const lat = pos.coords.latitude;
     const lng = pos.coords.longitude;
     initMap(lat, lng);
-  }, err => alert('Location access denied'));
+  }, err => alert('Location access denied: ' + err.message));
 }
 
 function initMap(lat, lng) {
-  if (!state.map) {
-    state.map = L.map('mapPreview').setView([lat, lng], 15);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(state.map);
-    state.map.on('click', e => setMarker(e.latlng.lat, e.latlng.lng));
-  } else {
-    state.map.setView([lat, lng], 15);
+  const mapDiv = document.getElementById('mapPreview');
+  if (!mapDiv) return;
+  
+  if (state.map) {
+    state.map.remove();
+    state.map = null;
+    state.marker = null;
   }
+  
+  state.map = L.map('mapPreview').setView([lat, lng], 15);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© OpenStreetMap contributors'
+  }).addTo(state.map);
+  
+  state.map.on('click', e => setMarker(e.latlng.lat, e.latlng.lng));
   setMarker(lat, lng);
+  
+  setTimeout(() => state.map.invalidateSize(), 200);
 }
 
 function setMarker(lat, lng) {
@@ -318,6 +310,7 @@ function setMarker(lat, lng) {
   state.marker = L.marker([lat, lng]).addTo(state.map);
   state.selectedLocation = { lat, lng };
   document.getElementById('locationStatus').textContent = `Location set: ${lat.toFixed(4)}, ${lng.toFixed(4)}`;
+  document.getElementById('deliveryAddress').value = `${lat},${lng}`;
 }
 
 // Load saved theme
