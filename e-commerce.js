@@ -1,5 +1,5 @@
 const CONFIG = {
-  API_URL: 'https://frequency-bull-smallest-green.trycloudflare.com/api',
+  API_URL: 'https://conceptual-bryan-sole-nextel.trycloudflare.com/api',
   WHATSAPP_NUMBER: '254768394866',
   TIMEOUT: 10000,
   RETRY_COUNT: 2
