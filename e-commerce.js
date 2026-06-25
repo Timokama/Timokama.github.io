@@ -1,5 +1,5 @@
 const CONFIG = {
-  API_URL: 'https://modern-reasons-freebsd-searching.trycloudflare.com/api',
+  API_URL: 'https://transmitted-bishop-odds-dosage.trycloudflare.com/api',
   WHATSAPP_NUMBER: '254768394866',
   TIMEOUT: 10000,
   RETRY_COUNT: 2
