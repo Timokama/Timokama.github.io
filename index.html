@@ -2214,12 +2214,14 @@
       transform: translateY(-3px) !important;
       box-shadow: 0 10px 25px rgba(0,0,0,0.3) !important;
     }
-    .social-icon-btn i {
+    .social-icon-btn i,
+    .social-icon-btn svg {
       font-size: 1.1rem;
       color: var(--accent);
       transition: all 0.3s ease;
     }
-    .social-icon-btn:hover i {
+    .social-icon-btn:hover i,
+    .social-icon-btn:hover svg {
       color: var(--primary);
       transform: scale(1.1);
     }
@@ -2321,43 +2323,6 @@
       transform: translateY(-2px);
       box-shadow: 0 0 30px rgba(37, 211, 102, 0.5);
       background: #2ce36b;
-    }
-    .footer-social { 
-      display: flex; 
-      justify-content: center; 
-      flex-wrap: wrap; 
-      gap: 12px; 
-      margin-top: 28px; 
-    }
-    .footer-social a {
-      color: var(--text-muted); 
-      text-decoration: none; 
-      display: inline-flex; 
-      align-items: center; 
-      gap: 8px; 
-      transition: all 0.3s ease; 
-      padding: 12px 20px; 
-      border-radius: 14px; 
-      font-weight: 500;
-      font-size: 0.9rem;
-      border: 1px solid transparent;
-      background: rgba(255, 255, 255, 0.02);
-    }
-    .footer-social a:hover { 
-      color: #fff; 
-      background: var(--card); 
-      border-color: rgba(37, 211, 102, 0.4);
-      transform: translateY(-3px);
-      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-    }
-    .footer-social a i {
-      font-size: 1.1rem;
-      color: var(--accent);
-      transition: all 0.3s ease;
-    }
-    .footer-social a:hover i {
-      color: var(--primary);
-      transform: scale(1.1);
     }
     .footer-bottom {
       margin-top: 40px;
@@ -2902,7 +2867,7 @@
     </div>
     <div class="contact-location">
       <i class="fas fa-map-marker-alt"></i>
-      <span>Located at Nyeri</span>
+      <span>Located at Nyeri Town</span>
     </div>
   </section>
 
@@ -2966,11 +2931,9 @@
           <i class="fa-brands fa-instagram"></i>
         </a>
         <a href="https://x.com/Timothykamau99" target="_blank" rel="noopener" aria-label="X (formerly Twitter)" class="social-icon-btn">
-          <i style="display: inline-flex; align-items: center; justify-content: center; width: 100%; height: 100%;">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="width: 1em; height: 1em;">
-              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-            </svg>
-          </i>
+          <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+          </svg>
         </a>
         <a href="mailto:timo.munyiri@gmail.com" aria-label="Email" class="social-icon-btn">
           <i class="fa-solid fa-envelope"></i>
@@ -2985,7 +2948,7 @@
       <span class="divider">|</span>
       <span>Built with HTML, CSS & JS</span>
       <span class="divider">|</span>
-      <span>Made with <span class="heart"><i class="fas fa-heart"></i></span> in Nairobi, Kenya</span>
+      <span>Made with <span class="heart"><i class="fas fa-heart"></i></span> in Nyeri, Kenya</span>
     </div>
   </footer>
 
