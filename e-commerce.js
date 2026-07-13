@@ -1,5 +1,5 @@
 const CONFIG = {
-  API_URL: 'https://middle-park-marked-successful.trycloudflare.com/api',
+  API_URL: 'https://outsourcing-leon-goat-cant.trycloudflare.com/api',
   WHATSAPP_NUMBER: '254768394866',
   TIMEOUT: 10000,
   RETRY_COUNT: 2
