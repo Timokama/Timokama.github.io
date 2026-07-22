@@ -1554,6 +1554,103 @@
     .card h3 { font-size: 1.4rem; font-weight: 700; margin-bottom: 14px; color: #fff; }
     .card p { color: var(--text-muted); font-size: 1rem; }
     
+    /* Skills List Style */
+    .skills-list {
+      max-width: 800px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      position: relative;
+      padding-left: 40px;
+    }
+    .skills-list::before {
+      content: '';
+      position: absolute;
+      left: 9px;
+      top: 8px;
+      bottom: 8px;
+      width: 2px;
+      background: linear-gradient(180deg, var(--primary) 0%, var(--border) 100%);
+      border-radius: 2px;
+    }
+    .skill-item {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 22px 24px;
+      position: relative;
+      transition: all 0.3s ease;
+    }
+    .skill-item:hover {
+      border-color: rgba(37, 211, 102, 0.3);
+      background: var(--card-hover);
+      transform: translateY(-4px);
+      box-shadow: 0 20px 40px -10px rgba(0,0,0,0.5);
+    }
+    .skill-item::before {
+      content: '';
+      position: absolute;
+      left: -32px;
+      top: 22px;
+      width: 12px;
+      height: 12px;
+      background: var(--primary);
+      border-radius: 50%;
+      border: 2px solid var(--bg-secondary);
+      z-index: 2;
+      transition: 0.3s;
+    }
+    .skill-item:hover::before {
+      box-shadow: 0 0 12px var(--primary);
+      transform: scale(1.2);
+    }
+    .skill-item:last-child {
+      padding-bottom: 22px;
+    }
+    .skill-item h3 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      transition: color 0.3s ease;
+    }
+    .skill-item h3:hover {
+      color: var(--primary);
+    }
+    .skill-number {
+      font-family: monospace;
+      font-size: 0.9rem;
+      color: var(--primary);
+      min-width: 24px;
+    }
+    .skill-meta {
+      font-size: 1rem;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+      line-height: 1.8;
+    }
+    .skill-item ul {
+      list-style: none;
+      padding: 0;
+    }
+    .skill-item li {
+      position: relative;
+      padding-left: 20px;
+      margin-bottom: 10px;
+      color: var(--text-muted);
+      line-height: 1.8;
+    }
+    .skill-item li::before {
+      content: '▸';
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+      font-weight: bold;
+    }
+    
     /* Project Layout Modifications */
     .project { display: flex; flex-direction: column; justify-content: space-between; position: relative; overflow: hidden; }
     .project p { margin-bottom: 24px; flex-grow: 1; }
@@ -2789,27 +2886,31 @@
   </section>
 
   <section id="skills" class="reveal">
-    <h2>What I Do</h2>
-    <div class="grid">
-      <div class="card">
-        <i class="fas fa-code main-icon"></i>
-        <h3>Frontend Development</h3>
-        <p>React, Next.js, Tailwind CSS. Fast, responsive sites that work flawlessly across mobile and desktop devices.</p>
+    <h2>What I've been building</h2>
+    <div class="skills-list">
+      <div class="skill-item">
+        <h3><span class="skill-number">1.</span> Frontend Development</h3>
+        <ul>
+          <li>React, Next.js, Tailwind CSS. Fast, responsive interfaces that work flawlessly across mobile and desktop.</li>
+        </ul>
       </div>
-      <div class="card">
-        <i class="fas fa-server main-icon"></i>
-        <h3>Backend & APIs</h3>
-        <p>Node.js, Python Flask/Django, Java, REST APIs, JWT Auth, PostgreSQL, MySQL. Reliable, scalable data architecture.</p>
+      <div class="skill-item">
+        <h3><span class="skill-number">2.</span> Backend & APIs</h3>
+        <ul>
+          <li>Node.js, Python (Flask/Django), Java. REST APIs, JWT auth, PostgreSQL, MySQL — reliable, scalable data architecture.</li>
+        </ul>
       </div>
-      <div class="card">
-        <i class="fas fa-shopping-cart main-icon"></i>
-        <h3>E-commerce & SaaS</h3>
-        <p>M-Pesa integration, payment systems, secure metrics dashboards, and optimized admin panels.</p>
+      <div class="skill-item">
+        <h3><span class="skill-number">3.</span> E-commerce & SaaS</h3>
+        <ul>
+          <li>M-Pesa integration, payment systems, secure metrics dashboards, and optimized admin panels.</li>
+        </ul>
       </div>
-      <div class="card">
-        <i class="fas fa-tools main-icon"></i>
-        <h3>ICT Solutions</h3>
-        <p>Systems architecture setup, infrastructure troubleshooting, networking design, and comprehensive optimization.</p>
+      <div class="skill-item">
+        <h3><span class="skill-number">4.</span> ICT Solutions</h3>
+        <ul>
+          <li>Systems architecture, infrastructure troubleshooting, networking design, and end-to-end optimization.</li>
+        </ul>
       </div>
     </div>
   </section>
